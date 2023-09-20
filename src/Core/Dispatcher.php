@@ -4,6 +4,8 @@ namespace Quatrevieux\Mvp\Core;
 
 use Psr\Container\ContainerInterface;
 
+use function is_string;
+
 class Dispatcher
 {
     public function __construct(
@@ -23,7 +25,7 @@ class Dispatcher
 
     public function handle(object $query): object
     {
-        $controller = $this->controllers[get_class($query)] ?? null;
+        $controller = $this->controllers[$query::class] ?? null;
 
         if ($controller === null) {
             throw new \InvalidArgumentException('Controller not found');

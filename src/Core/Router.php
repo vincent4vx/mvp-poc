@@ -4,6 +4,10 @@ namespace Quatrevieux\Mvp\Core;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+use function http_build_query;
+use function property_exists;
+use function rtrim;
+
 class Router
 {
     public function __construct(

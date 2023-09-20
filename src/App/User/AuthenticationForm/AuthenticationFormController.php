@@ -8,6 +8,6 @@ class AuthenticationFormController implements ControllerInterface
 {
     public function handle(object $request): object
     {
-        return new AuthenticationFormResponse($request->error);
+        return new AuthenticationFormResponse();
     }
 }

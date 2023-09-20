@@ -3,6 +3,7 @@
 use DI\ContainerBuilder;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Quatrevieux\Mvp\Core\Dispatcher;
+use Quatrevieux\Mvp\Core\QueryValidator;
 use Quatrevieux\Mvp\Core\View;
 use Quatrevieux\Mvp\Core\Router;
 
@@ -23,6 +24,10 @@ $creator = new \Nyholm\Psr7Server\ServerRequestCreator(
 $request = $creator->fromGlobals();
 
 $action = $container->get(Router::class)->resolve($request);
+
+// @todo handle errors
+$container->get(QueryValidator::class)->validate($action);
+
 $result = $container->get(Dispatcher::class)->dispatch($action);
 
 $response = $container->get(View::class)->response($result);

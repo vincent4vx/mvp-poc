@@ -4,6 +4,9 @@ namespace Quatrevieux\Mvp\Core;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+use function ob_get_clean;
+use function ob_start;
+
 class Renderer implements RendererInterface
 {
     public function __construct(

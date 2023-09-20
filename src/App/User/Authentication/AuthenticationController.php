@@ -33,15 +33,10 @@ class AuthenticationController implements ControllerInterface
             return new AuthenticationResponse($request->username, false);
         }
 
-        $payload = json_encode($user);
-        $signature = hash_hmac('sha256', $payload, 'secret', true);
-        $token = bin2hex($payload) . '.' . bin2hex($signature);
-
         return new AuthenticationResponse(
             $request->username,
             true,
             $user,
-            $token
         );
     }
 }

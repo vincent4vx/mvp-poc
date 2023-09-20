@@ -35,13 +35,17 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                 display: inline-block;
             }
 
-            header > nav {
+            #menu-bar {
                 float: right;
             }
 
-            header > nav > ul {
+            header nav > ul {
                 list-style: none;
                 padding: 0;
+            }
+
+            header nav > ul > li {
+                float: left;
             }
 
             .container {
@@ -92,7 +96,9 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
     <body>
         <header>
             <h1 class="logo"><a href="<?= $renderer->url(new HomeRequest()) ?>">My Blog</a></h1>
-            <?= $view->renderResponse(new MenuBar($this->user)) ?>
+            <div id="menu-bar">
+                <?= $view->renderResponse(new MenuBar($this->user)) ?>
+            </div>
         </header>
         <div class="container" id="main">
             <?= $this->content ?>
@@ -113,12 +119,17 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                         }
                     })
                     .then(function (response) {
+                        if (response.url !== e.target.href) {
+                            history.pushState(null, null, response.url);
+                        }
+
                         return response.text();
                     })
                     .then(function (content) {
                         try {
                             content = JSON.parse(content);
                             document.getElementById('main').innerHTML = content.content;
+                            document.getElementById('menu-bar').innerHTML = content.menuBar;
                             document.title = content.title || 'My Blog';
                         } catch (e) {
                             document.open();
@@ -128,6 +139,70 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                         }
                     });
                 }
+            });
+
+            // pjax for form
+            document.addEventListener('submit', function (e) {
+                if (e.target.matches('form')) {
+                    e.preventDefault();
+
+                    // change current url
+                    history.pushState(null, null, e.target.action);
+
+                    fetch(e.target.action, {
+                        method: e.target.method,
+                        body: new FormData(e.target),
+                        headers: {
+                            'X-PJAX': 'true'
+                        }
+                    })
+                    .then(function (response) {
+                        if (response.url !== e.target.action) {
+                            history.pushState(null, null, response.url);
+                        }
+
+                        return response.text();
+                    })
+                    .then(function (content) {
+                        try {
+                            content = JSON.parse(content);
+                            document.getElementById('main').innerHTML = content.content;
+                            document.getElementById('menu-bar').innerHTML = content.menuBar;
+                            document.title = content.title || 'My Blog';
+                        } catch (e) {
+                            document.open();
+                            document.write(content);
+                            document.close();
+                            location.reload();
+                        }
+                    });
+                }
+            });
+
+            // Handle back button, by try to perform a pjax request
+            window.addEventListener('popstate', function (e) {
+                fetch(location.href, {
+                    method: 'GET',
+                    headers: {
+                        'X-PJAX': 'true'
+                    }
+                })
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (content) {
+                    try {
+                        content = JSON.parse(content);
+                        document.getElementById('main').innerHTML = content.content;
+                        document.getElementById('menu-bar').innerHTML = content.menuBar;
+                        document.title = content.title || 'My Blog';
+                    } catch (e) {
+                        document.open();
+                        document.write(content);
+                        document.close();
+                        location.reload();
+                    }
+                });
             });
         </script>
     </body>

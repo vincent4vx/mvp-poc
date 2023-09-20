@@ -66,14 +66,14 @@ class View
         ;
     }
 
-    public function renderResponse(object $response): string
+    public function renderResponse(object $response): string|ResponseInterface
     {
         $renderer = $this->resolveRenderer($response) ?? throw new \InvalidArgumentException('Renderer not found');
 
         return $renderer->render($this, $response);
     }
 
-    public function renderTemplate(string $template, object $context): string
+    public function renderTemplate(string $template, object $context): string|ResponseInterface
     {
         $renderer = $this->rendererFactory->forTemplate($template);
 
@@ -82,7 +82,7 @@ class View
 
     private function resolveRenderer(object $context): ?RendererInterface
     {
-        $template = $this->templates[get_class($context)] ?? null;
+        $template = $this->templates[$context::class] ?? null;
 
         if ($template === null) {
             return null;

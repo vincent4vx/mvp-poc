@@ -14,15 +14,18 @@ use Quatrevieux\Mvp\Core\Router;
 
 class LayoutRenderer implements RendererInterface
 {
+    private readonly Renderer $renderer;
+
     public function __construct(
         private readonly Router $router,
         private readonly ResponseFactoryInterface $responseFactory,
         private readonly StreamFactoryInterface $streamFactory,
     ) {
+        $this->renderer = new Renderer($router, __DIR__.'/../../template/layout.html.php');
     }
 
     /**
-     * @param ViewContext $data
+     * @param CustomViewContext $data
      * @return string|ResponseInterface
      */
     public function render(View $view, object $data): string|ResponseInterface
@@ -33,12 +36,11 @@ class LayoutRenderer implements RendererInterface
                 ->withBody($this->streamFactory->createStream(json_encode([
                     'content' => $data->content,
                     'title' => $data->title ?? 'My Blog',
+                    'menuBar' => $view->renderResponse(new MenuBar($data->user))
                 ])))
             ;
         }
 
-        return (new Renderer($this->router, __DIR__.'/../../template/layout.html.php'))
-            ->render($view, $data)
-        ;
+        return $this->renderer->render($view, $data);
     }
 }

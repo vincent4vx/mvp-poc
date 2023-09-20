@@ -26,6 +26,32 @@ class UserRepository
         return $this->instantiate($row);
     }
 
+    public function hasUsername(string $username): bool
+    {
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM user WHERE username = :username');
+        $stmt->bindValue('username', $username);
+        $stmt->execute(['username' => $username]);
+
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function create(User $user): User
+    {
+        $stmt = $this->pdo->prepare('INSERT INTO user (username, password, pseudo) VALUES (:username, :password, :pseudo)');
+
+        $stmt->bindValue('username', $user->username);
+        $stmt->bindValue('password', $user->password);
+        $stmt->bindValue('pseudo', $user->pseudo);
+        $stmt->execute();
+
+        return $this->instantiate([
+            'id' => $this->pdo->lastInsertId(),
+            'username' => $user->username,
+            'password' => $user->password,
+            'pseudo' => $user->pseudo,
+        ]);
+    }
+
     /**
      * @param array $row
      * @return User

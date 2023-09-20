@@ -5,6 +5,12 @@ namespace Quatrevieux\Mvp\App;
 use DateTimeImmutable;
 use PDO;
 
+use function array_map;
+use function array_values;
+use function explode;
+use function strtolower;
+use function trim;
+
 class ArticleRepository
 {
     public function __construct(

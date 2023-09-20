@@ -12,4 +12,7 @@ return [
     \Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormResponse::class => \Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRenderer::class,
     \Quatrevieux\Mvp\App\User\Authentication\AuthenticationResponse::class => \Quatrevieux\Mvp\App\User\Authentication\AuthenticationRenderer::class,
     \Quatrevieux\Mvp\App\MenuBar::class => \Quatrevieux\Mvp\App\MenuBarRenderer::class,
+    \Quatrevieux\Mvp\App\User\Logout\LogoutResponse::class => \Quatrevieux\Mvp\App\User\Logout\LogoutRenderer::class,
+    \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormResponse::class => \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormRenderer::class,
+    \Quatrevieux\Mvp\App\User\Registration\RegistrationResponse::class => \Quatrevieux\Mvp\App\User\Registration\RegistrationRenderer::class,
 ];

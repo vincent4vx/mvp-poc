@@ -7,7 +7,14 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Quatrevieux\Mvp\App\CustomViewContextFactory;
+use Quatrevieux\Mvp\App\User\UserSessionSerializer;
+use Quatrevieux\Mvp\Core\CookieToken;
 use Quatrevieux\Mvp\Core\Dispatcher;
+use Quatrevieux\Mvp\Core\QueryValidator;
+use Quatrevieux\Mvp\Core\SessionResolverInterface;
+use Quatrevieux\Mvp\Core\SessionSerializerInterface;
+use Quatrevieux\Mvp\Core\SessionTokenInterface;
+use Quatrevieux\Mvp\Core\SignedTokenResolver;
 use Quatrevieux\Mvp\Core\View;
 use Quatrevieux\Mvp\Core\Renderer;
 use Quatrevieux\Mvp\Core\RendererFactoryInterface;
@@ -62,7 +69,7 @@ return [
             }
         };
     },
-    ViewContextFactoryInterface::class => create(CustomViewContextFactory::class),
+    ViewContextFactoryInterface::class => get(CustomViewContextFactory::class),
     View::class => create()->constructor(
         get(ResponseFactoryInterface::class),
         get(StreamFactoryInterface::class),
@@ -71,4 +78,18 @@ return [
         get('templates'),
     ),
     MarkdownInterface::class => create(Markdown::class),
+    SessionTokenInterface::class => create(CookieToken::class)->constructor('token'),
+    SessionResolverInterface::class => create(SignedTokenResolver::class)->constructor(
+        'secret',
+        'sha256',
+        get(SessionSerializerInterface::class)
+    ),
+    SessionSerializerInterface::class => create(UserSessionSerializer::class),
+    \Quatrevieux\Mvp\Core\SessionHandler::class => create()->constructor(
+        get(SessionTokenInterface::class),
+        get(SessionResolverInterface::class),
+    ),
+    QueryValidator::class => create()->constructor([
+        get(\Quatrevieux\Mvp\Core\SessionHandler::class),
+    ]),
 ];
