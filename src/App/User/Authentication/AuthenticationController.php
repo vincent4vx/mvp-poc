@@ -4,7 +4,9 @@ namespace Quatrevieux\Mvp\App\User\Authentication;
 
 use Quatrevieux\Mvp\App\User\UserRepository;
 use Quatrevieux\Mvp\Core\ControllerInterface;
+use Quatrevieux\Mvp\Core\Handles;
 
+#[Handles(AuthenticationRequest::class)]
 class AuthenticationController implements ControllerInterface
 {
     public function __construct(

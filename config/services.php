@@ -8,9 +8,13 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Quatrevieux\Mvp\App\CustomViewContextFactory;
 use Quatrevieux\Mvp\App\User\UserSessionSerializer;
+use Quatrevieux\Mvp\Core\AttributeControllerLoader;
+use Quatrevieux\Mvp\Core\AttributeRouterLoader;
 use Quatrevieux\Mvp\Core\CookieToken;
 use Quatrevieux\Mvp\Core\Dispatcher;
+use Quatrevieux\Mvp\Core\Firewall;
 use Quatrevieux\Mvp\Core\QueryValidator;
+use Quatrevieux\Mvp\Core\SessionHandler;
 use Quatrevieux\Mvp\Core\SessionResolverInterface;
 use Quatrevieux\Mvp\Core\SessionSerializerInterface;
 use Quatrevieux\Mvp\Core\SessionTokenInterface;
@@ -25,18 +29,19 @@ use Quatrevieux\Mvp\Core\ViewContextFactoryInterface;
 
 use function DI\create;
 use function DI\get;
+use function DI\value;
 
 return [
     'routes' => require __DIR__ . '/routes.php',
     'controllers' => require __DIR__ . '/controllers.php',
     'db' => require __DIR__ . '/db.php',
     'templates' => require __DIR__ . '/templates.php',
+    'accessmap' => value(require __DIR__ . '/accessmap.php'),
 
-    Router::class => create()->constructor(get('routes')),
-    Dispatcher::class => create()->constructor(
-        get(Psr\Container\ContainerInterface::class),
-        get('controllers')
-    ),
+    AttributeRouterLoader::class => create()->constructor('Quatrevieux\\Mvp\\App\\'),
+    AttributeControllerLoader::class => create()->constructor('Quatrevieux\\Mvp\\App\\'),
+    Router::class => fn (ContainerInterface $container) => $container->get(AttributeRouterLoader::class)->load(),
+    Dispatcher::class => fn (ContainerInterface $container) => new Dispatcher($container, $container->get(AttributeControllerLoader::class)->load()),
     PDO::class => function (ContainerInterface $container) {
         $config = $container->get('db');
 
@@ -85,11 +90,13 @@ return [
         get(SessionSerializerInterface::class)
     ),
     SessionSerializerInterface::class => create(UserSessionSerializer::class),
-    \Quatrevieux\Mvp\Core\SessionHandler::class => create()->constructor(
+    SessionHandler::class => create()->constructor(
         get(SessionTokenInterface::class),
         get(SessionResolverInterface::class),
     ),
+    Firewall::class => create()->constructor(get('accessmap')),
     QueryValidator::class => create()->constructor([
-        get(\Quatrevieux\Mvp\Core\SessionHandler::class),
+        get(SessionHandler::class),
+        get(Firewall::class),
     ]),
 ];

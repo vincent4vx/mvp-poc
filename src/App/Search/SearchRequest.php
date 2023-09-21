@@ -2,6 +2,9 @@
 
 namespace Quatrevieux\Mvp\App\Search;
 
+use Quatrevieux\Mvp\Core\Route;
+
+#[Route('/search')]
 class SearchRequest
 {
     public ?string $query = null;

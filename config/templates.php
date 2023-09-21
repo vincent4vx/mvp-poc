@@ -15,4 +15,6 @@ return [
     \Quatrevieux\Mvp\App\User\Logout\LogoutResponse::class => \Quatrevieux\Mvp\App\User\Logout\LogoutRenderer::class,
     \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormResponse::class => \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormRenderer::class,
     \Quatrevieux\Mvp\App\User\Registration\RegistrationResponse::class => \Quatrevieux\Mvp\App\User\Registration\RegistrationRenderer::class,
+    \Quatrevieux\Mvp\App\User\Profile\ProfileResponse::class => __DIR__ . '/../template/profile.html.php',
+    \Quatrevieux\Mvp\Core\ErroredRequest::class => __DIR__ . '/../template/error.html.php',
 ];

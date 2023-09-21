@@ -28,9 +28,9 @@ $http = new React\Http\HttpServer(function (Psr\Http\Message\ServerRequestInterf
     $result = $container->get(Dispatcher::class)->dispatch($action);
 
     return $container->get(View::class)->response($result);
-    return new \React\Promise\Promise(function ($resolve) use ($result, $container) {
-        $resolve($container->get(View::class)->response($result));
-    });
+    //return new \React\Promise\Promise(function ($resolve) use ($result, $container) {
+    //    $resolve($container->get(View::class)->response($result));
+    //});
 });
 
 $socket = new React\Socket\SocketServer('127.0.0.1:5000');

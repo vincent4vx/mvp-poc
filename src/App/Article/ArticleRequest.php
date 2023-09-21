@@ -2,6 +2,9 @@
 
 namespace Quatrevieux\Mvp\App\Article;
 
+use Quatrevieux\Mvp\Core\Route;
+
+#[Route('/article')]
 final class ArticleRequest
 {
     public int $id;

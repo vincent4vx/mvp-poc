@@ -20,6 +20,7 @@ class Router
 
     public function resolve(ServerRequestInterface $request): RoutedQuery
     {
+        //$path = $request->getServerParams()['PATH_INFO'] ?? '';
         $path = $request->getUri()->getPath();
         $path = rtrim($path, '/') ?: '/';
 

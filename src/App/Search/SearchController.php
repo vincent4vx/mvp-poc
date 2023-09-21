@@ -4,7 +4,9 @@ namespace Quatrevieux\Mvp\App\Search;
 
 use Quatrevieux\Mvp\App\ArticleRepository;
 use Quatrevieux\Mvp\Core\ControllerInterface;
+use Quatrevieux\Mvp\Core\Handles;
 
+#[Handles(SearchRequest::class)]
 class SearchController implements ControllerInterface
 {
     public function __construct(

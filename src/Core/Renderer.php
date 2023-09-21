@@ -28,17 +28,8 @@ class Renderer implements RendererInterface
         })->call($data);
     }
 
-    public function layout(ServerRequestInterface $serverRequest, object $query, object $response, string $content): ?ViewContext
-    {
-        return new ViewContext(
-            request: $serverRequest,
-            query: $query,
-            response: $response,
-        );
-    }
-
     public function url(object $query): string
     {
-        return $this->router->generate($query);
+        return 'http://127.0.0.1:5000' . $this->router->generate($query);
     }
 }

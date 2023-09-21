@@ -52,6 +52,15 @@ class UserRepository
         ]);
     }
 
+    public function findById(int $id): ?User
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM user WHERE id = :id');
+        $stmt->bindValue('id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $this->instantiate($stmt->fetch(PDO::FETCH_ASSOC));
+    }
+
     /**
      * @param array $row
      * @return User
@@ -65,4 +74,5 @@ class UserRepository
             pseudo: $row['pseudo'],
         );
     }
+
 }

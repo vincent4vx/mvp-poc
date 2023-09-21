@@ -3,7 +3,9 @@
 namespace Quatrevieux\Mvp\App\User\Registration;
 
 use Quatrevieux\Mvp\App\User\UserRepository;
+use Quatrevieux\Mvp\Core\Route;
 
+#[Route('/registration')]
 class RegistrationRequest
 {
     public ?string $username = null;

@@ -42,6 +42,11 @@ class View
 
         $result = $query->response;
 
+        // @todo ?
+        if ($result instanceof ResponseInterface) {
+            return $result;
+        }
+
         $renderer = $view->resolveRenderer($result) ?? throw new \InvalidArgumentException('Renderer not found');
         $content = $renderer->render($view, $result);
 

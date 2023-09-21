@@ -9,4 +9,5 @@ return [
     \Quatrevieux\Mvp\App\User\Logout\LogoutRequest::class => \Quatrevieux\Mvp\App\User\Logout\LogoutController::class,
     \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormRequest::class => \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormController::class,
     \Quatrevieux\Mvp\App\User\Registration\RegistrationRequest::class => \Quatrevieux\Mvp\App\User\Registration\RegistrationController::class,
+    \Quatrevieux\Mvp\App\Ping\PingRequest::class => \Quatrevieux\Mvp\App\Ping\PingController::class,
 ];

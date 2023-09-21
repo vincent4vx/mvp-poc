@@ -9,6 +9,9 @@ use Quatrevieux\Mvp\Core\Router;
 
 abstract class AbstractArticleRenderer extends Renderer
 {
+    // @todo not static !
+    private static array $markdownCache = [];
+
     public function __construct(
         Router $router,
         private readonly MarkdownInterface $markdown,
@@ -26,6 +29,7 @@ abstract class AbstractArticleRenderer extends Renderer
 
     public function content(string $content): string
     {
-        return $this->markdown->transform(htmlentities($content));
+        return self::$markdownCache[md5($content)] ??= $this->markdown->transform(htmlentities($content));
+        //return $this->markdown->transform(htmlentities($content));
     }
 }

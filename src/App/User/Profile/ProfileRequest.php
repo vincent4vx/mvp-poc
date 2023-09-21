@@ -1,15 +1,15 @@
 <?php
 
-namespace Quatrevieux\Mvp\App\User\Logout;
+namespace Quatrevieux\Mvp\App\User\Profile;
 
 use Quatrevieux\Mvp\App\User\User;
 use Quatrevieux\Mvp\Core\Route;
 use Quatrevieux\Mvp\Core\SessionBearerInterface;
 
-#[Route('/logout')]
-class LogoutRequest implements SessionBearerInterface
+#[Route('/profile')]
+class ProfileRequest implements SessionBearerInterface
 {
-    private ?User $user = null;
+    public ?User $user = null;
 
     public function setSession(object $session): void
     {
@@ -18,7 +18,7 @@ class LogoutRequest implements SessionBearerInterface
         }
     }
 
-    public function session(): ?object
+    public function session(): ?User
     {
         return $this->user;
     }

@@ -13,6 +13,8 @@ use function trim;
 
 class ArticleRepository
 {
+    private ?\PDOStatement $findLastStmt = null;
+
     public function __construct(
         private readonly PDO $pdo,
     ) {
@@ -29,7 +31,7 @@ class ArticleRepository
 
     public function findLastArticles(int $limit): array
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM article ORDER BY created_at DESC LIMIT :limit');
+        $stmt = $this->findLastStmt ??= $this->pdo->prepare('SELECT * FROM article ORDER BY created_at DESC LIMIT :limit');
         $stmt->bindValue('limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
 

@@ -20,6 +20,5 @@ use Quatrevieux\Mvp\App\Article\ArticleRequest;
         </h3>
         <p><?= $renderer->content(mb_substr($article->content, 0, 200)) ?></p>
         <p class="date"><?= $renderer->date($article->createdAt) ?></p>
-        <!-- TODO: link -->
     </article>
 <?php endforeach; ?>

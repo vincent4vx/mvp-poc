@@ -12,10 +12,19 @@ class QueryValidator
     ) {
     }
 
-    public function validate(RoutedQuery $routedQuery): void
+    public function validate(RoutedQuery $routedQuery): RoutedQuery
     {
-        foreach ($this->validators as $validator) {
-            $validator->validate($routedQuery->request, $routedQuery->query);
+        try {
+            foreach ($this->validators as $validator) {
+                $validator->validate($routedQuery->request, $routedQuery->query);
+            }
+        } catch (\Throwable $error) {
+            return new RoutedQuery(
+                $routedQuery->request,
+                new ErroredRequest($routedQuery->request, $routedQuery->query, $error)
+            );
         }
+
+        return $routedQuery;
     }
 }

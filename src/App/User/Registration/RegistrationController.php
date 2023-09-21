@@ -5,7 +5,9 @@ namespace Quatrevieux\Mvp\App\User\Registration;
 use Quatrevieux\Mvp\App\User\User;
 use Quatrevieux\Mvp\App\User\UserRepository;
 use Quatrevieux\Mvp\Core\ControllerInterface;
+use Quatrevieux\Mvp\Core\Handles;
 
+#[Handles(RegistrationRequest::class)]
 class RegistrationController implements ControllerInterface
 {
     public function __construct(

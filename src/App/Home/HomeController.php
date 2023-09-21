@@ -4,7 +4,9 @@ namespace Quatrevieux\Mvp\App\Home;
 
 use Quatrevieux\Mvp\App\ArticleRepository;
 use Quatrevieux\Mvp\Core\ControllerInterface;
+use Quatrevieux\Mvp\Core\Handles;
 
+#[Handles(HomeRequest::class)]
 class HomeController implements ControllerInterface
 {
     public function __construct(

@@ -49,5 +49,9 @@ foreach ($response->getHeaders() as $name => $values) {
     header($responseHeader, FALSE); /* The header doesn't replace a previous similar header. */
 }
 
+$body = $response->getBody();
+header(sprintf('Content-Length: %d', $body->getSize()));
+header('Connection: close');
+
 // Step 3: Output the message body.
-echo $response->getBody();
+echo $body;
