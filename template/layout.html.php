@@ -28,24 +28,81 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
             header {
                 background-color: #333;
                 color: #fff;
-                padding: 20px;
+                padding: 5px;
+                display: flex;
             }
 
             header > .logo {
                 display: inline-block;
+                margin: 0;
+                flex: 1;
+            }
+
+            header > .logo a {
+                display: inline-block;
+                -webkit-text-stroke: 2px white;
+                text-stroke: 2px white;
+                color: transparent;
+                text-decoration: none;
+
+                background-image:linear-gradient(#fff,#fff);
+                background-size: 0 100%;
+                background-position: left;
+                background-repeat:no-repeat;
+                transition: background-size 0.3s ease-in-out;
+                -webkit-background-clip: text;
+                background-clip: text;
+            }
+
+            header > .logo a:hover {
+                background-size:100% 100%;
+                transition: background-size 0.3s ease-in-out;
             }
 
             #menu-bar {
-                float: right;
+                margin-left: auto;
+                display: flex;
+            }
+
+            #menu-bar nav {
+                align-self: center;
             }
 
             header nav > ul {
                 list-style: none;
                 padding: 0;
+                margin: 0;
             }
 
             header nav > ul > li {
-                float: left;
+                display: inline-block;
+                color: white;
+            }
+
+            header nav > ul > li > a {
+                color: inherit;
+                text-decoration: none;
+                height: 100%;
+                display: inline-block;
+                padding: 3px;
+                position: relative;
+            }
+
+            header nav > ul > li > a:hover::after {
+                left: 0;
+                width: 100%;
+                transition: width 0.3s ease-in-out;
+            }
+
+            header nav > ul > li > a::after {
+                content: " ";
+                position: absolute;
+                bottom: 0;
+                left: 100%;
+                width: 0;
+                border-bottom: 1px solid white;
+                transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+                overflow: hidden;
             }
 
             .container {
@@ -149,13 +206,24 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                     // change current url
                     history.pushState(null, null, e.target.action);
 
-                    fetch(e.target.action, {
+                    let url = e.target.action;
+
+                    if (e.target.method === 'get') {
+                        url += (url.includes('?') ? '&' : '?') + new URLSearchParams(new FormData(e.target));
+                    }
+
+                    let options = {
                         method: e.target.method,
-                        body: new FormData(e.target),
                         headers: {
                             'X-PJAX': 'true'
                         }
-                    })
+                    };
+
+                    if (e.target.method !== 'get') {
+                        options.body = new FormData(e.target);
+                    }
+
+                    fetch(url, options)
                     .then(function (response) {
                         if (response.url !== e.target.action) {
                             history.pushState(null, null, response.url);

@@ -16,7 +16,7 @@ $container = (new ContainerBuilder())
     ->build()
 ;
 
-$worker = new \Workerman\Worker('http://127.0.0.1:5000');
+$worker = new \Workerman\Worker('http://0.0.0.0:5000');
 $worker->count = 8;
 
 $factory = $container->get(Psr17Factory::class);

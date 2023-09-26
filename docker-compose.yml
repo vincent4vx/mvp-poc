@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+    php:
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - mysql
+        ports:
+            - "5000:5000"
+        volumes:
+            - .:/srv/app
+
+    cmd:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - mysql
+        command: /bin/sh
+        entrypoint: ""
+        volumes:
+            - .:/srv/app
+
+    mysql:
+        image: mariadb:10.4
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: blog
+            MYSQL_USER: blog
+            MYSQL_PASSWORD: f]tKaV6b-N7!UwNQP
+        volumes:
+            - ./var/mysql:/var/lib/mysql
+        command: --default-authentication-plugin=mysql_native_password

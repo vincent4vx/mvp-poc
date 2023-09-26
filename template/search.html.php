@@ -12,8 +12,8 @@ use Quatrevieux\Mvp\App\Search\SearchRequest;
 
 <h2>Recherche</h2>
 
-<form action="<?= $renderer->url(new SearchRequest()) ?>">
-    <input type="text" name="query" value="<?= htmlentities($this->query) ?>" />
+<form action="<?= $renderer->url(new SearchRequest()) ?>" method="get">
+    <input type="text" name="query" value="<?= htmlentities($this->query ?? '') ?>" />
 
     <?php foreach ($this->tags as $tag): ?>
         <label>
