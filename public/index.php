@@ -9,28 +9,26 @@ use Quatrevieux\Mvp\Core\Router;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+//usleep(500);
+
 $container = (new ContainerBuilder())
     ->addDefinitions(__DIR__ . '/../config/services.php')
     ->build()
 ;
 
+
+$factory = $container->get(Psr17Factory::class);
+$runner = $container->get(\Quatrevieux\Mvp\Core\Runner::class);
+
 $creator = new \Nyholm\Psr7Server\ServerRequestCreator(
-    $container->get(Psr17Factory::class),
-    $container->get(Psr17Factory::class),
-    $container->get(Psr17Factory::class),
-    $container->get(Psr17Factory::class)
+    $factory,
+    $factory,
+    $factory,
+    $factory
 );
 
 $request = $creator->fromGlobals();
-
-$action = $container->get(Router::class)->resolve($request);
-
-// @todo handle errors
-$container->get(QueryValidator::class)->validate($action);
-
-$result = $container->get(Dispatcher::class)->dispatch($action);
-
-$response = $container->get(View::class)->response($result);
+$response = $runner->run($request);
 
 // Step 1: Send the "status line".
 $statusLine = sprintf('HTTP/%s %s %s'

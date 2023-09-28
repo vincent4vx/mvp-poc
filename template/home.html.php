@@ -11,6 +11,9 @@ use Quatrevieux\Mvp\App\Article\ArticleRequest;
 
 <h2>Home</h2>
 
+<style>
+</style>
+
 <?php foreach ($this->articles as $article): ?>
     <article class="post">
         <h3>

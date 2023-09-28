@@ -31,7 +31,7 @@ services:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: blog
             MYSQL_USER: blog
-            MYSQL_PASSWORD: f]tKaV6b-N7!UwNQP
+            MYSQL_PASSWORD: f]tKaV6b-N7!UNQP
         volumes:
             - ./var/mysql:/var/lib/mysql
         command: --default-authentication-plugin=mysql_native_password

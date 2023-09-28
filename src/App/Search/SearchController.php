@@ -20,7 +20,7 @@ class SearchController implements ControllerInterface
      */
     public function handle(object $request): SearchResponse
     {
-        $articles = $this->repository->search($request->query, $request->tag);
+        $articles = $request->empty() ? [] : $this->repository->search($request->query, $request->tag);
 
         return new SearchResponse(
             count($articles),

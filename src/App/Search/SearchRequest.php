@@ -10,6 +10,11 @@ class SearchRequest
     public ?string $query = null;
     public ?string $tag = null;
 
+    public function empty(): bool
+    {
+        return !$this->query && !$this->tag;
+    }
+
     public static function tag(string $tag): self
     {
         $request = new self();

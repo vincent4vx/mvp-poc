@@ -14,7 +14,7 @@ use Quatrevieux\Mvp\App\User\Authentication\AuthenticationRequest;
     <p class="error"><?= $this->error ?></p>
 <?php endif; ?>
 
-<form action="<?= $renderer->url(new AuthenticationRequest()); ?>" method="post">
+<form action="<?= $renderer->url(new AuthenticationRequest()); ?>" method="post" id="authentication-form">
     <input type="text" name="username" placeholder="Username" />
     <input type="password" name="password" placeholder="Password" />
     <input type="submit" value="Login" />

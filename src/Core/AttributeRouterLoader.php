@@ -10,6 +10,7 @@ class AttributeRouterLoader
 {
     public function __construct(
         private readonly string $namespace,
+        private readonly string $baseUrl,
     ) {
     }
 
@@ -39,7 +40,7 @@ class AttributeRouterLoader
             $paths[$path] = $class;
         }
 
-        return new Router($paths);
+        return new Router($paths, $this->baseUrl);
     }
 
     /**

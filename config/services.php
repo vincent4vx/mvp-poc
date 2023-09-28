@@ -38,7 +38,10 @@ return [
     'templates' => require __DIR__ . '/templates.php',
     'accessmap' => value(require __DIR__ . '/accessmap.php'),
 
-    AttributeRouterLoader::class => create()->constructor('Quatrevieux\\Mvp\\App\\'),
+    AttributeRouterLoader::class => create()->constructor(
+        'Quatrevieux\\Mvp\\App\\',
+        'http://127.0.0.1/micro-mvp'
+    ),
     AttributeControllerLoader::class => create()->constructor('Quatrevieux\\Mvp\\App\\'),
     Router::class => fn (ContainerInterface $container) => $container->get(AttributeRouterLoader::class)->load(),
     Dispatcher::class => fn (ContainerInterface $container) => new Dispatcher($container, $container->get(AttributeControllerLoader::class)->load()),

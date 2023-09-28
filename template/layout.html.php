@@ -2,6 +2,7 @@
 
 use Quatrevieux\Mvp\App\Home\HomeRequest;
 use Quatrevieux\Mvp\App\MenuBar;
+use Quatrevieux\Mvp\App\Search\SearchRequest;
 use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
 
 /**
@@ -13,6 +14,8 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
 ?>
 <!DOCTYPE html>
 <html lang="en">
+    <!-- Google font pacifico -->
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,18 +33,24 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                 color: #fff;
                 padding: 5px;
                 display: flex;
+                z-index: 2;
+                position: relative;
             }
 
             header > .logo {
                 display: inline-block;
                 margin: 0;
                 flex: 1;
+                font-family: Pacifico, sans-serif;
+                font-size: 23px;
             }
 
             header > .logo a {
                 display: inline-block;
-                -webkit-text-stroke: 2px white;
-                text-stroke: 2px white;
+                -webkit-text-stroke: 1px white;
+                text-stroke: 1px white;
+                font-weight: 800;
+                letter-spacing: 2px;
                 color: transparent;
                 text-decoration: none;
 
@@ -57,6 +66,57 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
             header > .logo a:hover {
                 background-size:100% 100%;
                 transition: background-size 0.3s ease-in-out;
+            }
+
+            #search-bar {
+                display: flex;
+                align-self: center;
+                margin-right: 15px;
+            }
+
+            #search-bar form {
+                display: flex;
+            }
+
+            #search-bar input {
+                display: block;
+                padding: 5px;
+                font-size: .8em;
+                background: transparent;
+                color: white;
+                border-radius: 3px 0 0 3px;
+                border: 1px solid #555;
+                border-right: none;
+                transition-property: background-color, border-color;
+                transition-duration: .1s;
+            }
+
+            #search-bar input:focus {
+                border: 1px solid #44a;
+                border-right: none;
+                outline: none;
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            #search-bar input:focus + button {
+                border: 1px solid #44a;
+                border-left: none;
+                background: rgba(255, 255, 255, 0.1);
+                outline: none;
+            }
+
+            #search-bar button {
+                display: block;
+                padding: 5px;
+                font-size: .8em;
+                background: transparent;
+                color: white;
+                border-radius: 0 3px 3px 0;
+                border: 1px solid #555;
+                border-left: none;
+                cursor: pointer;
+                transition-property: background-color, border-color;
+                transition-duration: .1s;
             }
 
             #menu-bar {
@@ -106,9 +166,35 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
             }
 
             .container {
-                max-width: 800px;
+                max-width: 50vw;
                 margin: 0 auto;
                 padding: 20px;
+                position: relative;
+            }
+
+            .container.animated {
+                overflow: hidden;
+                max-height: 90vh;
+                box-sizing: border-box;
+                transform: translateY(100vh) scale(0.7);
+                transition: transform .3s;
+            }
+
+            .container.open {
+                overflow: hidden;
+                max-height: 90vh;
+                box-sizing: border-box;
+                animation: open linear .3s;
+            }
+
+            @keyframes open {
+                from {
+                    transform: translateY(-100%) scale(0.7);
+                }
+
+                to {
+                    transform: translateY(0) scale(1);
+                }
             }
 
             .post {
@@ -116,6 +202,40 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                 padding: 20px;
                 margin-bottom: 20px;
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            }
+
+            @keyframes gradientAnimation {
+                from {
+                    background-size: 100% 100%;
+                }
+
+                to {
+                    background-size: 400% 400%;
+                }
+            }
+
+            .post.animated {
+                background: #f4f4f4;
+                height: calc(100vh - 50px);
+                box-shadow: none;
+                transition-property: height, margin-left, top, background-color;
+                transition-duration: .3s;
+                width: 50vw;
+                margin-left: -25px;
+                top: 50px;
+                z-index: 2;
+                position: fixed;
+                background: radial-gradient(#f4f4f4, #fff);
+                background-size: 100% 100%;
+                animation: gradientAnimation linear .3s infinite;
+                background-position: 50% 50%;
+            }
+
+            .post.animated h3, .post.animated h3 a {
+                font-size: 24px;
+                color: #333333;
+                font-weight: 700;
+                text-decoration: none;
             }
 
             .post h2 {
@@ -148,11 +268,82 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
             .sidebar li {
                 margin-bottom: 10px;
             }
+
+            p.error {
+                color: darkred;
+                background-color: #ffdddd;
+                border: 1px solid darkred;
+                border-radius: 3px;
+                margin: 5px;
+                box-sizing: border-box;
+                width: 100%;
+                padding: 7px 15px;
+            }
+
+            #authentication-form input {
+                box-sizing: border-box;
+                margin: 5px;
+                display: block;
+                width: 100%;
+                background-color: #fff;
+                padding: 4px 8px;
+                font-size: 1em;
+                border-radius: 3px;
+                border: 1px solid #ccc;
+                transition-property: border-color, outline-width;
+                transition-duration: .1s;
+            }
+
+            #authentication-form input:focus {
+                border: 1px solid #bbf;
+                outline: 1px solid #bbf;
+            }
+
+            #authentication-form input[type="submit"] {
+                background-color: #68f;
+                border: 1px solid #57d;
+                text-shadow: 1px 1px 0 #333;
+                color: #fff;
+                cursor: pointer;
+                transition-property: background-color, border-color;
+                transition-duration: .1s;
+            }
+
+            #authentication-form input[type="submit"]:hover {
+                background-color: #79f;
+                border: 1px solid #68f;
+            }
+
+            #authentication-form input[type="submit"]:focus {
+                background-color: #57d;
+                border: 1px solid #46c;
+                animation: btnColor linear .1s;
+                background-size: 100% 100%;
+                background-position: 50% 50%;
+            }
+
+            @keyframes btnColor {
+                from {
+                    background-image: radial-gradient(#57d, #79f);
+                    background-size: 100% 100%;
+                }
+
+                to {
+                    background-image: radial-gradient(#57d, #79f);
+                    background-size: 300% 300%;
+                }
+            }
         </style>
     </head>
     <body>
         <header>
             <h1 class="logo"><a href="<?= $renderer->url(new HomeRequest()) ?>">My Blog</a></h1>
+            <div id="search-bar">
+                <form action="<?= $renderer->url(new SearchRequest()); ?>" method="get">
+                    <input type="text" name="query" placeholder="Search..." value="" />
+                    <button type="submit">🔍</button>
+                </form>
+            </div>
             <div id="menu-bar">
                 <?= $view->renderResponse(new MenuBar($this->user)) ?>
             </div>
@@ -161,6 +352,40 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
             <?= $this->content ?>
         </div>
         <script>
+            document.querySelector('header').addEventListener('click', function (e) {
+                if (e.target.matches('a')) {
+                    document.querySelector('.container').classList.add('animated');
+                }
+            });
+
+            function onLoad() {
+                if (document.querySelector('.container').classList.contains('animated')) {
+                    document.querySelector('.container').classList.remove('animated');
+                    document.querySelector('.container').classList.add('open');
+                    setTimeout(function () {
+                        document.querySelector('.container').classList.remove('open');
+                    }, 300);
+                }
+
+                document.querySelectorAll('.post').forEach(function (e) {
+                    e.addEventListener('click', function (_) {
+                        window.scrollTo(0, 0);
+
+                        e.style.position = 'fixed';
+                        e.style.height = e.offsetHeight + 'px';
+                        e.style.top = e.offsetTop + 'px';
+
+                        setTimeout(function () {
+                            e.classList.add('animated');
+
+                            e.style.height = null;
+                            e.style.top = null;
+                        }, 1);
+                        //e.classList.add('animated');
+                    });
+                });
+            }
+
             // pjax
             document.addEventListener('click', function (e) {
                 // @todo filter link if not pjax
@@ -188,6 +413,7 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                             document.getElementById('main').innerHTML = content.content;
                             document.getElementById('menu-bar').innerHTML = content.menuBar;
                             document.title = content.title || 'My Blog';
+                            onLoad();
                         } catch (e) {
                             document.open();
                             document.write(content);
@@ -237,6 +463,7 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                             document.getElementById('main').innerHTML = content.content;
                             document.getElementById('menu-bar').innerHTML = content.menuBar;
                             document.title = content.title || 'My Blog';
+                            onLoad();
                         } catch (e) {
                             document.open();
                             document.write(content);
@@ -264,6 +491,7 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                         document.getElementById('main').innerHTML = content.content;
                         document.getElementById('menu-bar').innerHTML = content.menuBar;
                         document.title = content.title || 'My Blog';
+                        onLoad();
                     } catch (e) {
                         document.open();
                         document.write(content);
@@ -272,6 +500,8 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                     }
                 });
             });
+
+            onLoad();
         </script>
     </body>
 </html>
