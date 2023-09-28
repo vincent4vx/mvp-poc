@@ -8,7 +8,6 @@ use Quatrevieux\Mvp\Core\ViewContext;
 
 class CustomViewContext extends ViewContext
 {
-    public ?string $title = null;
     public ?User $user = null;
 
     public function __construct(

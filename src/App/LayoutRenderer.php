@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Quatrevieux\Mvp\Core\ComponentInterface;
 use Quatrevieux\Mvp\Core\View;
 use Quatrevieux\Mvp\Core\ViewContext;
 use Quatrevieux\Mvp\Core\Renderer;
@@ -15,6 +16,11 @@ use Quatrevieux\Mvp\Core\Router;
 class LayoutRenderer implements RendererInterface
 {
     private readonly Renderer $renderer;
+    /**
+     * @todo should be cached & depend on layout file
+     * @var list<class-string<ComponentInterface>>|null
+     */
+    private ?array $components = null;
 
     public function __construct(
         private readonly Router $router,
@@ -31,16 +37,41 @@ class LayoutRenderer implements RendererInterface
     public function render(View $view, object $data): string|ResponseInterface
     {
         if ($data->request->getHeaderLine('X-PJAX') === 'true') {
+            // @todo store in cache
+            if ($this->components === null) {
+                $this->renderer->render($view, $data);
+                $this->components = $data->components;
+            }
+
+            $components = [];
+
+            foreach ($this->components as $componentClass) {
+                $component = $componentClass::createFromContext($data);
+
+                if ($component) {
+                    $components[] = $component;
+                }
+            }
+
+            $body = $data->export();
+            $body['layout'] = md5_file(__DIR__.'/../../template/layout.html.php');
+
+            foreach ($components as $component) {
+                $body[$component->id()] = $view->renderComponent($component);
+            }
+
             return $this->responseFactory->createResponse()
                 ->withHeader('Content-Type', 'application/json')
-                ->withBody($this->streamFactory->createStream(json_encode([
-                    'content' => $data->content,
-                    'title' => $data->title ?? 'My Blog',
-                    'menuBar' => $view->renderResponse(new MenuBar($data->user))
-                ])))
+                ->withBody($this->streamFactory->createStream(json_encode($body)))
             ;
         }
 
-        return $this->renderer->render($view, $data);
+        $content = $this->renderer->render($view, $data);
+
+        if ($this->components === null) {
+            $this->components = $data->components;
+        }
+
+        return $content;
     }
 }

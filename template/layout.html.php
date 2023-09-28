@@ -3,7 +3,9 @@
 use Quatrevieux\Mvp\App\Home\HomeRequest;
 use Quatrevieux\Mvp\App\MenuBar;
 use Quatrevieux\Mvp\App\Search\SearchRequest;
+use Quatrevieux\Mvp\App\SearchBar;
 use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
+use Quatrevieux\Mvp\Core\PageContent;
 
 /**
  * @var \Quatrevieux\Mvp\Core\Renderer $renderer
@@ -76,6 +78,11 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
 
             #search-bar form {
                 display: flex;
+            }
+
+            #search-bar form.submitting input {
+                background-image: linear-gradient(90deg, #333, #555, #333);
+                animation: loadingAnimation linear .3s infinite;
             }
 
             #search-bar input {
@@ -165,14 +172,14 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                 overflow: hidden;
             }
 
-            .container {
+            #page-content {
                 max-width: 50vw;
                 margin: 0 auto;
                 padding: 20px;
                 position: relative;
             }
 
-            .container.animated {
+            #page-content.animated {
                 overflow: hidden;
                 max-height: 90vh;
                 box-sizing: border-box;
@@ -180,7 +187,7 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                 transition: transform .3s;
             }
 
-            .container.open {
+            #page-content.open {
                 overflow: hidden;
                 max-height: 90vh;
                 box-sizing: border-box;
@@ -333,56 +340,139 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                     background-size: 300% 300%;
                 }
             }
+
+            #authentication-form.submitting input[type="submit"] {
+                color: rgba(255, 255, 255, 0.5);
+                text-shadow: none;
+                background-image: linear-gradient(90deg, #57d, #79f, #57d);
+                background-repeat: repeat;
+                background-size: 120px 100%;
+                animation: loadingAnimation linear .3s infinite;
+            }
+
+            @keyframes loadingAnimation {
+                from {
+                    background-position: 0 0;
+                }
+
+                to {
+                    background-position: 120px 0;
+                }
+            }
+
+            form.submitting input, form.submitting button {
+                cursor: wait !important;
+            }
+
+            @media screen and (max-width: 1200px) {
+                #page-content {
+                    max-width: 100vw;
+                }
+
+                .post.animated {
+                    width: 100vw;
+                }
+            }
         </style>
     </head>
     <body>
         <header>
             <h1 class="logo"><a href="<?= $renderer->url(new HomeRequest()) ?>">My Blog</a></h1>
-            <div id="search-bar">
-                <form action="<?= $renderer->url(new SearchRequest()); ?>" method="get">
-                    <input type="text" name="query" placeholder="Search..." value="" />
-                    <button type="submit">🔍</button>
-                </form>
-            </div>
-            <div id="menu-bar">
-                <?= $view->renderResponse(new MenuBar($this->user)) ?>
-            </div>
+            <?= $view->renderComponent(new SearchBar()) ?>
+            <?= $view->renderComponent(new MenuBar($this->user)) ?>
         </header>
-        <div class="container" id="main">
-            <?= $this->content ?>
-        </div>
+        <?= $view->renderComponent(new PageContent($this->content)) ?>
         <script>
+            const layout = "<?= md5_file(__FILE__); ?>";
+
             document.querySelector('header').addEventListener('click', function (e) {
                 if (e.target.matches('a')) {
-                    document.querySelector('.container').classList.add('animated');
+                    document.querySelector('#page-content').classList.add('animated');
                 }
             });
 
             function onLoad() {
-                if (document.querySelector('.container').classList.contains('animated')) {
-                    document.querySelector('.container').classList.remove('animated');
-                    document.querySelector('.container').classList.add('open');
+                if (document.querySelector('#page-content').classList.contains('animated')) {
+                    document.querySelector('#page-content').classList.remove('animated');
+                    document.querySelector('#page-content').classList.add('open');
                     setTimeout(function () {
-                        document.querySelector('.container').classList.remove('open');
+                        document.querySelector('#page-content').classList.remove('open');
                     }, 300);
                 }
 
-                document.querySelectorAll('.post').forEach(function (e) {
+                document.querySelectorAll('.post h3 a').forEach(function (e) {
                     e.addEventListener('click', function (_) {
                         window.scrollTo(0, 0);
 
-                        e.style.position = 'fixed';
-                        e.style.height = e.offsetHeight + 'px';
-                        e.style.top = e.offsetTop + 'px';
+                        let post = e.closest('.post');
+
+                        post.style.position = 'fixed';
+                        post.style.height = post.offsetHeight + 'px';
+                        post.style.top = post.offsetTop + 'px';
 
                         setTimeout(function () {
-                            e.classList.add('animated');
+                            post.classList.add('animated');
 
-                            e.style.height = null;
-                            e.style.top = null;
+                            post.style.height = null;
+                            post.style.top = null;
                         }, 1);
                         //e.classList.add('animated');
                     });
+                });
+            }
+
+            function handlePjaxResponse(response) {
+                try {
+                    let content = JSON.parse(response);
+
+                    // Layout changed, reload page
+                    if (content.layout !== layout) {
+                        location.reload();
+                        return;
+                    }
+
+                    document.title = content.title || 'My Blog';
+
+                    for (let id in content) {
+                        const e = document.getElementById(id);
+
+                        if (e) {
+                            const newElement = document.createElement('div');
+                            newElement.innerHTML = content[id];
+
+                            e.replaceChildren(...newElement.children[0].childNodes);
+                        }
+                    }
+
+                    onLoad();
+                } catch (e) {
+                    document.open();
+                    document.write(response);
+                    document.close();
+                    location.reload();
+                }
+            }
+
+            function loadPjax(target, shouldPushState = true) {
+                if (shouldPushState) {
+                    // change current url
+                    history.pushState(null, null, target);
+                }
+
+                return fetch(target, {
+                    headers: {
+                        'X-PJAX': 'true',
+                    }
+                })
+                .then(function (response) {
+                    if (shouldPushState && response.url !== target) {
+                        history.pushState(null, null, response.url);
+                    }
+
+                    return response.text();
+                })
+                .then(function (content) {
+                    handlePjaxResponse(content);
                 });
             }
 
@@ -391,36 +481,7 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                 // @todo filter link if not pjax
                 if (e.target.matches('a')) {
                     e.preventDefault();
-
-                    // change current url
-                    history.pushState(null, null, e.target.href);
-
-                    fetch(e.target.href, {
-                        headers: {
-                            'X-PJAX': 'true'
-                        }
-                    })
-                    .then(function (response) {
-                        if (response.url !== e.target.href) {
-                            history.pushState(null, null, response.url);
-                        }
-
-                        return response.text();
-                    })
-                    .then(function (content) {
-                        try {
-                            content = JSON.parse(content);
-                            document.getElementById('main').innerHTML = content.content;
-                            document.getElementById('menu-bar').innerHTML = content.menuBar;
-                            document.title = content.title || 'My Blog';
-                            onLoad();
-                        } catch (e) {
-                            document.open();
-                            document.write(content);
-                            document.close();
-                            location.reload();
-                        }
-                    });
+                    loadPjax(e.target.href);
                 }
             });
 
@@ -429,6 +490,10 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                 if (e.target.matches('form')) {
                     e.preventDefault();
 
+                    // @todo remove once loaded
+                    e.target.classList.add('submitting');
+                    e.target.inert = true;
+
                     // change current url
                     history.pushState(null, null, e.target.action);
 
@@ -436,12 +501,18 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
 
                     if (e.target.method === 'get') {
                         url += (url.includes('?') ? '&' : '?') + new URLSearchParams(new FormData(e.target));
+                        loadPjax(url).finally(function () {
+                            e.target.classList.remove('submitting');
+                            e.target.inert = false;
+                        });
+                        return;
                     }
 
+                    // @todo factorise post form
                     let options = {
                         method: e.target.method,
                         headers: {
-                            'X-PJAX': 'true'
+                            'X-PJAX': 'true',
                         }
                     };
 
@@ -458,47 +529,14 @@ use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
                         return response.text();
                     })
                     .then(function (content) {
-                        try {
-                            content = JSON.parse(content);
-                            document.getElementById('main').innerHTML = content.content;
-                            document.getElementById('menu-bar').innerHTML = content.menuBar;
-                            document.title = content.title || 'My Blog';
-                            onLoad();
-                        } catch (e) {
-                            document.open();
-                            document.write(content);
-                            document.close();
-                            location.reload();
-                        }
+                        handlePjaxResponse(content);
                     });
                 }
             });
 
             // Handle back button, by try to perform a pjax request
             window.addEventListener('popstate', function (e) {
-                fetch(location.href, {
-                    method: 'GET',
-                    headers: {
-                        'X-PJAX': 'true'
-                    }
-                })
-                .then(function (response) {
-                    return response.text();
-                })
-                .then(function (content) {
-                    try {
-                        content = JSON.parse(content);
-                        document.getElementById('main').innerHTML = content.content;
-                        document.getElementById('menu-bar').innerHTML = content.menuBar;
-                        document.title = content.title || 'My Blog';
-                        onLoad();
-                    } catch (e) {
-                        document.open();
-                        document.write(content);
-                        document.close();
-                        location.reload();
-                    }
-                });
+                loadPjax(location.href, false);
             });
 
             onLoad();

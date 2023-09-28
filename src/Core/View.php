@@ -6,12 +6,14 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
+use function is_string;
+
 // @todo MVC view system ?
 // Faire un système de renderer complètement indépendant du MVP de base, étant lui même MVC pour gérer le layout (pseudo front controller)
 // ainsi que les composants, et chargement de l'user (ou autre)
 class View
 {
-    private ?object $context = null;
+    private ?ViewContext $context = null;
 
     public function __construct(
         private readonly ResponseFactoryInterface $responseFactory,
@@ -26,7 +28,7 @@ class View
     ) {
     }
 
-    public function context(): ?object
+    public function context(): ?ViewContext
     {
         return $this->context;
     }
@@ -76,6 +78,22 @@ class View
         $renderer = $this->resolveRenderer($response) ?? throw new \InvalidArgumentException('Renderer not found');
 
         return $renderer->render($this, $response);
+    }
+
+    public function renderComponent(ComponentInterface $component): string
+    {
+        if ($this->context) {
+            $this->context->components[] = $component::class;
+        }
+
+        $renderer = $component->renderer();
+
+        if (is_string($renderer)) {
+            $renderer = $this->rendererFactory->forTemplate($renderer);
+        }
+
+        // @todo should get root element instead of wrapping it
+        return '<div id="'.$component->id().'">' . $renderer->render($this, $component) . '</div>';
     }
 
     public function renderTemplate(string $template, object $context): string|ResponseInterface

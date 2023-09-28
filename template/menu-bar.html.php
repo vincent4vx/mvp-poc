@@ -1,7 +1,7 @@
 <?php
 /**
  * @var Quatrevieux\Mvp\App\MenuBar $this
- * @var \Quatrevieux\Mvp\App\MenuBarRenderer $renderer
+ * @var \Quatrevieux\Mvp\Core\Renderer $renderer
  */
 
 use Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest;
