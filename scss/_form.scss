@@ -1,0 +1,61 @@
+form.submitting input, form.submitting button {
+  cursor: wait !important;
+}
+
+.btn-blue {
+  background-color: #68f;
+  border: 1px solid #57d;
+  text-shadow: 1px 1px 0 #333;
+  color: #fff;
+  cursor: pointer;
+  transition-property: background-color, border-color;
+  transition-duration: .1s;
+
+  &:hover {
+    background-color: #79f;
+    border: 1px solid #68f;
+  }
+
+  &:focus {
+    background-color: #57d;
+    border: 1px solid #46c;
+    animation: btn-blue-focus-animation linear .1s;
+    background-size: 100% 100%;
+    background-position: 50% 50%;
+  }
+
+  &.loading {
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: none;
+    background-image: linear-gradient(90deg, #57d, #79f, #57d);
+    background-repeat: repeat;
+    background-size: 120px 100%;
+    animation: btn-loading-animation linear .3s infinite;
+  }
+
+  .submitting & {
+    @extend .loading;
+  }
+}
+
+@keyframes btn-blue-focus-animation {
+  from {
+    background-image: radial-gradient(#57d, #79f);
+    background-size: 100% 100%;
+  }
+
+  to {
+    background-image: radial-gradient(#57d, #79f);
+    background-size: 300% 300%;
+  }
+}
+
+@keyframes btn-loading-animation {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 120px 0;
+  }
+}

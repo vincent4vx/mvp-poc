@@ -1,0 +1,28 @@
+#authentication-form {
+  input {
+    box-sizing: border-box;
+    margin: 5px;
+    display: block;
+    width: 100%;
+    background-color: #fff;
+    padding: 4px 8px;
+    font-size: 1em;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    transition-property: border-color, outline-width;
+    transition-duration: .1s;
+
+    &:focus {
+      border: 1px solid #bbf;
+      outline: 1px solid #bbf;
+    }
+  }
+
+  input[type="submit"] {
+    @extend .btn-blue;
+  }
+
+  &.submitting input[type="submit"] {
+    @extend .loading;
+  }
+}

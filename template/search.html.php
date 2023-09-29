@@ -10,7 +10,7 @@ use Quatrevieux\Mvp\App\Search\SearchRequest;
 
 ?>
 
-<h2>Recherche</h2>
+<h1>Recherche</h1>
 
 <form action="<?= $renderer->url(new SearchRequest()) ?>" method="get">
     <input type="text" name="query" value="<?= htmlentities($this->query ?? '') ?>" />

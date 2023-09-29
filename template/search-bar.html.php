@@ -2,7 +2,7 @@
 use Quatrevieux\Mvp\App\Search\SearchRequest;
 
 /**
- * @var \Quatrevieux\Mvp\App\SearchBarRenderer $renderer
+ * @var \Quatrevieux\Mvp\Core\Renderer $renderer
  */
 ?>
 

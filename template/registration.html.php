@@ -12,7 +12,7 @@ $context->title = 'My Blog - Registration';
 
 ?>
 
-<h2>Registration</h2>
+<h1>Registration</h1>
 
 <?php if ($this->errors): ?>
     <!-- TODO: htmlentities -->

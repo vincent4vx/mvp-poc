@@ -5,6 +5,6 @@
  */
 ?>
 
-<h2>Error</h2>
+<h1>Error</h1>
 
 <p><?= htmlentities($this->error->getMessage()) ?></p>

@@ -9,7 +9,8 @@ use Quatrevieux\Mvp\Core\Router;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-//usleep(500);
+sleep(1);
+//usleep(500000);
 
 $container = (new ContainerBuilder())
     ->addDefinitions(__DIR__ . '/../config/services.php')

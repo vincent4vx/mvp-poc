@@ -9,10 +9,7 @@ use Quatrevieux\Mvp\App\Article\ArticleRequest;
 
 ?>
 
-<h2>Home</h2>
-
-<style>
-</style>
+<h1>Home</h1>
 
 <?php foreach ($this->articles as $article): ?>
     <article class="post">

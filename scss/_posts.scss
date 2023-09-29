@@ -1,0 +1,57 @@
+.post {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+  h3 {
+    color: #333;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+
+  .date {
+    color: #888;
+    font-size: 0.8em;
+  }
+
+  &.opening {
+    background: #f4f4f4;
+    height: calc(100vh - 50px);
+    box-shadow: none;
+    transition-property: height, margin-left, top, background-color;
+    transition-duration: .3s;
+    width: 50vw;
+    margin-left: -25px;
+    top: 50px;
+    z-index: 2;
+    position: fixed;
+    background: radial-gradient(#f4f4f4, #fff);
+    background-size: 100% 100%;
+    animation: post-opening-bg-zoom linear .3s infinite;
+    background-position: 50% 50%;
+
+    h3, h3 a {
+      @extend h1;
+      color: #333333;
+    }
+  }
+}
+
+@keyframes post-opening-bg-zoom {
+  from {
+    background-size: 100% 100%;
+  }
+
+  to {
+    background-size: 400% 400%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .post.opening {
+    width: 100vw;
+  }
+}

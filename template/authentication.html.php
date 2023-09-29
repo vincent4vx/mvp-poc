@@ -8,7 +8,7 @@ use Quatrevieux\Mvp\App\User\Authentication\AuthenticationRequest;
 
 ?>
 
-<h2>Login</h2>
+<h1>Login</h1>
 
 <?php if ($this->error): ?>
     <p class="error"><?= $this->error ?></p>
