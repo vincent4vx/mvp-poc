@@ -4,6 +4,9 @@ namespace Quatrevieux\Mvp\App\User;
 
 use PDO;
 
+use function count;
+use function str_repeat;
+
 class UserRepository
 {
     public function __construct(
@@ -59,6 +62,35 @@ class UserRepository
         $stmt->execute();
 
         return $this->instantiate($stmt->fetch(PDO::FETCH_ASSOC));
+    }
+
+    /**
+     * Find all users by their ids
+     * The result is an array of User indexed by their ids
+     *
+     * @param list<int> $ids
+     *
+     * @return array<int, User>
+     */
+    public function findAllById(array $ids): array
+    {
+        // Check that all ids are integers
+        (function (int ...$ids) {})(...$ids);
+
+        if (!$ids) {
+            return [];
+        }
+
+        $stmt = $this->pdo->prepare('SELECT * FROM user WHERE id IN (' . str_repeat('?, ', count($ids) - 1) . '?)');
+        $stmt->execute($ids); // @todo bind value is better, but takes more lines
+
+        $users = [];
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[$row['id']] = $this->instantiate($row);
+        }
+
+        return $users;
     }
 
     /**

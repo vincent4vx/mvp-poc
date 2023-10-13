@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "css": "sass -s compressed scss/style.scss public/assets/css/style.css",
-    "css-watch": "sass -w -s compressed scss/style.scss public/assets/css/style.css"
+    "css-watch": "sass -w -s compressed scss/style.scss public/assets/css/style.css",
+    "webpack-watch": "webpack -w"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +13,9 @@
     "sass": "^1.68.0"
   },
   "devDependencies": {
-    "typescript": "^5.2.2"
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }

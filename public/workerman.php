@@ -3,6 +3,14 @@
 use DI\ContainerBuilder;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
+use Quatrevieux\Mvp\Core\StreamingResponseInterface;
+
+use Workerman\Connection\TcpConnection;
+
+use Workerman\Lib\Timer;
+
+use function DI\value;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 echo 'Starting server...', PHP_EOL;
@@ -13,6 +21,9 @@ if (empty(opcache_get_status()['jit']['enabled'])) {
 
 $container = (new ContainerBuilder())
     ->addDefinitions(__DIR__ . '/../config/services.php')
+    ->addDefinitions([
+        'baseUrl' => value('http://127.0.0.1:5000'),
+    ])
     ->build()
 ;
 
@@ -35,10 +46,33 @@ $worker->onMessage = function (\Workerman\Connection\ConnectionInterface $connec
 
     $psrResponse = $runner->run($psrRequest);
 
+    if ($psrResponse instanceof StreamingResponseInterface) {
+        $timerId = Timer::add(1, function () use ($connection, $psrResponse, &$timerId) {
+            if ($connection->getStatus() !== TcpConnection::STATUS_ESTABLISHED || $psrResponse->end()) {
+                Timer::del($timerId);
+                return;
+            }
+
+            foreach ($psrResponse->stream() as $chunk) {
+                $connection->send($chunk);
+            }
+
+            if ($psrResponse->end()) {
+                Timer::del($timerId);
+            }
+        });
+
+        // We need to remove the Content-Length header because we are streaming the response
+        $psrResponse = $psrResponse->response()->withoutHeader('Content-Length');
+    }
+
     $response = new \Workerman\Protocols\Http\Response(
         $psrResponse->getStatusCode(),
-        $psrResponse->getHeaders(),
-        $psrResponse->getBody()->getContents()
+
+        // Workerman expects a string for Content-Type header
+        \array_map(fn ($headers) => (\count($headers) === 1 ? $headers[0] : $headers), $psrResponse->getHeaders()),
+
+        $psrResponse->getBody()->getContents() ?: "\n\n"
     );
 
     $connection->send($response);

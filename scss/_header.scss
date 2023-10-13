@@ -41,6 +41,7 @@ header {
 
   form {
     display: flex;
+    position: relative;
 
     input {
       display: block;
@@ -71,6 +72,23 @@ header {
     &.submitting input {
       background-image: linear-gradient(90deg, #333, #555, #333);
       animation: btn-loading-animation linear .3s infinite;
+    }
+
+    .autocomplete-results {
+      background-color: #555555;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      overflow: hidden;
+      border: 1px solid #888888;
+      width: 100%;
+
+      li {
+        border-color: #888888;
+
+        &:hover, &.selected {
+          background-color: #444444;
+        }
+      }
     }
   }
 

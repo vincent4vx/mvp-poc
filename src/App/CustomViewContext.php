@@ -9,6 +9,7 @@ use Quatrevieux\Mvp\Core\ViewContext;
 class CustomViewContext extends ViewContext
 {
     public ?User $user = null;
+    public bool $ajax = false;
 
     public function __construct(
         ServerRequestInterface $request,

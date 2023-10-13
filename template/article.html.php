@@ -13,7 +13,7 @@ $context->title = 'My Blog - ' . $this->article->title;
 
 <h1><?= htmlentities($this->article->title) ?></h1>
 
-<div class="date"><?= $renderer->date($this->article->createdAt) ?><div>
+<div class="date"><?= $renderer->date($this->article->createdAt) ?></div>
 <ul class="tags">
     <?php foreach ($this->article->tags as $tag): ?>
         <li>

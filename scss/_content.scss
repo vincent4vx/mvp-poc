@@ -12,11 +12,26 @@
     transition: transform .3s;
   }
 
-  &.loading-end-top {
+  &.loading-start-left {
     overflow: hidden;
     max-height: 90vh;
     box-sizing: border-box;
+    transform: translateX(100vw) scale(0.7);
+    transition: transform .3s;
+  }
+
+  &.loading-end-top {
+    overflow: hidden;
+    max-width: 90vw;
+    box-sizing: border-box;
     animation: open-from-top linear .3s;
+  }
+
+  &.loading-end-left {
+    overflow: hidden;
+    max-width: 90vw;
+    box-sizing: border-box;
+    animation: open-from-left linear .3s;
   }
 }
 
@@ -27,6 +42,16 @@
 
   to {
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes open-from-left {
+  from {
+    transform: translateX(-100%) scale(0.7);
+  }
+
+  to {
+    transform: translateX(0) scale(1);
   }
 }
 

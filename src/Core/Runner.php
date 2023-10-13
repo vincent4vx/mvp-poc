@@ -15,7 +15,7 @@ class Runner
     ) {
     }
 
-    public function run(ServerRequestInterface $serverRequest): ResponseInterface
+    public function run(ServerRequestInterface $serverRequest): ResponseInterface|StreamingResponseInterface
     {
         $action = $this->router->resolve($serverRequest);
         $action = $this->queryValidator->validate($action);

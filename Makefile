@@ -8,3 +8,6 @@ css: npm
 
 css-watch: npm
 	npm run css-watch
+
+webpack-watch: npm
+	npm run webpack-watch

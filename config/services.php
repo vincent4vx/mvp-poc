@@ -7,6 +7,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Quatrevieux\Mvp\App\CustomViewContextFactory;
+use Quatrevieux\Mvp\App\LayoutRenderer;
 use Quatrevieux\Mvp\App\User\UserSessionSerializer;
 use Quatrevieux\Mvp\Core\AttributeControllerLoader;
 use Quatrevieux\Mvp\Core\AttributeRouterLoader;
@@ -37,10 +38,12 @@ return [
     'db' => require __DIR__ . '/db.php',
     'templates' => require __DIR__ . '/templates.php',
     'accessmap' => value(require __DIR__ . '/accessmap.php'),
+    'baseUrl' => value('http://127.0.0.1/micro-mvp'),
+    'assetsUrl' => value('http://127.0.0.1/micro-mvp/assets'),
 
     AttributeRouterLoader::class => create()->constructor(
         'Quatrevieux\\Mvp\\App\\',
-        'http://127.0.0.1/micro-mvp'
+        get('baseUrl'),
     ),
     AttributeControllerLoader::class => create()->constructor('Quatrevieux\\Mvp\\App\\'),
     Router::class => fn (ContainerInterface $container) => $container->get(AttributeRouterLoader::class)->load(),
@@ -57,6 +60,12 @@ return [
     Psr17Factory::class => create(),
     ResponseFactoryInterface::class => get(Psr17Factory::class),
     StreamFactoryInterface::class => get(Psr17Factory::class),
+    LayoutRenderer::class => create()->constructor(
+        get(Router::class),
+        get(ResponseFactoryInterface::class),
+        get(StreamFactoryInterface::class),
+        get('assetsUrl'),
+    ),
     RendererFactoryInterface::class => function (ContainerInterface $container) {
         return new class ($container) implements RendererFactoryInterface {
             public function __construct(

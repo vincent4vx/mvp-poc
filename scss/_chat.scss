@@ -1,0 +1,104 @@
+#chat {
+  height: calc(100vh - 92px);
+  width: 100%;
+  overflow: hidden;
+
+  .messages {
+    box-sizing: border-box;
+    height: calc(100% - 100px);
+    width: 100%;
+    overflow-y: scroll;
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 1px #ddd inset;
+    border-radius: 3px 3px 0 0;
+    padding: 10px;
+
+    background: #fafafa;
+
+    .message {
+      margin-bottom: 10px;
+      padding: 5px;
+      border-radius: 3px;
+      background: #fff;
+      box-shadow: 1px 1px 1px #ddd;
+      position: relative;
+
+      .content {
+          font-size: 1em;
+      }
+
+      .author {
+        font-size: 1em;
+        font-weight: bold;
+
+        &::after {
+          content: " - ";
+        }
+      }
+
+      .date {
+        font-size: 0.8em;
+        color: #999;
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+      }
+
+      &.from-me {
+          background: #e5ffe5;
+      }
+
+      &.from-other {
+          background: #e5e5ff;
+      }
+    }
+
+  }
+
+  .input {
+    box-sizing: border-box;
+    height: 35px;
+    width: 100%;
+    padding: 3px;
+    border: 1px solid #ddd;
+    border-radius: 0 0 3px 3px;
+
+    background: #e5e5e5;
+
+    form {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      font-size: 0.7em;
+
+      input {
+        padding: 0 5px;
+      }
+
+      input[name="message"] {
+        height: 100%;
+        flex: 1;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 3px 0 0 3px;
+
+        &:focus {
+          outline: none;
+          border-color: #6688ff;
+        }
+      }
+
+      input[type="submit"] {
+        height: 100%;
+        margin-left: auto;
+        border-radius: 0 3px 3px 0;
+
+        @extend .btn-green;
+      }
+
+      &.submitting input[type="submit"] {
+        @extend .loading;
+      }
+    }
+  }
+}

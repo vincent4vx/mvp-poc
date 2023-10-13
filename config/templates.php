@@ -16,4 +16,8 @@ return [
     \Quatrevieux\Mvp\App\User\Registration\RegistrationResponse::class => \Quatrevieux\Mvp\App\User\Registration\RegistrationRenderer::class,
     \Quatrevieux\Mvp\App\User\Profile\ProfileResponse::class => __DIR__ . '/../template/profile.html.php',
     \Quatrevieux\Mvp\Core\ErroredRequest::class => __DIR__ . '/../template/error.html.php',
+    \Quatrevieux\Mvp\App\Search\AutocompleteSearchResponse::class => __DIR__ . '/../template/search-autocomplete.html.php',
+    \Quatrevieux\Mvp\App\Chat\Show\ShowChatResponse::class => __DIR__ . '/../template/chat.html.php',
+    \Quatrevieux\Mvp\App\Chat\Send\SendMessageResponse::class => \Quatrevieux\Mvp\App\Chat\Send\SendMessageRenderer::class,
+    \Quatrevieux\Mvp\App\Chat\Event\SubscribeEventResponse::class => \Quatrevieux\Mvp\App\Chat\Event\SubscribeEventRenderer::class,
 ];

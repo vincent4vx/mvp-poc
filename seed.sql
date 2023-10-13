@@ -67,3 +67,11 @@ CREATE TABLE user (
 INSERT INTO user (username, password, pseudo)
 VALUES ('john_doe', '$john', 'JohnD');
 
+CREATE TABLE chat_message (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    message TEXT NOT NULL,
+    user_id INT NOT NULL,
+    created_at DATETIME NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    INDEX (created_at)
+);

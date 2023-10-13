@@ -33,7 +33,7 @@ class View
         return $this->context;
     }
 
-    public function response(HandledQuery $query): ResponseInterface
+    public function response(HandledQuery $query): ResponseInterface|StreamingResponseInterface
     {
         $view = clone $this;
         $view->context = $this->viewContextFactory->createContext(
@@ -45,7 +45,7 @@ class View
         $result = $query->response;
 
         // @todo ?
-        if ($result instanceof ResponseInterface) {
+        if ($result instanceof ResponseInterface || $result instanceof StreamingResponseInterface) {
             return $result;
         }
 
@@ -53,7 +53,7 @@ class View
         $content = $renderer->render($view, $result);
 
         // @todo ?
-        if ($content instanceof ResponseInterface) {
+        if ($content instanceof ResponseInterface || $content instanceof StreamingResponseInterface) {
             return $content;
         }
 
@@ -73,7 +73,7 @@ class View
         ;
     }
 
-    public function renderResponse(object $response): string|ResponseInterface
+    public function renderResponse(object $response): string|ResponseInterface|StreamingResponseInterface
     {
         $renderer = $this->resolveRenderer($response) ?? throw new \InvalidArgumentException('Renderer not found');
 
@@ -96,7 +96,7 @@ class View
         return '<div id="'.$component->id().'">' . $renderer->render($this, $component) . '</div>';
     }
 
-    public function renderTemplate(string $template, object $context): string|ResponseInterface
+    public function renderTemplate(string $template, object $context): string|ResponseInterface|StreamingResponseInterface
     {
         $renderer = $this->rendererFactory->forTemplate($template);
 

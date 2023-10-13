@@ -26,8 +26,14 @@ class LayoutRenderer implements RendererInterface
         private readonly Router $router,
         private readonly ResponseFactoryInterface $responseFactory,
         private readonly StreamFactoryInterface $streamFactory,
+        private readonly string $assetsUrl,
     ) {
         $this->renderer = new Renderer($router, __DIR__.'/../../template/layout.html.php');
+    }
+
+    public function asset(string $path): string
+    {
+        return $this->assetsUrl.'/'.$path;
     }
 
     /**
@@ -36,6 +42,10 @@ class LayoutRenderer implements RendererInterface
      */
     public function render(View $view, object $data): string|ResponseInterface
     {
+        if ($data->ajax) {
+            return $data->content;
+        }
+
         if ($data->request->getHeaderLine('X-PJAX') === 'true') {
             // @todo store in cache
             if ($this->components === null) {
