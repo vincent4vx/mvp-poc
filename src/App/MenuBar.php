@@ -2,14 +2,14 @@
 
 namespace Quatrevieux\Mvp\App;
 
-use Quatrevieux\Mvp\App\User\User;
+use Quatrevieux\Mvp\App\User\AuthenticatedUser;
 use Quatrevieux\Mvp\Core\ComponentInterface;
 use Quatrevieux\Mvp\Core\ViewContext;
 
 class MenuBar implements ComponentInterface
 {
     public function __construct(
-        public readonly ?User $user
+        public readonly ?AuthenticatedUser $user
     ) {
     }
 

@@ -4,6 +4,7 @@ namespace Quatrevieux\Mvp\App;
 
 use Michelf\Markdown;
 use Michelf\MarkdownInterface;
+use Quatrevieux\Mvp\App\ValueObject\ArticleContent;
 use Quatrevieux\Mvp\Core\Renderer;
 use Quatrevieux\Mvp\Core\Router;
 
@@ -27,9 +28,10 @@ abstract class AbstractArticleRenderer extends Renderer
         return $date->format('Y-m-d');
     }
 
-    public function content(string $content): string
+    public function content(ArticleContent $content): string
     {
-        return self::$markdownCache[md5($content)] ??= $this->markdown->transform(htmlentities($content));
+        // Maybe cache on ValueObject ?
+        return self::$markdownCache[md5($content->value)] ??= $content->html($this->markdown);
         //return $this->markdown->transform(htmlentities($content));
     }
 }

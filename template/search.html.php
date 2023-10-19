@@ -6,6 +6,7 @@ use Quatrevieux\Mvp\App\Search\SearchRequest;
 /**
  * @var \Quatrevieux\Mvp\App\Search\SearchRenderer $renderer
  * @var \Quatrevieux\Mvp\App\Search\SearchResponse $this
+ * @var \Quatrevieux\Mvp\Core\View $view
  */
 
 ?>
@@ -25,14 +26,4 @@ use Quatrevieux\Mvp\App\Search\SearchRequest;
     <input type="submit" value="Rechercher" />
 </form>
 
-<?php foreach ($this->articles as $article): ?>
-    <article class="post">
-        <h3>
-            <a href="<?= $renderer->url(ArticleRequest::create($article->id)); ?>">
-                <?= htmlentities($article->title) ?>
-            </a>
-        </h3>
-        <p><?= $renderer->content(mb_substr($article->content, 0, 200)) ?></p>
-        <p class="date"><?= $renderer->date($article->createdAt) ?></p>
-    </article>
-<?php endforeach; ?>
+<?= $view->renderResponse($this->articles) ?>

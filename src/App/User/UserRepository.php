@@ -4,6 +4,12 @@ namespace Quatrevieux\Mvp\App\User;
 
 use PDO;
 
+use Quatrevieux\Mvp\App\User\ValueObject\Password;
+use Quatrevieux\Mvp\App\User\ValueObject\Pseudo;
+use Quatrevieux\Mvp\App\User\ValueObject\UserId;
+
+use Quatrevieux\Mvp\App\User\ValueObject\Username;
+
 use function count;
 use function str_repeat;
 
@@ -22,7 +28,7 @@ class UserRepository
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($row === false){
+        if ($row === false) {
             return null;
         }
 
@@ -38,21 +44,17 @@ class UserRepository
         return $stmt->fetchColumn() > 0;
     }
 
-    public function create(User $user): User
+    public function create(UserCreation $user): User
     {
+        // @todo use dedicated class for this
         $stmt = $this->pdo->prepare('INSERT INTO user (username, password, pseudo) VALUES (:username, :password, :pseudo)');
 
-        $stmt->bindValue('username', $user->username);
-        $stmt->bindValue('password', $user->password);
-        $stmt->bindValue('pseudo', $user->pseudo);
+        $stmt->bindValue('username', $user->username->value);
+        $stmt->bindValue('password', $user->password->value);
+        $stmt->bindValue('pseudo', $user->pseudo->value);
         $stmt->execute();
 
-        return $this->instantiate([
-            'id' => $this->pdo->lastInsertId(),
-            'username' => $user->username,
-            'password' => $user->password,
-            'pseudo' => $user->pseudo,
-        ]);
+        return $user->created(UserId::from((int) $this->pdo->lastInsertId()));
     }
 
     public function findById(int $id): ?User
@@ -100,11 +102,10 @@ class UserRepository
     public function instantiate(array $row): User
     {
         return new User(
-            id: $row['id'],
-            username: $row['username'],
-            password: $row['password'],
-            pseudo: $row['pseudo'],
+            id: UserId::from((int) $row['id']),
+            username: Username::from($row['username']),
+            password: Password::from($row['password']),
+            pseudo: Pseudo::from($row['pseudo']),
         );
     }
-
 }

@@ -3,12 +3,12 @@
 namespace Quatrevieux\Mvp\App;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Quatrevieux\Mvp\App\User\User;
+use Quatrevieux\Mvp\App\User\AuthenticatedUser;
 use Quatrevieux\Mvp\Core\ViewContext;
 
 class CustomViewContext extends ViewContext
 {
-    public ?User $user = null;
+    public ?AuthenticatedUser $user = null;
     public bool $ajax = false;
 
     public function __construct(

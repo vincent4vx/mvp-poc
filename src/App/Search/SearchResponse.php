@@ -2,17 +2,16 @@
 
 namespace Quatrevieux\Mvp\App\Search;
 
+use Quatrevieux\Mvp\App\Home\ArticleList;
+
 class SearchResponse
 {
     public function __construct(
         public readonly int $total,
-        /**
-         * @var array<\Quatrevieux\Mvp\App\Article>
-         */
-        public readonly array $articles,
-        public array $tags,
-        public ?string $query = null,
-        public ?string $tag = null,
+        public readonly ArticleList $articles,
+        public readonly array $tags,
+        public readonly ?string $query = null,
+        public readonly ?string $tag = null,
     ) {
     }
 

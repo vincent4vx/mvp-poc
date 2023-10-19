@@ -24,14 +24,12 @@ class AuthenticationController implements ControllerInterface
             return new AuthenticationResponse('', false);
         }
 
-        $user = $this->repository->findByUsername($request->username);
+        $user = $this->repository
+            ->findByUsername($request->username)
+            ?->authenticate($request->password)
+        ;
 
         if (!$user) {
-            return new AuthenticationResponse($request->username, false);
-        }
-
-        // @todo: hash password
-        if ($user->password !== $request->password) {
             return new AuthenticationResponse($request->username, false);
         }
 

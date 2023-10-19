@@ -20,4 +20,5 @@ return [
     \Quatrevieux\Mvp\App\Chat\Show\ShowChatResponse::class => __DIR__ . '/../template/chat.html.php',
     \Quatrevieux\Mvp\App\Chat\Send\SendMessageResponse::class => \Quatrevieux\Mvp\App\Chat\Send\SendMessageRenderer::class,
     \Quatrevieux\Mvp\App\Chat\Event\SubscribeEventResponse::class => \Quatrevieux\Mvp\App\Chat\Event\SubscribeEventRenderer::class,
+    \Quatrevieux\Mvp\App\Home\ArticleList::class => \Quatrevieux\Mvp\App\Home\ArticleListRenderer::class,
 ];

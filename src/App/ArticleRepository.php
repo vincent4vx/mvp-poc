@@ -5,6 +5,11 @@ namespace Quatrevieux\Mvp\App;
 use DateTimeImmutable;
 use PDO;
 
+use Quatrevieux\Mvp\App\ValueObject\ArticleContent;
+use Quatrevieux\Mvp\App\ValueObject\ArticleId;
+use Quatrevieux\Mvp\App\ValueObject\ArticleTags;
+use Quatrevieux\Mvp\App\ValueObject\Title;
+
 use function array_map;
 use function array_values;
 use function explode;
@@ -96,11 +101,11 @@ class ArticleRepository
     private function instantiate(array $row): Article
     {
         return new Article(
-            id: $row['id'],
-            title: $row['title'],
-            content: $row['content'],
+            id: ArticleId::from((int) $row['id']),
+            title: Title::from($row['title']),
+            content: ArticleContent::from($row['content']),
             createdAt: new DateTimeImmutable($row['created_at']),
-            tags: array_map(trim(...), explode(',', $row['tags'])),
+            tags: ArticleTags::fromString($row['tags']),
         );
     }
 }

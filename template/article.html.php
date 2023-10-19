@@ -7,18 +7,18 @@
 
 use Quatrevieux\Mvp\App\Search\SearchRequest;
 
-$context->title = 'My Blog - ' . $this->article->title;
+$context->title = 'My Blog - ' . $this->article->title->value;
 
 ?>
 
-<h1><?= htmlentities($this->article->title) ?></h1>
+<h1><?= $this->article->title->html() ?></h1>
 
 <div class="date"><?= $renderer->date($this->article->createdAt) ?></div>
 <ul class="tags">
     <?php foreach ($this->article->tags as $tag): ?>
         <li>
-            <a href="<?= htmlentities($renderer->url(SearchRequest::tag($tag))) ?>">
-                <?= htmlentities($tag) ?>
+            <a href="<?= htmlentities($renderer->url($tag->search())) ?>">
+                <?= $tag->html() ?>
             </a>
         </li>
     <?php endforeach; ?>

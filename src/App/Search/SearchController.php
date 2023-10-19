@@ -3,6 +3,7 @@
 namespace Quatrevieux\Mvp\App\Search;
 
 use Quatrevieux\Mvp\App\ArticleRepository;
+use Quatrevieux\Mvp\App\Home\ArticleList;
 use Quatrevieux\Mvp\Core\ControllerInterface;
 use Quatrevieux\Mvp\Core\Handles;
 
@@ -28,7 +29,7 @@ class SearchController implements ControllerInterface
 
         return new SearchResponse(
             count($articles),
-            $articles,
+            new ArticleList($articles),
             $this->repository->allTags(),
             $request->query,
             $request->tag,

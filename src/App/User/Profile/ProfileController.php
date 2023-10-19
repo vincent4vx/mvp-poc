@@ -20,7 +20,7 @@ class ProfileController implements ControllerInterface
      */
     public function handle(object $request): ProfileResponse
     {
-        $user = $this->repository->findById($request->user->id) ?? throw new \Exception('User not found');
+        $user = $this->repository->findById($request->user->id->value) ?? throw new \Exception('User not found');
 
         return new ProfileResponse(
             name: $user->username,

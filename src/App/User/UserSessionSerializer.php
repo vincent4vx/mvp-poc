@@ -8,8 +8,7 @@ class UserSessionSerializer implements SessionSerializerInterface
 {
     public function serialize(object $session): mixed
     {
-        // @todo filter password
-        return (array) $session;
+        return $session->toArray();
     }
 
     public function unserialize(mixed $data): object
@@ -18,11 +17,6 @@ class UserSessionSerializer implements SessionSerializerInterface
             throw new \InvalidArgumentException('Invalid session data');
         }
 
-        return new User(
-            id: $data['id'],
-            username: $data['username'],
-            password: $data['password'],
-            pseudo: $data['pseudo'],
-        );
+        return AuthenticatedUser::fromArray($data);
     }
 }

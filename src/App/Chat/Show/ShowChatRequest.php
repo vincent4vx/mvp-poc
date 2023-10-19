@@ -2,6 +2,7 @@
 
 namespace Quatrevieux\Mvp\App\Chat\Show;
 
+use Quatrevieux\Mvp\App\User\AuthenticatedUser;
 use Quatrevieux\Mvp\App\User\User;
 use Quatrevieux\Mvp\Core\Route;
 use Quatrevieux\Mvp\Core\SessionBearerInterface;
@@ -9,12 +10,12 @@ use Quatrevieux\Mvp\Core\SessionBearerInterface;
 #[Route('/chat/show')]
 class ShowChatRequest implements SessionBearerInterface
 {
-    public ?User $user;
+    public ?AuthenticatedUser $user = null;
     public bool $ajax = false;
 
     public function setSession(object $session): void
     {
-        if ($session instanceof User) {
+        if ($session instanceof AuthenticatedUser) {
             $this->user = $session;
         }
     }

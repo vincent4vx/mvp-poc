@@ -28,7 +28,7 @@ class SendMessageController implements ControllerInterface
         $message = $this->repository->add(new ChatMessage(
             id: -1,
             message: $request->message,
-            userId: $request->user->id,
+            userId: $request->user->id->value,
             createdAt: new \DateTimeImmutable(),
         ));
 

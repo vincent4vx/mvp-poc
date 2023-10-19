@@ -9,10 +9,10 @@
 <table>
     <tr>
         <th>Name</th>
-        <td><?= htmlentities($this->name) ?></td>
+        <td><?= $this->name->html() ?></td>
     </tr>
     <tr>
         <th>Pseudo</th>
-        <td><?= htmlentities($this->pseudo) ?></td>
+        <td><?= $this->pseudo->html() ?></td>
     </tr>
 </table>

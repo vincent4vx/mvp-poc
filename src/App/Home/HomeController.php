@@ -21,7 +21,7 @@ class HomeController implements ControllerInterface
     public function handle(object $request): HomeResponse
     {
         return new HomeResponse(
-            $this->repository->findLastArticles(10),
+            new ArticleList($this->repository->findLastArticles(10)),
         );
     }
 }

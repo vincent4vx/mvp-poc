@@ -7,18 +7,22 @@ use Quatrevieux\Mvp\App\User\ValueObject\Pseudo;
 use Quatrevieux\Mvp\App\User\ValueObject\UserId;
 use Quatrevieux\Mvp\App\User\ValueObject\Username;
 
-class User
+class UserCreation
 {
     public function __construct(
-        public readonly UserId $id,
         public readonly Username $username,
         public readonly Password $password,
         public readonly Pseudo $pseudo,
     ) {
     }
 
-    public function authenticate(string $inputPassword): ?AuthenticatedUser
+    public function created(UserId $id): User
     {
-        return AuthenticatedUser::create($this, $inputPassword);
+        return new User(
+            id: $id,
+            username: $this->username,
+            password: $this->password,
+            pseudo: $this->pseudo,
+        );
     }
 }

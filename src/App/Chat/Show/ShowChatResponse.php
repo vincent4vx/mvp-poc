@@ -2,7 +2,7 @@
 
 namespace Quatrevieux\Mvp\App\Chat\Show;
 
-use Quatrevieux\Mvp\App\User\User;
+use Quatrevieux\Mvp\App\User\AuthenticatedUser;
 
 class ShowChatResponse
 {
@@ -11,7 +11,7 @@ class ShowChatResponse
          * @var ChatMessageWithUser[]
          */
         public readonly array $messages,
-        public readonly ?User $user,
+        public readonly ?AuthenticatedUser $user,
         public readonly bool $ajax = false,
     ) {
     }

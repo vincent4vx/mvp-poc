@@ -44,7 +44,11 @@ class SignedTokenResolver implements SessionResolverInterface
 
         $data = json_decode($data, true);
 
-        return $this->serializer ? $this->serializer->unserialize($data) : (object) $data;
+        try {
+            return $this->serializer ? $this->serializer->unserialize($data) : (object)$data;
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     public function destroy(string $token): void

@@ -34,7 +34,7 @@ class RegistrationRenderer implements RendererInterface
         // Forward to authentication, for performant auto-login
         $request = new AuthenticationRequest();
 
-        $request->username = $data->user->username;
+        $request->username = $data->user->username->value;
         $request->password = $data->request->password;
 
         return $view->renderResponse($this->dispatcher->handle($request));

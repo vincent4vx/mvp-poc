@@ -19,7 +19,7 @@ use Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormRequest;
             <li><a href="<?= $renderer->url(new RegistrationFormRequest()) ?>">Register</a></li>
         <?php else: ?>
             <li><a href="<?= $renderer->url(new ShowChatRequest()) ?>">Chat</a></li>
-            <li><a href="<?= $renderer->url(new ProfileRequest()) ?>"><?= htmlentities($this->user->pseudo) ?></a></li>
+            <li><a href="<?= $renderer->url(new ProfileRequest()) ?>"><?= $this->user->pseudo->html() ?></a></li>
             <li><a href="<?= $renderer->url(new LogoutRequest()) ?>">Logout</a></li>
         <?php endif; ?>
     </ul>

@@ -2,18 +2,18 @@
 
 namespace Quatrevieux\Mvp\App\User\Logout;
 
-use Quatrevieux\Mvp\App\User\User;
+use Quatrevieux\Mvp\App\User\AuthenticatedUser;
 use Quatrevieux\Mvp\Core\Route;
 use Quatrevieux\Mvp\Core\SessionBearerInterface;
 
 #[Route('/logout')]
 class LogoutRequest implements SessionBearerInterface
 {
-    private ?User $user = null;
+    private ?AuthenticatedUser $user = null;
 
     public function setSession(object $session): void
     {
-        if ($session instanceof User) {
+        if ($session instanceof AuthenticatedUser) {
             $this->user = $session;
         }
     }

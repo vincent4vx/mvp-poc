@@ -2,7 +2,7 @@
 
 namespace Quatrevieux\Mvp\App\Chat\Send;
 
-use Quatrevieux\Mvp\App\User\User;
+use Quatrevieux\Mvp\App\User\AuthenticatedUser;
 use Quatrevieux\Mvp\Core\Route;
 use Quatrevieux\Mvp\Core\SessionBearerInterface;
 
@@ -10,11 +10,11 @@ use Quatrevieux\Mvp\Core\SessionBearerInterface;
 class SendMessageRequest implements SessionBearerInterface
 {
     public string $message;
-    public User $user;
+    public ?AuthenticatedUser $user = null;
 
     public function setSession(object $session): void
     {
-        if ($session instanceof User) {
+        if ($session instanceof AuthenticatedUser) {
             $this->user = $session;
         }
     }
