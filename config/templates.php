@@ -1,24 +1,24 @@
 <?php
 
-use Quatrevieux\Mvp\App\Article\ArticleRenderer;
-use Quatrevieux\Mvp\App\Home\HomeRenderer;
+use Quatrevieux\Mvp\Frontend\Blog\ArticleRenderer;
+use Quatrevieux\Mvp\Frontend\Blog\HomeRenderer;
 
 return [
-    \Quatrevieux\Mvp\App\Home\HomeResponse::class => HomeRenderer::class,
-    \Quatrevieux\Mvp\App\Article\ArticleResponse::class => ArticleRenderer::class,
-    \Quatrevieux\Mvp\App\Search\SearchResponse::class => \Quatrevieux\Mvp\App\Search\SearchRenderer::class,
-    \Quatrevieux\Mvp\Core\ViewContext::class => \Quatrevieux\Mvp\App\LayoutRenderer::class,
-    \Quatrevieux\Mvp\App\CustomViewContext::class => \Quatrevieux\Mvp\App\LayoutRenderer::class,
-    \Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormResponse::class => \Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRenderer::class,
-    \Quatrevieux\Mvp\App\User\Authentication\AuthenticationResponse::class => \Quatrevieux\Mvp\App\User\Authentication\AuthenticationRenderer::class,
-    \Quatrevieux\Mvp\App\User\Logout\LogoutResponse::class => \Quatrevieux\Mvp\App\User\Logout\LogoutRenderer::class,
-    \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormResponse::class => \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormRenderer::class,
-    \Quatrevieux\Mvp\App\User\Registration\RegistrationResponse::class => \Quatrevieux\Mvp\App\User\Registration\RegistrationRenderer::class,
-    \Quatrevieux\Mvp\App\User\Profile\ProfileResponse::class => __DIR__ . '/../template/profile.html.php',
-    \Quatrevieux\Mvp\Core\ErroredRequest::class => __DIR__ . '/../template/error.html.php',
-    \Quatrevieux\Mvp\App\Search\AutocompleteSearchResponse::class => __DIR__ . '/../template/search-autocomplete.html.php',
-    \Quatrevieux\Mvp\App\Chat\Show\ShowChatResponse::class => __DIR__ . '/../template/chat.html.php',
-    \Quatrevieux\Mvp\App\Chat\Send\SendMessageResponse::class => \Quatrevieux\Mvp\App\Chat\Send\SendMessageRenderer::class,
-    \Quatrevieux\Mvp\App\Chat\Event\SubscribeEventResponse::class => \Quatrevieux\Mvp\App\Chat\Event\SubscribeEventRenderer::class,
-    \Quatrevieux\Mvp\App\Home\ArticleList::class => \Quatrevieux\Mvp\App\Home\ArticleListRenderer::class,
+    \Quatrevieux\Mvp\Backend\Blog\Home\HomeResponse::class => HomeRenderer::class,
+    \Quatrevieux\Mvp\Backend\Blog\Article\ArticleResponse::class => ArticleRenderer::class,
+    \Quatrevieux\Mvp\Backend\Blog\Search\SearchResponse::class => \Quatrevieux\Mvp\Frontend\Blog\SearchRenderer::class,
+    \Quatrevieux\Mvp\Core\ViewContext::class => \Quatrevieux\Mvp\Frontend\LayoutRenderer::class,
+    \Quatrevieux\Mvp\Frontend\CustomViewContext::class => \Quatrevieux\Mvp\Frontend\LayoutRenderer::class,
+    \Quatrevieux\Mvp\Backend\User\AuthenticationForm\AuthenticationFormResponse::class => \Quatrevieux\Mvp\Frontend\User\AuthenticationFormRenderer::class,
+    \Quatrevieux\Mvp\Backend\User\Authentication\AuthenticationResponse::class => \Quatrevieux\Mvp\Frontend\User\AuthenticationRenderer::class,
+    \Quatrevieux\Mvp\Backend\User\Logout\LogoutResponse::class => \Quatrevieux\Mvp\Frontend\User\LogoutRenderer::class,
+    \Quatrevieux\Mvp\Backend\User\RegistrationForm\RegistrationFormResponse::class => \Quatrevieux\Mvp\Frontend\User\RegistrationFormRenderer::class,
+    \Quatrevieux\Mvp\Backend\User\Registration\RegistrationResponse::class => \Quatrevieux\Mvp\Frontend\User\RegistrationRenderer::class,
+    \Quatrevieux\Mvp\Backend\User\Profile\ProfileResponse::class => __DIR__ . '/../src/Frontend/User/Templates/profile.html.php',
+    \Quatrevieux\Mvp\Core\ErroredRequest::class => __DIR__ . '/../src/Frontend/Templates/error.html.php',
+    \Quatrevieux\Mvp\Backend\Blog\Search\AutocompleteSearchResponse::class => __DIR__ . '/../src/Frontend/Blog/Templates/search-autocomplete.html.php',
+    \Quatrevieux\Mvp\Backend\Chat\Show\ShowChatResponse::class => __DIR__ . '/../src/Frontend/Chat/Templates/chat.html.php',
+    \Quatrevieux\Mvp\Backend\Chat\Send\SendMessageResponse::class => \Quatrevieux\Mvp\Frontend\Chat\SendMessageRenderer::class,
+    \Quatrevieux\Mvp\Backend\Chat\Event\SubscribeEventResponse::class => \Quatrevieux\Mvp\Frontend\Chat\SubscribeEventRenderer::class,
+    \Quatrevieux\Mvp\Backend\Blog\Home\ArticleList::class => \Quatrevieux\Mvp\Frontend\Blog\ArticleListRenderer::class,
 ];

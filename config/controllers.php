@@ -1,13 +1,13 @@
 <?php
 
 return [
-    \Quatrevieux\Mvp\App\Home\HomeRequest::class => \Quatrevieux\Mvp\App\Home\HomeController::class,
-    \Quatrevieux\Mvp\App\Article\ArticleRequest::class => \Quatrevieux\Mvp\App\Article\ArticleController::class,
-    \Quatrevieux\Mvp\App\Search\SearchRequest::class => \Quatrevieux\Mvp\App\Search\SearchController::class,
-    \Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormRequest::class => \Quatrevieux\Mvp\App\User\AuthenticationForm\AuthenticationFormController::class,
-    \Quatrevieux\Mvp\App\User\Authentication\AuthenticationRequest::class => \Quatrevieux\Mvp\App\User\Authentication\AuthenticationController::class,
-    \Quatrevieux\Mvp\App\User\Logout\LogoutRequest::class => \Quatrevieux\Mvp\App\User\Logout\LogoutController::class,
-    \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormRequest::class => \Quatrevieux\Mvp\App\User\RegistrationForm\RegistrationFormController::class,
-    \Quatrevieux\Mvp\App\User\Registration\RegistrationRequest::class => \Quatrevieux\Mvp\App\User\Registration\RegistrationController::class,
-    \Quatrevieux\Mvp\App\Ping\PingRequest::class => \Quatrevieux\Mvp\App\Ping\PingController::class,
+    \Quatrevieux\Mvp\Backend\Blog\Home\HomeRequest::class => \Quatrevieux\Mvp\Backend\Blog\Home\HomeController::class,
+    \Quatrevieux\Mvp\Backend\Blog\Article\ArticleRequest::class => \Quatrevieux\Mvp\Backend\Blog\Article\ArticleController::class,
+    \Quatrevieux\Mvp\Backend\Blog\Search\SearchRequest::class => \Quatrevieux\Mvp\Backend\Blog\Search\SearchController::class,
+    \Quatrevieux\Mvp\Backend\User\AuthenticationForm\AuthenticationFormRequest::class => \Quatrevieux\Mvp\Backend\User\AuthenticationForm\AuthenticationFormController::class,
+    \Quatrevieux\Mvp\Backend\User\Authentication\AuthenticationRequest::class => \Quatrevieux\Mvp\Backend\User\Authentication\AuthenticationController::class,
+    \Quatrevieux\Mvp\Backend\User\Logout\LogoutRequest::class => \Quatrevieux\Mvp\Backend\User\Logout\LogoutController::class,
+    \Quatrevieux\Mvp\Backend\User\RegistrationForm\RegistrationFormRequest::class => \Quatrevieux\Mvp\Backend\User\RegistrationForm\RegistrationFormController::class,
+    \Quatrevieux\Mvp\Backend\User\Registration\RegistrationRequest::class => \Quatrevieux\Mvp\Backend\User\Registration\RegistrationController::class,
+    \Quatrevieux\Mvp\Backend\Ping\PingRequest::class => \Quatrevieux\Mvp\Backend\Ping\PingController::class,
 ];

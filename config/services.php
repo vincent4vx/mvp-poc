@@ -6,27 +6,26 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Quatrevieux\Mvp\App\CustomViewContextFactory;
-use Quatrevieux\Mvp\App\LayoutRenderer;
-use Quatrevieux\Mvp\App\User\UserSessionSerializer;
+use Quatrevieux\Mvp\Backend\User\UserSessionSerializer;
 use Quatrevieux\Mvp\Core\AttributeControllerLoader;
 use Quatrevieux\Mvp\Core\AttributeRouterLoader;
 use Quatrevieux\Mvp\Core\CookieToken;
 use Quatrevieux\Mvp\Core\Dispatcher;
 use Quatrevieux\Mvp\Core\Firewall;
 use Quatrevieux\Mvp\Core\QueryValidator;
+use Quatrevieux\Mvp\Core\Renderer;
+use Quatrevieux\Mvp\Core\RendererFactoryInterface;
+use Quatrevieux\Mvp\Core\RendererInterface;
+use Quatrevieux\Mvp\Core\Router;
 use Quatrevieux\Mvp\Core\SessionHandler;
 use Quatrevieux\Mvp\Core\SessionResolverInterface;
 use Quatrevieux\Mvp\Core\SessionSerializerInterface;
 use Quatrevieux\Mvp\Core\SessionTokenInterface;
 use Quatrevieux\Mvp\Core\SignedTokenResolver;
 use Quatrevieux\Mvp\Core\View;
-use Quatrevieux\Mvp\Core\Renderer;
-use Quatrevieux\Mvp\Core\RendererFactoryInterface;
-use Quatrevieux\Mvp\Core\RendererInterface;
-use Quatrevieux\Mvp\Core\Router;
-
 use Quatrevieux\Mvp\Core\ViewContextFactoryInterface;
+use Quatrevieux\Mvp\Frontend\CustomViewContextFactory;
+use Quatrevieux\Mvp\Frontend\LayoutRenderer;
 
 use function DI\create;
 use function DI\get;
@@ -42,10 +41,10 @@ return [
     'assetsUrl' => value('http://127.0.0.1/micro-mvp/assets'),
 
     AttributeRouterLoader::class => create()->constructor(
-        'Quatrevieux\\Mvp\\App\\',
+        'Quatrevieux\\Mvp\\Backend\\',
         get('baseUrl'),
     ),
-    AttributeControllerLoader::class => create()->constructor('Quatrevieux\\Mvp\\App\\'),
+    AttributeControllerLoader::class => create()->constructor('Quatrevieux\\Mvp\\Backend\\'),
     Router::class => fn (ContainerInterface $container) => $container->get(AttributeRouterLoader::class)->load(),
     Dispatcher::class => fn (ContainerInterface $container) => new Dispatcher($container, $container->get(AttributeControllerLoader::class)->load()),
     PDO::class => function (ContainerInterface $container) {
