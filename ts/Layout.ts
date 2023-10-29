@@ -1,20 +1,30 @@
 import { PJaxFinishEvent, PJaxLoadingEvent } from './PJax';
 import { Listener } from './Dispatcher';
 import { Autocomplete } from './Autocomplete';
+import App from './App';
 
 export class Layout {
-    #searchAutocomplete: Autocomplete;
+    #searchAutocomplete: Autocomplete|null;
 
     constructor(
         private readonly dom: Document,
+        private readonly app: App,
     ) {
-        this.#searchAutocomplete = new Autocomplete(
-            this.dom.querySelector('#search-bar input[name=query]') as HTMLInputElement,
-            this.dom.querySelector('#search-bar .autocomplete-results') as HTMLElement,
-        );
+        this.#searchAutocomplete = null;
     }
 
     start(): void {
+        const input = this.dom.querySelector('#search-bar input[name=query]');
+        const autocompleteResults = this.dom.querySelector('#search-bar .autocomplete-results');
+
+        if (!input || !autocompleteResults) {
+            return;
+        }
+
+        this.#searchAutocomplete = new Autocomplete(
+            input as HTMLInputElement,
+            autocompleteResults as HTMLElement,
+        );
         this.#searchAutocomplete.init();
     }
 
@@ -24,9 +34,25 @@ export class Layout {
             return;
         }
 
+        // @todo handle layout change
         // @todo config elements / classes
         if (this.dom.querySelector('header')?.contains(event.trigger)) {
             this.dom.querySelector('#page-content')?.classList.add('loading-start-top');
+        }
+    }
+
+    @Listener(PJaxFinishEvent)
+    checkLayoutHasChanged(event: PJaxFinishEvent): void {
+        const currentLayout = this.dom.querySelector('html')?.dataset.layout;
+
+        console.log(currentLayout, event.content.layout);
+
+        if (!currentLayout) {
+            return;
+        }
+
+        if (currentLayout !== event.content.layout) {
+            this.app.reload();
         }
     }
 

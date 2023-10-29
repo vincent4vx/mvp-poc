@@ -2,7 +2,7 @@
 
 namespace Quatrevieux\Mvp\Backend\Chat\Show;
 
-use Quatrevieux\Mvp\Backend\User\User;
+use Quatrevieux\Mvp\Backend\User\Domain\User;
 
 class ChatMessageWithUser
 {

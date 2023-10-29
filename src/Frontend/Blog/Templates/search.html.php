@@ -1,11 +1,11 @@
 <?php
 
-use Quatrevieux\Mvp\Backend\Blog\Search\SearchRequest;
+use Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\Search\SearchRequest;
 
 /**
  * @var \Quatrevieux\Mvp\Frontend\Blog\SearchRenderer $renderer
- * @var \Quatrevieux\Mvp\Backend\Blog\Search\SearchResponse $this
- * @var \Quatrevieux\Mvp\Core\View $view
+ * @var \Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\Search\SearchResponse $this
+ * @var \Quatrevieux\Mvp\Core\View\View $view
  */
 
 ?>

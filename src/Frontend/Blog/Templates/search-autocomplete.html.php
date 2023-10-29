@@ -2,8 +2,8 @@
 
 /**
  * @var \Quatrevieux\Mvp\Frontend\Blog\SearchRenderer $renderer
- * @var \Quatrevieux\Mvp\Backend\Blog\Search\SearchResponse $this
- * @var \Quatrevieux\Mvp\Frontend\CustomViewContext $context
+ * @var \Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\Search\SearchResponse $this
+ * @var \Quatrevieux\Mvp\Frontend\ApplicationViewContext $context
  */
 
 $context->ajax = true;

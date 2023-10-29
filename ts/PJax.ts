@@ -16,15 +16,21 @@ export class PJaxFinishEvent implements Event {
 
     constructor(
         public readonly target: string,
-        public readonly content: object,
+        public readonly content: Record<string, any>,
         public readonly trigger?: HTMLElement,
     ) {
     }
 }
 
+export interface PJaxConfig {
+    defaultTitle: string;
+    noPjaxSelector: string;
+}
+
 export default class PJax {
     constructor(
         private readonly app: App,
+        private readonly config: PJaxConfig,
     ) {
     }
 
@@ -109,14 +115,8 @@ export default class PJax {
             let content = JSON.parse(response);
             const document = this.app.dom;
 
-            // Layout changed, reload page @todo
-            // if (layout && content.layout !== layout) {
-            //     location.reload();
-            //     return;
-            // }
-
             // @todo config for default title
-            document.title = content.title || 'My Blog';
+            document.title = content.title || this.config.defaultTitle;
 
             for (let id in content) {
                 const e = document.getElementById(id);
@@ -137,10 +137,15 @@ export default class PJax {
 
     #initAnchorClick() {
         this.app.dom.addEventListener('click', (e: MouseEvent): void => {
-            // @todo filter link if not pjax
-            if (e.target instanceof HTMLAnchorElement && e.target.matches('a')) {
+            const target = e.target as HTMLElement;
+
+            if (target === null || target.matches(this.config.noPjaxSelector)) {
+                return;
+            }
+
+            if (target instanceof HTMLAnchorElement && target.matches('a')) {
                 e.preventDefault();
-                this.load(e.target.href, true, e.target);
+                this.load(target.href, true, target);
             }
         });
     }

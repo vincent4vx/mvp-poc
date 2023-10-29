@@ -1,14 +1,15 @@
 <?php
 /**
  * @var \Quatrevieux\Mvp\Frontend\Component\MenuBar $this
- * @var \Quatrevieux\Mvp\Core\Renderer $renderer
+ * @var \Quatrevieux\Mvp\Core\View\Renderer $renderer
  */
 
+use Quatrevieux\Mvp\Backend\BackOffice\Home\HomeRequest;
 use Quatrevieux\Mvp\Backend\Chat\Show\ShowChatRequest;
-use Quatrevieux\Mvp\Backend\User\AuthenticationForm\AuthenticationFormRequest;
-use Quatrevieux\Mvp\Backend\User\Logout\LogoutRequest;
-use Quatrevieux\Mvp\Backend\User\Profile\ProfileRequest;
-use Quatrevieux\Mvp\Backend\User\RegistrationForm\RegistrationFormRequest;
+use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\AuthenticationForm\AuthenticationFormRequest;
+use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Logout\LogoutRequest;
+use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Profile\ProfileRequest;
+use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\RegistrationForm\RegistrationFormRequest;
 
 ?>
 
@@ -20,6 +21,7 @@ use Quatrevieux\Mvp\Backend\User\RegistrationForm\RegistrationFormRequest;
         <?php else: ?>
             <li><a href="<?= $renderer->url(new ShowChatRequest()) ?>">Chat</a></li>
             <li><a href="<?= $renderer->url(new ProfileRequest()) ?>"><?= $this->user->pseudo->html() ?></a></li>
+            <li><a href="<?= $renderer->url(new HomeRequest()) ?>" class="no-pjax">BackOffice</a></li>
             <li><a href="<?= $renderer->url(new LogoutRequest()) ?>">Logout</a></li>
         <?php endif; ?>
     </ul>

@@ -6,14 +6,15 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Quatrevieux\Mvp\Backend\User\UserSessionSerializer;
+use Quatrevieux\Mvp\Backend\Domain\Security\UserSessionSerializer;
 use Quatrevieux\Mvp\Core\AttributeControllerLoader;
 use Quatrevieux\Mvp\Core\AttributeRouterLoader;
+use Quatrevieux\Mvp\Core\Bus\BusDispatcherInterface;
+use Quatrevieux\Mvp\Core\Bus\CommandDispatcherLoader;
 use Quatrevieux\Mvp\Core\CookieToken;
 use Quatrevieux\Mvp\Core\Dispatcher;
 use Quatrevieux\Mvp\Core\Firewall;
 use Quatrevieux\Mvp\Core\QueryValidator;
-use Quatrevieux\Mvp\Core\Renderer;
 use Quatrevieux\Mvp\Core\RendererFactoryInterface;
 use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
@@ -22,10 +23,12 @@ use Quatrevieux\Mvp\Core\SessionResolverInterface;
 use Quatrevieux\Mvp\Core\SessionSerializerInterface;
 use Quatrevieux\Mvp\Core\SessionTokenInterface;
 use Quatrevieux\Mvp\Core\SignedTokenResolver;
-use Quatrevieux\Mvp\Core\View;
-use Quatrevieux\Mvp\Core\ViewContextFactoryInterface;
-use Quatrevieux\Mvp\Frontend\CustomViewContextFactory;
-use Quatrevieux\Mvp\Frontend\LayoutRenderer;
+use Quatrevieux\Mvp\Core\View\Renderer;
+use Quatrevieux\Mvp\Core\View\View;
+use Quatrevieux\Mvp\Core\View\ViewContextFactoryInterface;
+use Quatrevieux\Mvp\Frontend\ApplicationViewContextFactory;
+use Quatrevieux\Mvp\Frontend\BackOffice\BackOfficeLayoutRender;
+use Quatrevieux\Mvp\Frontend\FrontOfficeLayoutRender;
 
 use function DI\create;
 use function DI\get;
@@ -59,7 +62,13 @@ return [
     Psr17Factory::class => create(),
     ResponseFactoryInterface::class => get(Psr17Factory::class),
     StreamFactoryInterface::class => get(Psr17Factory::class),
-    LayoutRenderer::class => create()->constructor(
+    FrontOfficeLayoutRender::class => create()->constructor(
+        get(Router::class),
+        get(ResponseFactoryInterface::class),
+        get(StreamFactoryInterface::class),
+        get('assetsUrl'),
+    ),
+    BackOfficeLayoutRender::class => create()->constructor(
         get(Router::class),
         get(ResponseFactoryInterface::class),
         get(StreamFactoryInterface::class),
@@ -85,7 +94,7 @@ return [
             }
         };
     },
-    ViewContextFactoryInterface::class => get(CustomViewContextFactory::class),
+    ViewContextFactoryInterface::class => get(ApplicationViewContextFactory::class),
     View::class => create()->constructor(
         get(ResponseFactoryInterface::class),
         get(StreamFactoryInterface::class),
@@ -110,4 +119,7 @@ return [
         get(SessionHandler::class),
         get(Firewall::class),
     ]),
+    BusDispatcherInterface::class => function (ContainerInterface $container) {
+        return (new CommandDispatcherLoader('Quatrevieux\\Mvp\\Backend\\'))->load($container);
+    }
 ];

@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \Quatrevieux\Mvp\Backend\User\Profile\ProfileResponse $this
+ * @var \Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Profile\ProfileResponse $this
  */
 ?>
 

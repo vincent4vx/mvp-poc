@@ -3,12 +3,12 @@
 namespace Quatrevieux\Mvp\Frontend\User;
 
 use Psr\Http\Message\ResponseInterface;
-use Quatrevieux\Mvp\Backend\User\Authentication\AuthenticationRequest;
-use Quatrevieux\Mvp\Backend\User\Registration\RegistrationResponse;
-use Quatrevieux\Mvp\Backend\User\RegistrationForm\RegistrationFormResponse;
+use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Authentication\AuthenticationRequest;
+use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Registration\RegistrationResponse;
+use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\RegistrationForm\RegistrationFormResponse;
 use Quatrevieux\Mvp\Core\Dispatcher;
 use Quatrevieux\Mvp\Core\RendererInterface;
-use Quatrevieux\Mvp\Core\View;
+use Quatrevieux\Mvp\Core\View\View;
 
 class RegistrationRenderer implements RendererInterface
 {

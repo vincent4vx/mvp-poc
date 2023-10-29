@@ -1,14 +1,14 @@
 <?php
 
-use Quatrevieux\Mvp\Backend\Blog\Home\HomeRequest;
+use Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\Home\HomeRequest;
 use Quatrevieux\Mvp\Core\PageContent;
 use Quatrevieux\Mvp\Frontend\Component\MenuBar;
 use Quatrevieux\Mvp\Frontend\Component\SearchBar;
 
 /**
- * @var \Quatrevieux\Mvp\Core\Renderer $renderer
- * @var \Quatrevieux\Mvp\Core\ViewContext|\Quatrevieux\Mvp\Frontend\CustomViewContext $this
- * @var \Quatrevieux\Mvp\Core\View $view
+ * @var \Quatrevieux\Mvp\Core\View\Renderer $renderer
+ * @var \Quatrevieux\Mvp\Core\View\ViewContext|\Quatrevieux\Mvp\Frontend\ApplicationViewContext $this
+ * @var \Quatrevieux\Mvp\Core\View\View $view
  */
 
 ?>

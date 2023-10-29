@@ -2,7 +2,7 @@
 
 /**
  * @var \Quatrevieux\Mvp\Frontend\Blog\ArticleListRenderer $renderer
- * @var \Quatrevieux\Mvp\Backend\Blog\Home\ArticleList $this
+ * @var \Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\ArticleList $this
  */
 
 ?>

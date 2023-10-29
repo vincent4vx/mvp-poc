@@ -1,10 +1,10 @@
 <?php
 /**
- * @var \Quatrevieux\Mvp\Backend\User\AuthenticationForm\AuthenticationFormResponse $this
+ * @var \Quatrevieux\Mvp\Backend\User\Application\FrontOffice\AuthenticationForm\AuthenticationFormResponse $this
  * @var \Quatrevieux\Mvp\Frontend\User\AuthenticationFormRenderer $renderer
  */
 
-use Quatrevieux\Mvp\Backend\User\Authentication\AuthenticationRequest;
+use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Authentication\AuthenticationRequest;
 
 ?>
 

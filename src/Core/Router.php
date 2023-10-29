@@ -4,7 +4,10 @@ namespace Quatrevieux\Mvp\Core;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+use function array_filter;
 use function http_build_query;
+use function is_object;
+use function is_string;
 use function property_exists;
 use function rtrim;
 
@@ -52,14 +55,15 @@ class Router
         return new RoutedQuery($request, $query);
     }
 
-    public function generate(object $query): string
+    public function generate(object|string $query): string
     {
-        foreach ($this->paths as $path => $class) {
-            if ($query instanceof $class) {
-                $queryString = (array) $query;
+        $queryClass = is_string($query) ? $query : $query::class;
+        $queryParameters = is_object($query) ? array_filter((array) $query, static fn ($value) => $value !== null) : [];
 
+        foreach ($this->paths as $path => $class) {
+            if ($queryClass === $class) {
                 // @todo handle /
-                return $this->baseUrl . $path . ($queryString ? '?' . http_build_query($queryString) : '');
+                return $this->baseUrl . $path . ($queryParameters ? '?' . http_build_query($query) : '');
             }
         }
 

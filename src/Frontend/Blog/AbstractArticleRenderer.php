@@ -3,9 +3,9 @@
 namespace Quatrevieux\Mvp\Frontend\Blog;
 
 use Michelf\MarkdownInterface;
-use Quatrevieux\Mvp\Backend\Blog\ValueObject\ArticleContent;
-use Quatrevieux\Mvp\Core\Renderer;
+use Quatrevieux\Mvp\Backend\Blog\Domain\ValueObject\ArticleContent;
 use Quatrevieux\Mvp\Core\Router;
+use Quatrevieux\Mvp\Core\View\Renderer;
 
 abstract class AbstractArticleRenderer extends Renderer
 {

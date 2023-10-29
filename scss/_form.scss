@@ -107,3 +107,16 @@ form.submitting input, form.submitting button {
     background-position: 120px 0;
   }
 }
+
+form.btn-link {
+  display: inline;
+
+  button {
+    @extend a;
+    background: inherit;
+    border: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+  }
+}

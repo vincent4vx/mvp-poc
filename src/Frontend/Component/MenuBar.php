@@ -2,9 +2,9 @@
 
 namespace Quatrevieux\Mvp\Frontend\Component;
 
-use Quatrevieux\Mvp\Backend\User\AuthenticatedUser;
-use Quatrevieux\Mvp\Core\ComponentInterface;
-use Quatrevieux\Mvp\Core\ViewContext;
+use Quatrevieux\Mvp\Backend\Domain\Security\AuthenticatedUser;
+use Quatrevieux\Mvp\Core\View\ComponentInterface;
+use Quatrevieux\Mvp\Core\View\ViewContext;
 
 class MenuBar implements ComponentInterface
 {

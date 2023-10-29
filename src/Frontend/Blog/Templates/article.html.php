@@ -1,8 +1,8 @@
 <?php
 /**
- * @var \Quatrevieux\Mvp\Backend\Blog\Article\ArticleResponse $this
+ * @var \Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\Article\ArticleResponse $this
  * @var \Quatrevieux\Mvp\Frontend\Blog\ArticleRenderer $renderer
- * @var \Quatrevieux\Mvp\Frontend\CustomViewContext $context
+ * @var \Quatrevieux\Mvp\Frontend\ApplicationViewContext $context
  */
 
 $context->title = 'My Blog - ' . $this->article->title->value;

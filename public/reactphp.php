@@ -3,8 +3,8 @@
 use DI\ContainerBuilder;
 use Quatrevieux\Mvp\Core\Dispatcher;
 use Quatrevieux\Mvp\Core\QueryValidator;
-use Quatrevieux\Mvp\Core\View;
 use Quatrevieux\Mvp\Core\Router;
+use Quatrevieux\Mvp\Core\View\View;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -15,7 +15,10 @@ if (empty(opcache_get_status()['jit']['enabled'])) {
 }
 
 $container = (new ContainerBuilder())
-    ->addDefinitions(__DIR__ . '/../config/services.php')
+    ->addDefinitions(
+        __DIR__ . '/../config/services.php',
+        __DIR__ . '/../config/adapters.php',
+    )
     ->build()
 ;
 

@@ -2,7 +2,7 @@
 
 namespace Quatrevieux\Mvp\Backend\Chat\Show;
 
-use Quatrevieux\Mvp\Backend\User\AuthenticatedUser;
+use Quatrevieux\Mvp\Backend\Domain\Security\AuthenticatedUser;
 
 class ShowChatResponse
 {

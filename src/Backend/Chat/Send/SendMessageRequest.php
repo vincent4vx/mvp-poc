@@ -2,7 +2,7 @@
 
 namespace Quatrevieux\Mvp\Backend\Chat\Send;
 
-use Quatrevieux\Mvp\Backend\User\AuthenticatedUser;
+use Quatrevieux\Mvp\Backend\Domain\Security\AuthenticatedUser;
 use Quatrevieux\Mvp\Core\Route;
 use Quatrevieux\Mvp\Core\SessionBearerInterface;
 

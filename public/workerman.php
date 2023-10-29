@@ -10,7 +10,10 @@ use function DI\value;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $container = (new ContainerBuilder())
-    ->addDefinitions(__DIR__ . '/../config/services.php')
+    ->addDefinitions(
+        __DIR__ . '/../config/services.php',
+        __DIR__ . '/../config/adapters.php',
+    )
     ->addDefinitions([
         'baseUrl' => value('http://127.0.0.1:5000'),
     ])

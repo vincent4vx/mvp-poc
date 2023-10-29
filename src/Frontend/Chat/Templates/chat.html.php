@@ -6,8 +6,8 @@ use Quatrevieux\Mvp\Backend\Chat\Show\ShowChatRequest;
 
 /**
  * @var \Quatrevieux\Mvp\Backend\Chat\Show\ShowChatResponse $this
- * @var \Quatrevieux\Mvp\Core\Renderer $renderer
- * @var \Quatrevieux\Mvp\Frontend\CustomViewContext $context
+ * @var \Quatrevieux\Mvp\Core\View\Renderer $renderer
+ * @var \Quatrevieux\Mvp\Frontend\ApplicationViewContext $context
  */
 
 $context->title = 'My Blog - Chat';

@@ -1,9 +1,9 @@
 <?php
 
-use Quatrevieux\Mvp\Backend\Blog\Search\SearchRequest;
+use Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\Search\SearchRequest;
 
 /**
- * @var \Quatrevieux\Mvp\Core\Renderer $renderer
+ * @var \Quatrevieux\Mvp\Core\View\Renderer $renderer
  */
 ?>
 

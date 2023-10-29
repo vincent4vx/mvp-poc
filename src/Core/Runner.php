@@ -4,6 +4,7 @@ namespace Quatrevieux\Mvp\Core;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Quatrevieux\Mvp\Core\View\View;
 
 class Runner
 {
@@ -17,10 +18,18 @@ class Runner
 
     public function run(ServerRequestInterface $serverRequest): ResponseInterface|StreamingResponseInterface
     {
-        $action = $this->router->resolve($serverRequest);
-        $action = $this->queryValidator->validate($action);
-        $result = $this->dispatcher->dispatch($action);
+        try {
+            $action = $this->router->resolve($serverRequest);
+            $action = $this->queryValidator->validate($action);
+            $result = $this->dispatcher->dispatch($action);
 
-        return $this->view->response($result);
+            return $this->view->response($result);
+        } catch (\Throwable $e) {
+            // @todo better handling of errors
+            $action = new ErroredRequest($serverRequest, $action ?? null, $e);
+            $result = $this->dispatcher->dispatch(new RoutedQuery($serverRequest, $action));
+
+            return $this->view->response($result);
+        }
     }
 }

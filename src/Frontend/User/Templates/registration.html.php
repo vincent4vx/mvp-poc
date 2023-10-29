@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @var \Quatrevieux\Mvp\Backend\User\RegistrationForm\RegistrationFormResponse $this
+ * @var \Quatrevieux\Mvp\Backend\User\Application\FrontOffice\RegistrationForm\RegistrationFormResponse $this
  * @var \Quatrevieux\Mvp\Frontend\User\RegistrationFormRenderer $renderer
- * @var \Quatrevieux\Mvp\Frontend\CustomViewContext $context
+ * @var \Quatrevieux\Mvp\Frontend\ApplicationViewContext $context
  */
 
-use Quatrevieux\Mvp\Backend\User\Registration\RegistrationRequest;
+use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Registration\RegistrationRequest;
 
 $context->title = 'My Blog - Registration';
 
