@@ -1,11 +1,11 @@
 export class AutoSearch {
     #abortController: AbortController;
-    #timeout: NodeJS.Timeout|null = null;
+    #timeout: NodeJS.Timeout | null = null;
 
     constructor(
         private readonly form: HTMLFormElement,
         private readonly source: string,
-        private readonly results: HTMLElement,
+        private readonly page: HTMLElement,
     ) {
         this.#abortController = new AbortController();
     }
@@ -29,15 +29,25 @@ export class AutoSearch {
         this.#abortController = new AbortController();
 
         fetch(
-            this.source + (this.source.indexOf('?') === -1 ? '?' : '&' ) + new URLSearchParams(data as any).toString(),
+            this.source + (this.source.indexOf('?') === -1 ? '?' : '&') + new URLSearchParams(data as any).toString(),
             {
                 signal: this.#abortController.signal,
                 method: 'GET',
             }
         )
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                this.results.innerHTML = data;
+                if (typeof data !== 'object') {
+                    throw new Error('Invalid response');
+                }
+
+                Object.entries(data).forEach(([key, value]) => {
+                    const container = this.page.querySelector(`#${key}`);
+
+                    if (container) {
+                        container.innerHTML = value as string;
+                    }
+                });
             })
         ;
     }

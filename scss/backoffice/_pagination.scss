@@ -1,0 +1,68 @@
+ul.pagination {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  margin: 10px 0 0;
+
+  > li {
+    display: inline-block;
+    margin: 3px;
+    color: #000;
+
+    &.active {
+      > a {
+        box-shadow: inset 0 0 3px #ccc;
+        background: #e9e9e9;
+      }
+    }
+
+    &.disabled {
+      > a {
+        text-shadow: none;
+        cursor: not-allowed;
+        opacity: .7;
+      }
+    }
+
+    > a {
+      border-radius: 5px;
+      display: inline-block;
+      padding: 3px;
+      color: inherit;
+      height: 30px;
+      line-height: 24px; // 30px - 2 * 3px (padding)
+      min-width: 30px;
+      vertical-align: middle;
+      transition-duration: .3s;
+      transition-property: background, box-shadow;
+
+      &:hover {
+        background: #e5e5e5;
+      }
+
+      &:focus {
+        box-shadow: inset 0 0 1px #ccc;
+        background: #e9e9e9;
+      }
+    }
+
+    &:first-of-type {
+      float: left;
+
+      > a {
+        border-radius: 3px;
+        @extend .btn-blue
+      }
+    }
+
+    &:last-of-type {
+      float: right;
+
+      > a {
+        border-radius: 3px;
+        @extend .btn-blue
+      }
+    }
+  }
+}

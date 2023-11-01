@@ -13,6 +13,9 @@ class ListUsersResponse
 
     public function __construct(
         public readonly ListUsersRequest $request,
+        public readonly int $page,
+        public readonly int $total,
+        public readonly int $pageCount,
         User ...$users,
     ) {
         $this->users = $users;

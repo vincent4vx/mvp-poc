@@ -26,7 +26,7 @@ export default class UsersList {
         this.#search = new AutoSearch(
             form,
             form.dataset.autosearchSource as string,
-            this.app.dom.querySelector(form.dataset.autosearchTarget as string) as HTMLElement,
+            this.app.dom.getElementById('page-content') as HTMLElement,
         );
 
         this.#search.init();

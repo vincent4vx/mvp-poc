@@ -20,8 +20,5 @@ interface UserReadRepositoryInterface
      */
     public function findAllById(array $ids): array;
 
-    /**
-     * @return User
-     */
-    public function search(?SearchUserCriteria $criteria = null): array;
+    public function search(?SearchUserCriteria $criteria = null): UsersSearchResult;
 }

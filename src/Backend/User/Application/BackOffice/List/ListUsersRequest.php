@@ -11,7 +11,18 @@ class ListUsersRequest extends BackOfficeRequest
 {
     public ?string $search = null;
     public array $fields = [];
+    public int $page = 1;
     public bool $ajax = false;
+
+    public function withPage(int $page): self
+    {
+        $request = clone $this;
+        $request->page = $page;
+        $request->user = null;
+        $request->ajax = false;
+
+        return $request;
+    }
 
     public static function ajax(): self
     {

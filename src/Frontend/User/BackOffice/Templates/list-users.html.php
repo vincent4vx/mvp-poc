@@ -2,7 +2,7 @@
 
 /**
  * @var \Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersResponse $this
- * @var \Quatrevieux\Mvp\Core\View\Renderer $renderer
+ * @var \Quatrevieux\Mvp\Frontend\User\BackOffice\ListUsersRenderer $renderer
  */
 
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\Delete\DeleteUserRequest;
@@ -62,7 +62,11 @@ use Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersRequest;
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="users-list-results">
         <?php require __DIR__ . '/list-users-results.html.php' ?>
     </tbody>
 </table>
+
+<div id="users-list-pagination">
+    <?= $renderer->pagination($this) ?>
+</div>

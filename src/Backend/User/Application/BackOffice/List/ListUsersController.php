@@ -8,6 +8,8 @@ use Quatrevieux\Mvp\Core\ControllerInterface;
 use Quatrevieux\Mvp\Core\Handles;
 
 use function array_flip;
+use function ceil;
+use function max;
 
 #[Handles(ListUsersRequest::class)]
 class ListUsersController implements ControllerInterface
@@ -41,10 +43,17 @@ class ListUsersController implements ControllerInterface
         }
 
         $criteria->or = true;
+        $criteria->limit = 20;
+        $criteria->offset = max($request->page - 1, 0) * $criteria->limit;
+
+        $result = $this->repository->search($criteria);
 
         return new ListUsersResponse(
             $request,
-            ...$this->repository->search($criteria)
+            max($request->page, 1),
+            $result->total,
+            (int) ceil($result->total / $criteria->limit),
+            ...$result->users,
         );
     }
 }

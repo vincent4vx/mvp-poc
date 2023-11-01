@@ -7,6 +7,7 @@ use Quatrevieux\Mvp\Backend\User\Domain\SearchUserCriteria;
 use Quatrevieux\Mvp\Backend\User\Domain\User;
 use Quatrevieux\Mvp\Backend\User\Domain\UserCreation;
 use Quatrevieux\Mvp\Backend\User\Domain\UserReadRepositoryInterface;
+use Quatrevieux\Mvp\Backend\User\Domain\UsersSearchResult;
 use Quatrevieux\Mvp\Backend\User\Domain\UserWriteRepositoryInterface;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Password;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Pseudo;
@@ -17,6 +18,7 @@ use function array_column;
 use function count;
 use function implode;
 use function str_repeat;
+use function str_replace;
 
 class UserRepository implements UserReadRepositoryInterface, UserWriteRepositoryInterface
 {
@@ -100,10 +102,7 @@ class UserRepository implements UserReadRepositoryInterface, UserWriteRepository
         return $users;
     }
 
-    /**
-     * @return User
-     */
-    public function search(?SearchUserCriteria $criteria = null): array
+    public function search(?SearchUserCriteria $criteria = null): UsersSearchResult
     {
         $query = 'SELECT * FROM user';
         $clauses = [];
@@ -128,14 +127,14 @@ class UserRepository implements UserReadRepositoryInterface, UserWriteRepository
             $query .= ' WHERE ' . implode($criteria->or ? ' OR ' : ' AND ', $clauses);
         }
 
-        if ($criteria?->offset) {
-            $query .= ' OFFSET :offset';
-            $bindings[] = [':offset', $criteria->offset, PDO::PARAM_INT];
-        }
-
         if ($criteria?->limit) {
             $query .= ' LIMIT :limit';
             $bindings[] = [':limit', $criteria->limit, PDO::PARAM_INT];
+        }
+
+        if ($criteria?->offset) {
+            $query .= ' OFFSET :offset';
+            $bindings[] = [':offset', $criteria->offset, PDO::PARAM_INT];
         }
 
         $stmt = $this->pdo->prepare($query);
@@ -152,7 +151,32 @@ class UserRepository implements UserReadRepositoryInterface, UserWriteRepository
             $users[] = $this->instantiate($row);
         }
 
-        return $users;
+        $countQuery = 'SELECT COUNT(*) FROM user';
+
+        if ($clauses) {
+            $countQuery .= ' WHERE ' . implode($criteria->or ? ' OR ' : ' AND ', $clauses);
+        }
+
+        $stmt = $this->pdo->prepare($countQuery);
+
+        foreach ($bindings as [$name, $value, $type]) {
+            if ($name === ':offset' || $name === ':limit') {
+                continue;
+            }
+
+            $stmt->bindValue($name, $value, $type);
+        }
+
+        $stmt->execute();
+
+        $count = (int) $stmt->fetchColumn();
+
+        return new UsersSearchResult(
+            $count,
+            $criteria?->offset ?? 0,
+            $criteria?->limit ?? count($users),
+            ...$users,
+        );
     }
 
     // @todo columns parameter?

@@ -8,8 +8,12 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersResponse;
 use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
+use Quatrevieux\Mvp\Core\View\Helper\Button;
+use Quatrevieux\Mvp\Core\View\Helper\Pagination;
 use Quatrevieux\Mvp\Core\View\Renderer;
 use Quatrevieux\Mvp\Core\View\View;
+
+use function json_encode;
 
 class ListUsersRenderer implements RendererInterface
 {
@@ -19,10 +23,32 @@ class ListUsersRenderer implements RendererInterface
     public function __construct(
         private readonly ResponseFactoryInterface $responseFactory,
         private readonly StreamFactoryInterface $streamFactory,
-        Router $router,
+        private readonly Router $router,
     ) {
-        $this->fullRenderer = new Renderer($router, __DIR__ . '/Templates/list-users.html.php');
-        $this->resultsRenderer = new Renderer($router, __DIR__ . '/Templates/list-users-results.html.php');
+        $this->fullRenderer = new Renderer($router, __DIR__ . '/Templates/list-users.html.php', $this);
+        $this->resultsRenderer = new Renderer($router, __DIR__ . '/Templates/list-users-results.html.php', $this);
+    }
+
+    // @todo move to other class
+    public function url(object|string $query): string
+    {
+        return $this->router->generate($query);
+    }
+
+    public function button(string $label): Button
+    {
+        return new Button($label, $this->router);
+    }
+
+    public function pagination(ListUsersResponse $response): Pagination
+    {
+        $pagination = new Pagination($this->router, $response->request->withPage(...));
+
+        $pagination->currentPage($response->page);
+        $pagination->totalPages($response->pageCount);
+        $pagination->maxPages(10);
+
+        return $pagination;
     }
 
     /**
@@ -37,10 +63,11 @@ class ListUsersRenderer implements RendererInterface
         }
 
         return $this->responseFactory->createResponse(200)
-            ->withHeader('Content-Type', 'text/html')
-            ->withBody($this->streamFactory->createStream(
-                $this->resultsRenderer->render($view, $data)
-            ))
+            ->withHeader('Content-Type', 'application/json')
+            ->withBody($this->streamFactory->createStream(json_encode([
+                'users-list-results' => $this->resultsRenderer->render($view, $data),
+                'users-list-pagination' => (string) $this->pagination($data),
+            ])))
         ;
     }
 }
