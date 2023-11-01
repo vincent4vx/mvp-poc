@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "css": "sass -s compressed scss/style.scss:public/assets/css/style.css",
-    "css-watch": "sass -w -s compressed scss/style.scss:public/assets/css/style.css scss/backoffice/backoffice.scss:public/assets/css/backoffice.css",
+    "css": "sass -s compressed src/scss/style.scss:public/assets/css/style.css",
+    "css-watch": "sass -w -s compressed src/scss/style.scss:public/assets/css/style.css src/scss/backoffice/backoffice.scss:public/assets/css/backoffice.css",
     "webpack-watch": "webpack -w"
   },
   "author": "",

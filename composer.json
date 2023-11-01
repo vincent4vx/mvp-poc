@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Quatrevieux\\Mvp\\": "src/"
+      "Quatrevieux\\Mvp\\": "src/php/"
     }
   },
   "require-dev": {

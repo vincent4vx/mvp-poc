@@ -11,3 +11,8 @@ css-watch: npm
 
 webpack-watch: npm
 	npm run webpack-watch
+
+shell:
+	docker-compose down
+	docker-compose up -d
+	docker-compose run cmd

@@ -4,7 +4,7 @@ module.exports = {
     mode: "production",
     devtool: "inline-source-map",
     entry: {
-        main: "./ts/main.ts",
+        main: "./src/ts/main.ts",
     },
     output: {
         path: path.resolve('./public/assets/js/'),
