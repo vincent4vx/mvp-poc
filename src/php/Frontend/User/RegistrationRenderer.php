@@ -7,7 +7,7 @@ use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Authentication\Authenti
 use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Registration\RegistrationResponse;
 use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\RegistrationForm\RegistrationFormResponse;
 use Quatrevieux\Mvp\Core\Dispatcher;
-use Quatrevieux\Mvp\Core\RendererInterface;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 class RegistrationRenderer implements RendererInterface

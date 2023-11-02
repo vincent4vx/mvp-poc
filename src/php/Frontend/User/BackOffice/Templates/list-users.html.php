@@ -59,6 +59,7 @@ use Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersRequest;
             <th>Id</th>
             <th>Username</th>
             <th>Pseudo</th>
+            <th>Roles</th>
             <th></th>
         </tr>
     </thead>

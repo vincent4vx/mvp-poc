@@ -2,8 +2,6 @@
 
 namespace Quatrevieux\Mvp\Core\View;
 
-use Quatrevieux\Mvp\Core\RendererInterface;
-
 interface ComponentInterface
 {
     public function id(): string;

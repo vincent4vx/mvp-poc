@@ -16,6 +16,7 @@ use Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersRequest;
         <td><?= $user->id->value() ?></td>
         <td><?= $user->username->html() ?></td>
         <td><?= $user->pseudo->html() ?></td>
+        <td><?= $user->roles ?></td>
         <td>
             <?= $renderer->button('Edit')->target(new EditUserRequest($user->id->value)) ?>
             <?= $renderer->button('Delete')->post(new DeleteUserRequest($user->id->value))->class('btn-link') ?>

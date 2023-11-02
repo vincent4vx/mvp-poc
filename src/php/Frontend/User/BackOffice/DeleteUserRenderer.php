@@ -6,8 +6,8 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\Delete\DeleteUserRequest;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersRequest;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 class DeleteUserRenderer implements RendererInterface

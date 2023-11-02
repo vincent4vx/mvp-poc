@@ -8,6 +8,7 @@ use Quatrevieux\Mvp\Backend\User\Domain\User;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Pseudo;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\UserId;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Username;
+use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\UserRolesSet;
 use RuntimeException;
 
 use function hash_equals;
@@ -21,6 +22,7 @@ final class AuthenticatedUser
         public readonly UserId $id,
         public readonly Username $username,
         public readonly Pseudo $pseudo,
+        public readonly UserRolesSet $roles,
         public readonly DateTimeInterface $date,
         private readonly string $key,
     ) {
@@ -34,6 +36,7 @@ final class AuthenticatedUser
             'id' => $this->id->value,
             'username' => $this->username->value,
             'pseudo' => $this->pseudo->value,
+            'roles' => $this->roles->value,
             'date' => $this->date->format(DateTimeInterface::ATOM),
             'key' => $this->key,
         ];
@@ -45,6 +48,7 @@ final class AuthenticatedUser
             id: UserId::from($data['id']),
             username: Username::from($data['username']),
             pseudo: Pseudo::from($data['pseudo']),
+            roles: UserRolesSet::from($data['roles']),
             date: new DateTimeImmutable($data['date']),
             key: $data['key'],
         );
@@ -60,14 +64,15 @@ final class AuthenticatedUser
             id: $user->id,
             username: $user->username,
             pseudo: $user->pseudo,
+            roles: $user->roles,
             date: $date = new DateTimeImmutable(),
-            key: self::computeKey($user->id, $user->username, $user->pseudo, $date),
+            key: self::computeKey($user->id, $user->username, $user->pseudo, $user->roles, $date),
         );
     }
 
     private function checkKey(): void
     {
-        if (!hash_equals($this->key, self::computeKey($this->id, $this->username, $this->pseudo, $this->date))) {
+        if (!hash_equals($this->key, self::computeKey($this->id, $this->username, $this->pseudo, $this->roles, $this->date))) {
             throw new RuntimeException('Invalid key');
         }
     }
@@ -79,11 +84,11 @@ final class AuthenticatedUser
         }
     }
 
-    private static function computeKey(UserId $id, Username $username, Pseudo $pseudo, DateTimeInterface $date): string
+    private static function computeKey(UserId $id, Username $username, Pseudo $pseudo, UserRolesSet $roles, DateTimeInterface $date): string
     {
         return hash_hmac(
             'sha256',
-            $id->value . $username->value . $pseudo->value . $date->getTimestamp(),
+            $id->value . $username->value . $pseudo->value . $roles->value . $date->getTimestamp(),
             self::KEY_PEPPER,
         );
     }

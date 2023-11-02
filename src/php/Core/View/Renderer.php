@@ -2,18 +2,16 @@
 
 namespace Quatrevieux\Mvp\Core\View;
 
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
+use Quatrevieux\Mvp\Core\View\Extensions\RouterTrait;
 
-use Quatrevieux\Mvp\Core\View\Helper\Button;
-
-use function htmlentities;
 use function ob_get_clean;
 use function ob_start;
-use function sprintf;
 
 class Renderer implements RendererInterface
 {
+    use RouterTrait;
+
     public function __construct(
         private readonly Router $router,
         private readonly string $template,
@@ -32,16 +30,5 @@ class Renderer implements RendererInterface
             require $template;
             return ob_get_clean();
         })->call($data);
-    }
-
-    // @todo move to other class
-    public function url(object|string $query): string
-    {
-        return $this->router->generate($query);
-    }
-
-    public function button(string $label): Button
-    {
-        return new Button($label, $this->router);
     }
 }

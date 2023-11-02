@@ -5,8 +5,8 @@ namespace Quatrevieux\Mvp\Frontend\Chat;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Quatrevieux\Mvp\Backend\Chat\Show\ShowChatRequest;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 class SendMessageRenderer implements RendererInterface

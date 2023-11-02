@@ -6,7 +6,7 @@ use Quatrevieux\Mvp\Backend\Chat\Show\ShowChatRequest;
 
 /**
  * @var \Quatrevieux\Mvp\Backend\Chat\Show\ShowChatResponse $this
- * @var \Quatrevieux\Mvp\Core\View\Renderer $renderer
+ * @var \Quatrevieux\Mvp\Frontend\ApplicationRenderer $renderer
  * @var \Quatrevieux\Mvp\Frontend\ApplicationViewContext $context
  */
 
@@ -38,12 +38,14 @@ if ($this->ajax) {
         <?php endforeach; ?>
     </section>
 
-    <section class="input">
-        <form action="<?= $renderer->url(new SendMessageRequest()) ?>" method="post">
-            <input type="text" name="message" placeholder="Message" />
-            <input type="submit" value="Envoyer" />
-        </form>
-    </section>
+    <?php if ($renderer->hasAccess($sendMessage = new SendMessageRequest())): ?>
+        <section class="input">
+            <form action="<?= $renderer->url($sendMessage) ?>" method="post">
+                <input type="text" name="message" placeholder="Message" />
+                <input type="submit" value="Envoyer" />
+            </form>
+        </section>
+    <?php endif ?>
 </div>
 <?php else: ?>
     <?php foreach($this->messages as $message): ?>

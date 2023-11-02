@@ -5,9 +5,9 @@ namespace Quatrevieux\Mvp\Frontend\User;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\Home\HomeRequest;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
 use Quatrevieux\Mvp\Core\SessionHandler;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 class LogoutRenderer implements RendererInterface

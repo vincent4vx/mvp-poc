@@ -7,8 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\Edit\EditUserResponse;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersRequest;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\Save\SaveUserResponse;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 class SaveUserRenderer implements RendererInterface

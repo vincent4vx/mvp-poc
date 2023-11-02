@@ -1,9 +1,9 @@
 <?php
 
-namespace Quatrevieux\Mvp\Core;
+namespace Quatrevieux\Mvp\Core\View;
 
 use Psr\Http\Message\ResponseInterface;
-use Quatrevieux\Mvp\Core\View\View;
+use Quatrevieux\Mvp\Core\StreamingResponseInterface;
 
 interface RendererInterface
 {

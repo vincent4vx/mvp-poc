@@ -7,9 +7,9 @@ use Psr\Http\Message\ResponseInterface;
 use Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\Home\HomeRequest;
 use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Authentication\AuthenticationResponse;
 use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\AuthenticationForm\AuthenticationFormResponse;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
 use Quatrevieux\Mvp\Core\SessionHandler;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 class AuthenticationRenderer implements RendererInterface

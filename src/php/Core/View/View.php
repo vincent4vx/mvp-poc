@@ -6,8 +6,6 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Quatrevieux\Mvp\Core\HandledQuery;
-use Quatrevieux\Mvp\Core\RendererFactoryInterface;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\StreamingResponseInterface;
 
 use function is_string;
@@ -90,10 +88,15 @@ class View
             $this->context->components[] = $component::class;
         }
 
+        // @todo refactor with resolveRenderer
         $renderer = $component->renderer();
 
         if (is_string($renderer)) {
             $renderer = $this->rendererFactory->forTemplate($renderer);
+        }
+
+        if ($this->context && $renderer instanceof ContextAwareRendererInterface) {
+            $renderer = $renderer->withContext($this->context);
         }
 
         // @todo should get root element instead of wrapping it
@@ -115,6 +118,12 @@ class View
             return null;
         }
 
-        return $this->rendererFactory->forTemplate($template);
+        $renderer = $this->rendererFactory->forTemplate($template);
+
+        if ($this->context && $renderer instanceof ContextAwareRendererInterface) {
+            $renderer = $renderer->withContext($this->context);
+        }
+
+        return $renderer;
     }
 }

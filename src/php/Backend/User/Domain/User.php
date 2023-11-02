@@ -7,6 +7,7 @@ use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Password;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Pseudo;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\UserId;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Username;
+use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\UserRolesSet;
 
 class User
 {
@@ -15,6 +16,7 @@ class User
         public readonly Username $username,
         public readonly Password $password,
         public readonly Pseudo $pseudo,
+        public readonly UserRolesSet $roles,
     ) {
     }
 

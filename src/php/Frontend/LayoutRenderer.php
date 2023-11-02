@@ -5,10 +5,10 @@ namespace Quatrevieux\Mvp\Frontend;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
 use Quatrevieux\Mvp\Core\View\ComponentInterface;
 use Quatrevieux\Mvp\Core\View\Renderer;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 use function base64_encode;
@@ -45,7 +45,7 @@ class LayoutRenderer implements RendererInterface
         return sprintf(
             '<link href="%s" rel="stylesheet" crossorigin="anonymous" integrity="sha256-%s" />',
             $this->asset($path),
-            base64_encode(hash_file('sha256', __DIR__ . '/../../public/assets/' . $path, true))
+            base64_encode(hash_file('sha256', __DIR__ . '/../../../public/assets/' . $path, true))
         );
     }
 

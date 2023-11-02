@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \Quatrevieux\Mvp\Frontend\Component\MenuBar $this
- * @var \Quatrevieux\Mvp\Core\View\Renderer $renderer
+ * @var \Quatrevieux\Mvp\Frontend\ApplicationRenderer $renderer
  */
 
 use Quatrevieux\Mvp\Backend\BackOffice\Home\HomeRequest;
@@ -21,7 +21,9 @@ use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\RegistrationForm\Regist
         <?php else: ?>
             <li><a href="<?= $renderer->url(new ShowChatRequest()) ?>">Chat</a></li>
             <li><a href="<?= $renderer->url(new ProfileRequest()) ?>"><?= $this->user->pseudo->html() ?></a></li>
-            <li><a href="<?= $renderer->url(new HomeRequest()) ?>" class="no-pjax">BackOffice</a></li>
+            <?php if ($renderer->hasAccess(new HomeRequest())): ?>
+                <li><a href="<?= $renderer->url(new HomeRequest()) ?>" class="no-pjax">BackOffice</a></li>
+            <?php endif; ?>
             <li><a href="<?= $renderer->url(new LogoutRequest()) ?>">Logout</a></li>
         <?php endif; ?>
     </ul>

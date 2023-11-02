@@ -11,4 +11,9 @@ class SaveUserRequest extends BackOfficeRequest
     public ?int $id = null;
     public ?string $pseudo = null;
     public ?string $password = null;
+
+    /**
+     * @var list<int>
+     */
+    public ?array $roles = null;
 }

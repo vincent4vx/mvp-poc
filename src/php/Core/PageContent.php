@@ -4,6 +4,7 @@ namespace Quatrevieux\Mvp\Core;
 
 use Psr\Http\Message\ResponseInterface;
 use Quatrevieux\Mvp\Core\View\ComponentInterface;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 use Quatrevieux\Mvp\Core\View\ViewContext;
 

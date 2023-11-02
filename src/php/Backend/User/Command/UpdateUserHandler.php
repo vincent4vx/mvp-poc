@@ -21,8 +21,9 @@ class UpdateUserHandler implements CommandHandlerInterface
         $updated = new User(
             id: $command->user->id,
             username: $command->user->username,
-            pseudo: $command->pseudo,
             password: $command->password,
+            pseudo: $command->pseudo,
+            roles: $command->roles,
         );
 
         $this->repository->update($updated);

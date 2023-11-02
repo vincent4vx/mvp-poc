@@ -18,7 +18,7 @@ class SignedTokenResolver implements SessionResolverInterface
         $data = json_encode($data);
         $hash = hash_hmac($this->algo, $data, $this->secret, true);
 
-        return bin2hex($data) . 'Core' . bin2hex($hash);
+        return bin2hex($data) . '.' . bin2hex($hash);
     }
 
     public function resolve(string $token): ?object
@@ -35,6 +35,7 @@ class SignedTokenResolver implements SessionResolverInterface
         if (!$data || !$hash) {
             return null;
         }
+
 
         $expectedHash = hash_hmac($this->algo, $data, $this->secret, true);
 

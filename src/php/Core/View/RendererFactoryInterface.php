@@ -1,6 +1,6 @@
 <?php
 
-namespace Quatrevieux\Mvp\Core;
+namespace Quatrevieux\Mvp\Core\View;
 
 interface RendererFactoryInterface
 {

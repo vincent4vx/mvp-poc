@@ -25,6 +25,7 @@ class EditUserController implements ControllerInterface
         return new EditUserResponse(
             $user,
             $user->pseudo->value,
+            $user->roles->toArray(),
             []
         );
     }

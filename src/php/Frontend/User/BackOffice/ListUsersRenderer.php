@@ -6,11 +6,11 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersResponse;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
 use Quatrevieux\Mvp\Core\View\Helper\Button;
 use Quatrevieux\Mvp\Core\View\Helper\Pagination;
 use Quatrevieux\Mvp\Core\View\Renderer;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 use function json_encode;

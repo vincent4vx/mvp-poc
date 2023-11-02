@@ -4,9 +4,9 @@ namespace Quatrevieux\Mvp\Frontend\Chat;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Quatrevieux\Mvp\Backend\Chat\Event\SubscribeEventResponse;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\StreamingResponse;
 use Quatrevieux\Mvp\Core\StreamingResponseInterface;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 final class SubscribeEventRenderer implements RendererInterface

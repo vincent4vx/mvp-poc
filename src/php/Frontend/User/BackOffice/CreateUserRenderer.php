@@ -7,8 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\Create\CreateUserFormResponse;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\Create\CreateUserResponse;
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersRequest;
-use Quatrevieux\Mvp\Core\RendererInterface;
 use Quatrevieux\Mvp\Core\Router;
+use Quatrevieux\Mvp\Core\View\RendererInterface;
 use Quatrevieux\Mvp\Core\View\View;
 
 class CreateUserRenderer implements RendererInterface
