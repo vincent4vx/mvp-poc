@@ -12,7 +12,7 @@ class LogoutController implements ControllerInterface
      * @param LogoutRequest $request
      * @return LogoutResponse
      */
-    public function handle(object $request): object
+    public function handle(object $request): LogoutResponse
     {
         return new LogoutResponse($request->session());
     }

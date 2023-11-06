@@ -18,7 +18,7 @@ class EditUserController implements ControllerInterface
      * @param EditUserRequest $request
      * @return EditUserResponse
      */
-    public function handle(object $request): object
+    public function handle(object $request): EditUserResponse
     {
         $user = $this->repository->findById($request->id) ?? throw new \Exception('User not found');
 

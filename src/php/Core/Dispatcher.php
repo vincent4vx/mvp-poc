@@ -28,7 +28,7 @@ class Dispatcher
         $controller = $this->controllers[$query::class] ?? null;
 
         if ($controller === null) {
-            throw new \InvalidArgumentException('Controller not found');
+            throw new \InvalidArgumentException('Controller not found for query ' . $query::class);
         }
 
         $controller = $this->container->get($controller);

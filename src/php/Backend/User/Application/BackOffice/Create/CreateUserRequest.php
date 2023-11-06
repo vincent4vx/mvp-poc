@@ -11,4 +11,5 @@ class CreateUserRequest extends BackOfficeRequest
     public ?string $username = null;
     public ?string $pseudo = null;
     public ?string $password = null;
+    public array $roles = [];
 }

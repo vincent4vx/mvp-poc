@@ -67,6 +67,6 @@ class Router
             }
         }
 
-        throw new \InvalidArgumentException('Route not found');
+        throw new \InvalidArgumentException('Route not found for query ' . $queryClass);
     }
 }

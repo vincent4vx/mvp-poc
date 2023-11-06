@@ -23,7 +23,7 @@ class ShowChatController implements ControllerInterface
      * @param object $request
      * @return object
      */
-    public function handle(object $request): object
+    public function handle(object $request): ShowChatResponse
     {
         $messages = $this->repository->all();
         $usersIds = [];

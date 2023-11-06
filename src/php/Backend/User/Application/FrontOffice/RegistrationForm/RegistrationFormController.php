@@ -8,7 +8,7 @@ use Quatrevieux\Mvp\Core\Handles;
 #[Handles(RegistrationFormRequest::class)]
 class RegistrationFormController implements ControllerInterface
 {
-    public function handle(object $request): object
+    public function handle(object $request): RegistrationFormResponse
     {
         return new RegistrationFormResponse();
     }

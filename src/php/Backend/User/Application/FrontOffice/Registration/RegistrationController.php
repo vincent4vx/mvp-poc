@@ -26,7 +26,7 @@ class RegistrationController implements ControllerInterface
      * @param RegistrationRequest $request
      * @return RegistrationResponse
      */
-    public function handle(object $request): object
+    public function handle(object $request): RegistrationResponse
     {
         $errors = $request->validate($this->repository);
 

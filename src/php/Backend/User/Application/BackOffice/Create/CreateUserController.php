@@ -4,9 +4,11 @@ namespace Quatrevieux\Mvp\Backend\User\Application\BackOffice\Create;
 
 use Quatrevieux\Mvp\Backend\User\Command\CreateUser;
 use Quatrevieux\Mvp\Backend\User\Domain\UserReadRepositoryInterface;
+use Quatrevieux\Mvp\Backend\User\Domain\UserRole;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Password;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Pseudo;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Username;
+use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\UserRolesSet;
 use Quatrevieux\Mvp\Core\Bus\BusDispatcherInterface;
 use Quatrevieux\Mvp\Core\ControllerInterface;
 use Quatrevieux\Mvp\Core\Handles;
@@ -25,7 +27,7 @@ class CreateUserController implements ControllerInterface
      * @param CreateUserRequest $request
      * @return object
      */
-    public function handle(object $request): object
+    public function handle(object $request): CreateUserResponse
     {
         $errors = [];
 
@@ -63,12 +65,23 @@ class CreateUserController implements ControllerInterface
             $errors['password'] = $e->getMessage();
         }
 
+        try {
+            $roles = UserRolesSet::fromRoles(
+                ...array_map(
+                    UserRole::from(...),
+                    $request->roles
+                )
+            );
+        } catch (ValueObjectException $e) {
+            $errors['roles'] = $e->getMessage();
+        }
+
         if ($errors) {
             return new CreateUserResponse($request, false, $errors);
         }
 
         $user = $this->dispatcher->dispatch(
-            new CreateUser($username, $pseudo, $password)
+            new CreateUser($username, $pseudo, $password, $roles)
         );
 
         return new CreateUserResponse($request, true, [], $user);

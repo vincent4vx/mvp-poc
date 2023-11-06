@@ -6,17 +6,14 @@ use Quatrevieux\Mvp\Backend\User\Domain\User;
 use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserRepository;
 use Quatrevieux\Mvp\Core\Bus\CommandHandlerInterface;
 
-/**
- * @implements CommandHandlerInterface<UpdateUser>
- */
-class UpdateUserHandler implements CommandHandlerInterface
+class UpdateUserHandler
 {
     public function __construct(
         private readonly UserRepository $repository,
     ) {
     }
 
-    public function handle(object $command): mixed
+    public function __invoke(UpdateUser $command): User
     {
         $updated = new User(
             id: $command->user->id,
@@ -30,10 +27,5 @@ class UpdateUserHandler implements CommandHandlerInterface
         // @todo event
 
         return $updated;
-    }
-
-    public function commandClass(): string
-    {
-        return UpdateUser::class;
     }
 }

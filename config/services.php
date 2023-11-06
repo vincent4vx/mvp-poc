@@ -40,21 +40,10 @@ use function DI\get;
 use function DI\value;
 
 return [
-    'routes' => require __DIR__ . '/routes.php',
-    'controllers' => require __DIR__ . '/controllers.php',
     'db' => require __DIR__ . '/db.php',
-    'templates' => require __DIR__ . '/templates.php',
-    'accessmap' => value(__DIR__ . '/accessmap.php'),
     'baseUrl' => value('http://127.0.0.1/micro-mvp'),
     'assetsUrl' => value('http://127.0.0.1/micro-mvp/assets'),
 
-    AttributeRouterLoader::class => create()->constructor(
-        'Quatrevieux\\Mvp\\Backend\\',
-        get('baseUrl'),
-    ),
-    AttributeControllerLoader::class => create()->constructor('Quatrevieux\\Mvp\\Backend\\'),
-    Router::class => fn (ContainerInterface $container) => $container->get(AttributeRouterLoader::class)->load(),
-    Dispatcher::class => fn (ContainerInterface $container) => new Dispatcher($container, $container->get(AttributeControllerLoader::class)->load()),
     PDO::class => function (ContainerInterface $container) {
         $config = $container->get('db');
 
@@ -67,48 +56,6 @@ return [
     Psr17Factory::class => create(),
     ResponseFactoryInterface::class => get(Psr17Factory::class),
     StreamFactoryInterface::class => get(Psr17Factory::class),
-    FrontOfficeLayoutRender::class => create()->constructor(
-        get(Router::class),
-        get(ResponseFactoryInterface::class),
-        get(StreamFactoryInterface::class),
-        get('assetsUrl'),
-    ),
-    BackOfficeLayoutRender::class => create()->constructor(
-        get(Router::class),
-        get(ResponseFactoryInterface::class),
-        get(StreamFactoryInterface::class),
-        get('assetsUrl'),
-    ),
-    RendererFactoryInterface::class => function (ContainerInterface $container) {
-        return new class ($container) implements RendererFactoryInterface {
-            public function __construct(
-                private readonly ContainerInterface $container,
-            ) {
-            }
-
-            public function forTemplate(string $template): RendererInterface
-            {
-                if (is_subclass_of($template, RendererInterface::class)) {
-                    return $this->container->get($template);
-                }
-
-                return new ApplicationRenderer(
-                    $this->container->get(Firewall::class),
-                    $this->container->get(Router::class),
-                    $template,
-                );
-            }
-        };
-    },
-    ViewContextFactoryInterface::class => get(ApplicationViewContextFactory::class),
-    View::class => create()->constructor(
-        get(ResponseFactoryInterface::class),
-        get(StreamFactoryInterface::class),
-        get(RendererFactoryInterface::class),
-        get(ViewContextFactoryInterface::class),
-        get('templates'),
-    ),
-    MarkdownInterface::class => create(Markdown::class),
     SessionTokenInterface::class => create(CookieToken::class)->constructor('token'),
     SessionResolverInterface::class => create(SignedTokenResolver::class)->constructor(
         'secret',
@@ -120,14 +67,10 @@ return [
         get(SessionTokenInterface::class),
         get(SessionResolverInterface::class),
     ),
-    Firewall::class => fn (ContainerInterface $container) => (new FirewallLoader($container))->load($container->get('accessmap')),
     QueryValidator::class => create()->constructor([
         get(SessionHandler::class),
         get(Firewall::class),
     ]),
-    BusDispatcherInterface::class => function (ContainerInterface $container) {
-        return (new CommandDispatcherLoader('Quatrevieux\\Mvp\\Backend\\'))->load($container);
-    },
     AuthenticatedAccess::class => create()->constructor(
         get(SessionHandler::class),
         get(SessionRoleCheckInterface::class),

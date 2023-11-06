@@ -35,7 +35,7 @@ class SaveUserRenderer implements RendererInterface
         return $view->renderResponse(new EditUserResponse(
             $data->user,
             $data->request->pseudo,
-            $data->errors
+            errors: $data->errors
         ));
     }
 }

@@ -3,29 +3,28 @@
 namespace Quatrevieux\Mvp\Core\Bus;
 
 use Psr\Container\ContainerInterface;
-use Quatrevieux\Mvp\Core\Util\ClassNameIterator;
+
+use function is_string;
 
 class CommandDispatcherLoader
 {
     public function __construct(
-        private readonly string $namespace,
+        private readonly ContainerInterface $container,
     ) {
     }
 
-    public function load(ContainerInterface $container): CommandDispatcher
+    public function load(array $handlers): CommandDispatcher
     {
-        $handlers = [];
+        $loaded = [];
 
-        $iterator = (new ClassNameIterator())
-            ->namespace($this->namespace)
-            ->implements(CommandHandlerInterface::class)
-        ;
-
-        foreach ($iterator as $class) {
-            $handler = $container->get($class);
-            $handlers[$handler->commandClass()] = $handler;
+        foreach ($handlers as $command => $handler) {
+            if (is_string($handler)) {
+                $loaded[$command] = $this->container->get($handler);
+            } else {
+                $loaded[$command] = $handler;
+            }
         }
 
-        return new CommandDispatcher(...$handlers);
+        return new CommandDispatcher($loaded);
     }
 }

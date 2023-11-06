@@ -6,6 +6,7 @@
  */
 
 use Quatrevieux\Mvp\Backend\User\Application\BackOffice\Create\CreateUserRequest;
+use Quatrevieux\Mvp\Backend\User\Domain\UserRole;
 
 ?>
 
@@ -29,6 +30,14 @@ use Quatrevieux\Mvp\Backend\User\Application\BackOffice\Create\CreateUserRequest
         <span class="error"><?= $this->errors['password'] ?></span>
     <?php endif; ?>
     <input type="password" name="password" id="password" />
+
+    <label for="roles">Roles</label>
+
+    <select multiple name="roles[]" id="roles">
+        <?php foreach (UserRole::cases() as $role): ?>
+            <option value="<?= $role->value ?>" <?= in_array($role, $this->roles) ? 'selected' : '' ?>><?= $role->label() ?></option>
+        <?php endforeach; ?>
+    </select>
 
     <input type="submit" value="Submit">
 </form>

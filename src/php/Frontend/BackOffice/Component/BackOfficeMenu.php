@@ -24,13 +24,13 @@ class BackOfficeMenu implements IteratorAggregate
     public function __construct()
     {
         // @todo make this configurable
-        $this->add('Users', new ListUsersRequest())
-            ->with(CreateUserRequest::class)
-            ->with(EditUserRequest::class)
-            ->with(SaveUserRequest::class)
-            ->sub('List', ListUsersRequest::class)
-            ->sub('Create', CreateUserFormRequest::class)
-        ;
+        //$this->add('Users', new ListUsersRequest())
+        //    ->with(CreateUserRequest::class)
+        //    ->with(EditUserRequest::class)
+        //    ->with(SaveUserRequest::class)
+        //    ->sub('List', ListUsersRequest::class)
+        //    ->sub('Create', CreateUserFormRequest::class)
+        //;
     }
 
     public function add(string $label, object $request): BackOfficeMenuItem

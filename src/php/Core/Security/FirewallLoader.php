@@ -7,17 +7,20 @@ use Psr\Container\ContainerInterface;
 
 use function is_array;
 use function is_callable;
+use function is_string;
 
-class FirewallLoader
+class FirewallLoader extends QueryAccessValidatorFactories
 {
     public function __construct(
         protected readonly ContainerInterface $container,
     ) {
     }
 
-    public function load(string $file): Firewall
+    public function load(string|array $value): Firewall
     {
-        $value = require $file;
+        if (is_string($value)) {
+            $value = require $value;
+        }
 
         // @todo builder ?
         if ($value instanceof Closure) {
@@ -29,23 +32,6 @@ class FirewallLoader
         }
 
         throw new \Exception('Invalid firewall configuration');
-    }
-
-    public function anonymous(): AnonymousAccess
-    {
-        return new AnonymousAccess();
-    }
-
-    public function authenticated(mixed... $roles): AuthenticatedAccess
-    {
-        /** @var AuthenticatedAccess $validator */
-        $validator = $this->container->get(AuthenticatedAccess::class);
-
-        if ($roles) {
-            $validator = $validator->withRoles($roles);
-        }
-
-        return $validator;
     }
 
     private function loadArray(array $rules): Firewall
@@ -67,6 +53,10 @@ class FirewallLoader
 
         if (is_string($validator)) {
             return $this->container->get($validator);
+        }
+
+        if ($validator instanceof QueryAccessValidatorFactoryInterface) {
+            return $validator->create($this->container);
         }
 
         throw new \Exception('Invalid validator');

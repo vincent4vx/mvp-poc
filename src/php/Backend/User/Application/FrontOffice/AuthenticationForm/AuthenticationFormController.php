@@ -8,7 +8,7 @@ use Quatrevieux\Mvp\Core\Handles;
 #[Handles(AuthenticationFormRequest::class)]
 class AuthenticationFormController implements ControllerInterface
 {
-    public function handle(object $request): object
+    public function handle(object $request): AuthenticationFormResponse
     {
         return new AuthenticationFormResponse();
     }

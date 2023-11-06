@@ -12,7 +12,7 @@ class CreateUserFormController implements ControllerInterface
      * @param CreateUserFormRequest $request
      * @return CreateUserFormResponse
      */
-    public function handle(object $request): object
+    public function handle(object $request): CreateUserFormResponse
     {
         return new CreateUserFormResponse();
     }
