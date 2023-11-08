@@ -14,9 +14,11 @@ class QueryValidator
 
     public function validate(RoutedQuery $routedQuery): RoutedQuery
     {
+        $query = $routedQuery->query;
+
         try {
             foreach ($this->validators as $validator) {
-                $validator->validate($routedQuery->request, $routedQuery->query);
+                $query = $validator->validate($routedQuery->request, $query) ?? $query;
             }
         } catch (\Throwable $error) {
             return new RoutedQuery(
@@ -25,6 +27,10 @@ class QueryValidator
             );
         }
 
-        return $routedQuery;
+        if ($query === $routedQuery->query) {
+            return $routedQuery;
+        }
+
+        return new RoutedQuery($routedQuery->request, $query);
     }
 }

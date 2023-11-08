@@ -6,6 +6,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Quatrevieux\Mvp\Backend\BackOffice\Security\AdminAccessValidator;
 use Quatrevieux\Mvp\Backend\Domain\Security\SessionRoleCheck;
 use Quatrevieux\Mvp\Backend\Domain\Security\UserSessionSerializer;
 use Quatrevieux\Mvp\Core\AttributeControllerLoader;
@@ -43,6 +44,7 @@ return [
     'db' => require __DIR__ . '/db.php',
     'baseUrl' => value('http://127.0.0.1/micro-mvp'),
     'assetsUrl' => value('http://127.0.0.1/micro-mvp/assets'),
+    'authenticated-user.pepper' => value('pepper-secret'),
 
     PDO::class => function (ContainerInterface $container) {
         $config = $container->get('db');
@@ -62,7 +64,7 @@ return [
         'sha256',
         get(SessionSerializerInterface::class)
     ),
-    SessionSerializerInterface::class => create(UserSessionSerializer::class),
+    SessionSerializerInterface::class => get(UserSessionSerializer::class),
     SessionHandler::class => create()->constructor(
         get(SessionTokenInterface::class),
         get(SessionResolverInterface::class),
@@ -70,6 +72,7 @@ return [
     QueryValidator::class => create()->constructor([
         get(SessionHandler::class),
         get(Firewall::class),
+        get(AdminAccessValidator::class),
     ]),
     AuthenticatedAccess::class => create()->constructor(
         get(SessionHandler::class),

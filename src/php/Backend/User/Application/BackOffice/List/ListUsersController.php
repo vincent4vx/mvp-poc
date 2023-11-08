@@ -27,6 +27,7 @@ class ListUsersController implements ControllerInterface
     {
         $criteria = new SearchUserCriteria();
         $fields = $request->fields ?: ['username', 'pseudo', 'id'];
+        $request->fields = $fields;
 
         foreach ($fields as $field) {
             switch ($field) {

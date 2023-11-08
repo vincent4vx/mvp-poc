@@ -6,6 +6,7 @@ class AuthenticationFormResponse
 {
     public function __construct(
         public readonly ?string $error = null,
+        public readonly ?object $target = null,
     ) {
     }
 }

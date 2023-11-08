@@ -2,6 +2,7 @@
 
 namespace Quatrevieux\Mvp\Backend\User\Domain;
 
+use DateTimeInterface;
 use Quatrevieux\Mvp\Backend\Domain\Security\AuthenticatedUser;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Password;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Pseudo;
@@ -20,8 +21,13 @@ class User
     ) {
     }
 
-    public function authenticate(string $inputPassword): ?AuthenticatedUser
+    public function authenticate(string $inputPassword, string $pepper): ?AuthenticatedUser
     {
-        return AuthenticatedUser::create($this, $inputPassword);
+        return AuthenticatedUser::create($this, $inputPassword, $pepper);
+    }
+
+    public function adminAuthentication(string $inputPassword, DateTimeInterface $adminSessionExpiration, string $pepper): ?AuthenticatedUser
+    {
+        return AuthenticatedUser::createAdminSession($this, $adminSessionExpiration, $inputPassword, $pepper);
     }
 }

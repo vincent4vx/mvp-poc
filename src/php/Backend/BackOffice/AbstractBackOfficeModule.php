@@ -7,6 +7,8 @@ use Quatrevieux\Mvp\Core\Module\AbstractModule;
 use Quatrevieux\Mvp\Core\Module\ModuleBuilder;
 use Quatrevieux\Mvp\Frontend\BackOffice\Component\BackOfficeMenu;
 
+use function array_keys;
+use function DI\add;
 use function DI\create;
 use function DI\decorate;
 
@@ -26,6 +28,8 @@ abstract class AbstractBackOfficeModule extends AbstractModule
 
             return $menu;
         }));
+
+        $builder->definition(BackOfficeModule::ADMIN_ACCESS_QUERIES_KEY, add(array_keys($builder->controllers)));
     }
 
     abstract protected function buildBackOffice(ModuleBuilder $builder): void;

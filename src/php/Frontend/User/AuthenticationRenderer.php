@@ -32,7 +32,7 @@ class AuthenticationRenderer implements RendererInterface
         }
 
         $response = $this->responseFactory->createResponse(302)
-            ->withHeader('Location', $this->router->generate(new HomeRequest()))
+            ->withHeader('Location', $data->target ?? $this->router->generate(new HomeRequest()))
         ;
 
         return $this->sessionHandler->write($response, $data->user);

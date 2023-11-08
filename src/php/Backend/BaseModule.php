@@ -4,6 +4,7 @@ namespace Quatrevieux\Mvp\Backend;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Quatrevieux\Mvp\Backend\Domain\Security\UserSessionSerializer;
 use Quatrevieux\Mvp\Backend\Error\ErrorController;
 use Quatrevieux\Mvp\Core\ErroredRequest;
 use Quatrevieux\Mvp\Core\Module\AbstractModule;
@@ -34,5 +35,7 @@ class BaseModule extends AbstractModule
             get(StreamFactoryInterface::class),
             get('assetsUrl'),
         ));
+
+        $builder->definition(UserSessionSerializer::class, create()->constructor(get('authenticated-user.pepper')));
     }
 }

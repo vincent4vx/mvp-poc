@@ -11,6 +11,7 @@ class AuthenticationController implements ControllerInterface
 {
     public function __construct(
         private readonly UserReadRepositoryInterface $repository,
+        private readonly string $pepper,
     ) {
     }
 
@@ -26,7 +27,7 @@ class AuthenticationController implements ControllerInterface
 
         $user = $this->repository
             ->findByUsername($request->username)
-            ?->authenticate($request->password)
+            ?->authenticate($request->password, $this->pepper)
         ;
 
         if (!$user) {
@@ -37,6 +38,7 @@ class AuthenticationController implements ControllerInterface
             $request->username,
             true,
             $user,
+            $request->target, // @todo target must be validated
         );
     }
 }

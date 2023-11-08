@@ -24,20 +24,22 @@ class SessionHandler implements QueryValidatorInterface
         return $this->resolver->resolve($token);
     }
 
-    public function validate(ServerRequestInterface $serverRequest, object $query): void
+    public function validate(ServerRequestInterface $serverRequest, object $query): ?object
     {
         if (!$query instanceof SessionBearerInterface) {
-            return;
+            return null;
         }
 
         // @todo create session class & object
         $session = $this->resolve($serverRequest);
 
         if (!$session) {
-            return;
+            return null;
         }
 
         $query->setSession($session);
+
+        return null;
     }
 
     public function write(ResponseInterface $response, object $session): ResponseInterface

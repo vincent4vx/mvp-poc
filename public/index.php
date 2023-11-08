@@ -9,7 +9,7 @@ use Quatrevieux\Mvp\Core\Runner;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 //sleep(1);
-//usleep(500000);
+usleep(500000);
 
 $app = new \Quatrevieux\Mvp\Core\Module\Application(
     [

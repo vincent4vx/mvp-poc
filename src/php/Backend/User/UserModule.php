@@ -26,6 +26,7 @@ use Quatrevieux\Mvp\Backend\User\Domain\UserWriteRepositoryInterface;
 use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserRepository;
 use Quatrevieux\Mvp\Core\Module\AbstractModule;
 use Quatrevieux\Mvp\Core\Module\ModuleBuilder;
+use Quatrevieux\Mvp\Core\Security\AuthenticationRequiredRequest;
 use Quatrevieux\Mvp\Frontend\User\AuthenticationFormRenderer;
 use Quatrevieux\Mvp\Frontend\User\AuthenticationRenderer;
 use Quatrevieux\Mvp\Frontend\User\LogoutRenderer;
@@ -74,6 +75,13 @@ class UserModule extends AbstractModule
             ->renderer(RegistrationFormRenderer::class)
             ->anonymous()
         ;
+
+        $builder->controllers[AuthenticationRequiredRequest::class] = AuthenticationFormController::class;
+
+        $builder->definition(AuthenticationController::class, create()->constructor(
+            get(UserReadRepositoryInterface::class),
+            get('authenticated-user.pepper'),
+        ));
 
         $builder->definition(UserRepository::class, create()->constructor(get(PDO::class)));
         $builder->definition(UserReadRepositoryInterface::class, get(UserRepository::class));

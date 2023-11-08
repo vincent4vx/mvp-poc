@@ -9,4 +9,5 @@ class AuthenticationRequest
 {
     public string $username;
     public string $password;
+    public ?string $target = null;
 }

@@ -21,27 +21,27 @@ class AuthenticatedAccess implements QueryAccessValidatorInterface
         return new self($this->sessionHandler, $this->sessionRoleCheck, $roles);
     }
 
-    public function __invoke(object $query, ServerRequestInterface $serverRequest): bool
+    public function __invoke(object $query, ServerRequestInterface $serverRequest): AccessState
     {
         $session = $this->getSession($query, $serverRequest);
 
         if (!$session) {
-            return false;
+            return AccessState::AuthenticationRequired;
         }
 
         if (!$this->roles) {
-            return true;
+            return AccessState::Authorized;
         }
 
         if ($this->sessionRoleCheck) {
             foreach ($this->roles as $role) {
                 if ($this->sessionRoleCheck->hasRole($session, $role)) {
-                    return true;
+                    return AccessState::Authorized;
                 }
             }
         }
 
-        return false;
+        return AccessState::NotEnoughPermissions;
     }
 
     private function getSession(object $query, ServerRequestInterface $serverRequest): ?object

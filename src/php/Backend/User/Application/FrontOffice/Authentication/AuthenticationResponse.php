@@ -10,6 +10,7 @@ class AuthenticationResponse
         public readonly string $username,
         public readonly bool $success,
         public readonly ?AuthenticatedUser $user = null,
+        public readonly ?string $target = null,
     ) {
     }
 }

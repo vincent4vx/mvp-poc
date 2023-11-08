@@ -6,9 +6,18 @@ use Quatrevieux\Mvp\Core\SessionSerializerInterface;
 
 class UserSessionSerializer implements SessionSerializerInterface
 {
+    public function __construct(
+        private readonly string $pepper,
+    ) {
+    }
+
     public function serialize(object $session): mixed
     {
-        return $session->toArray();
+        if ($session instanceof AuthenticatedUser) {
+            return $session->toArray();
+        }
+
+        return [];
     }
 
     public function unserialize(mixed $data): object
@@ -17,6 +26,6 @@ class UserSessionSerializer implements SessionSerializerInterface
             throw new \InvalidArgumentException('Invalid session data');
         }
 
-        return AuthenticatedUser::fromArray($data);
+        return AuthenticatedUser::fromArray($data, $this->pepper);
     }
 }
