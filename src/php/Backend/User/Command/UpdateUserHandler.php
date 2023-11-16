@@ -3,8 +3,8 @@
 namespace Quatrevieux\Mvp\Backend\User\Command;
 
 use Quatrevieux\Mvp\Backend\User\Domain\User;
+use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\InvalidDataException;
 use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserRepository;
-use Quatrevieux\Mvp\Core\Bus\CommandHandlerInterface;
 
 class UpdateUserHandler
 {
@@ -13,7 +13,7 @@ class UpdateUserHandler
     ) {
     }
 
-    public function __invoke(UpdateUser $command): User
+    public function __invoke(UpdateUser $command): UpdateUserResult
     {
         $updated = new User(
             id: $command->user->id,
@@ -23,9 +23,13 @@ class UpdateUserHandler
             roles: $command->roles,
         );
 
-        $this->repository->update($updated);
-        // @todo event
+        try {
+            $this->repository->update($updated);
+            // @todo event
+        } catch (InvalidDataException $e) {
+            return new UpdateUserResult(null, [$e->field => $e->type->simpleErrorMessage()]);
+        }
 
-        return $updated;
+        return new UpdateUserResult($updated);
     }
 }

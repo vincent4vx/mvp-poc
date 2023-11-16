@@ -19,11 +19,22 @@ use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\UserRolesSet;
 use function array_column;
 use function count;
 use function implode;
+use function in_array;
+use function str_contains;
 use function str_repeat;
 use function str_replace;
+use function substr;
 
 class UserRepository implements UserReadRepositoryInterface, UserWriteRepositoryInterface
 {
+    private const ATTRIBUTES = [
+        'id' => 'id',
+        'username' => 'username',
+        'password' => 'password',
+        'pseudo' => 'pseudo',
+        'roles' => 'roles',
+    ];
+
     public function __construct(
         private readonly PDO $pdo,
     ) {
@@ -55,14 +66,18 @@ class UserRepository implements UserReadRepositoryInterface, UserWriteRepository
 
     public function create(UserCreation $user): User
     {
-        // @todo use dedicated class for this
         $stmt = $this->pdo->prepare('INSERT INTO user (username, password, pseudo, roles) VALUES (:username, :password, :pseudo, :roles)');
 
         $stmt->bindValue('username', $user->username->value);
         $stmt->bindValue('password', $user->password->value);
         $stmt->bindValue('pseudo', $user->pseudo->value);
         $stmt->bindValue('roles', $user->roles->value, PDO::PARAM_INT);
-        $stmt->execute();
+
+        try {
+            $stmt->execute();
+        } catch (\PDOException $e) {
+            $this->handleException($e);
+        }
 
         return $user->created(UserId::from((int) $this->pdo->lastInsertId()));
     }
@@ -192,7 +207,11 @@ class UserRepository implements UserReadRepositoryInterface, UserWriteRepository
         $stmt->bindValue('pseudo', $user->pseudo->value);
         $stmt->bindValue('roles', $user->roles->value, PDO::PARAM_INT);
 
-        $stmt->execute();
+        try {
+            $stmt->execute();
+        } catch (\PDOException $e) {
+            $this->handleException($e);
+        }
 
         return $stmt->rowCount() === 1;
     }
@@ -219,5 +238,23 @@ class UserRepository implements UserReadRepositoryInterface, UserWriteRepository
             pseudo: Pseudo::from($row['pseudo']),
             roles: UserRolesSet::from((int) $row['roles']),
         );
+    }
+
+    private function handleException(\PDOException $e)
+    {
+        $code = substr($e->errorInfo[0], 0, 2);
+
+        if (in_array($code, ['22', '23'], true)) {
+            $message = $e->getMessage();
+            $type = InvalidDataErrorType::fromMysqlErrorCode($e->errorInfo[1]);
+
+            foreach (self::ATTRIBUTES as $db => $php) {
+                if (str_contains($message, "'$db'")) {
+                    throw new InvalidDataException($type, $php, $message);
+                }
+            }
+        }
+
+        throw $e;
     }
 }

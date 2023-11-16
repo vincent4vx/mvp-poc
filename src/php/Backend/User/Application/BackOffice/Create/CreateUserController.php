@@ -46,9 +46,9 @@ class CreateUserController implements ControllerInterface
         try {
             $username = Username::from($request->username);
 
-            if ($this->repository->hasUsername($username->value)) {
-                $errors['username'] = 'Username already exists';
-            }
+            //if ($this->repository->hasUsername($username->value)) {
+            //    $errors['username'] = 'Username already exists';
+            //}
         } catch (ValueObjectException $e) {
             $errors['username'] = $e->getMessage();
         }
@@ -84,6 +84,10 @@ class CreateUserController implements ControllerInterface
             new CreateUser($username, $pseudo, $password, $roles)
         );
 
-        return new CreateUserResponse($request, true, [], $user);
+        if (!$user->user) {
+            return new CreateUserResponse($request, false, $user->errors);
+        }
+
+        return new CreateUserResponse($request, true, [], $user->user);
     }
 }

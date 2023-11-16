@@ -7,8 +7,10 @@ interface BusDispatcherInterface
     /**
      * Dispatch a command
      *
-     * @param object $command
-     * @return mixed
+     * @param object|ProcessableCommand<R> $command
+     * @return R
+     *
+     * @template R
      */
     public function dispatch(object $command): mixed;
 }

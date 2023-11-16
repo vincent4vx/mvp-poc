@@ -71,10 +71,10 @@ class SaveUserController implements ControllerInterface
             return new SaveUserResponse($request, $user, false, $errors);
         }
 
-        $updatedUser = $this->dispatcher->dispatch(
+        $result = $this->dispatcher->dispatch(
             new UpdateUser($user, $pseudo, $password, $roles)
         );
 
-        return new SaveUserResponse($request, $updatedUser, true);
+        return new SaveUserResponse($request, $result->user ?? $user, $result->user !== null, $result->errors);
     }
 }

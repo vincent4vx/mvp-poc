@@ -30,6 +30,8 @@ export class Layout {
 
     @Listener(PJaxLoadingEvent)
     onPjaxLoading(event: PJaxLoadingEvent): void {
+        this.dom.querySelector('#page-content')?.classList?.add('loading');
+
         if (!event.trigger) {
             return;
         }
@@ -63,6 +65,8 @@ export class Layout {
         if (!pageContentElement) {
             return;
         }
+
+        pageContentElement.classList.remove('loading');
 
         // @todo config elements / classes
         if (pageContentElement.classList.contains('loading-start-top')) {

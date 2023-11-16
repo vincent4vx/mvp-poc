@@ -16,6 +16,12 @@ class CommandDispatcher implements BusDispatcherInterface
     {
         $handler = $this->handlers[$command::class] ?? throw new \InvalidArgumentException('No handler found for command ' . $command::class);
 
-        return $handler($command);
+        $response = $handler($command);
+
+        if ($command instanceof ProcessableCommand) {
+            return $command->process($response);
+        }
+
+        return $response;
     }
 }
