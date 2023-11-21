@@ -8,7 +8,7 @@ use Quatrevieux\Mvp\Backend\User\Domain\UserReadRepositoryInterface;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Password;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Pseudo;
 use Quatrevieux\Mvp\Backend\User\Domain\ValueObject\Username;
-use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserRepository;
+use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserWriteRepository;
 use Quatrevieux\Mvp\Core\Bus\BusDispatcherInterface;
 use Quatrevieux\Mvp\Core\ControllerInterface;
 use Quatrevieux\Mvp\Core\Handles;

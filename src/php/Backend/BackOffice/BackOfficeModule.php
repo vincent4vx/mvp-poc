@@ -93,6 +93,10 @@ class BackOfficeModule extends AbstractBackOfficeModule
             };
         });
 
+        $builder->definition(ApplicationViewContextFactory::class, create()->constructor(
+            get(SessionHandler::class),
+            get(self::ADMIN_ACCESS_QUERIES_KEY),
+        ));
         $builder->definition(ViewContextFactoryInterface::class, get(ApplicationViewContextFactory::class));
         $builder->definition(BackOfficeMenu::class, create());
     }

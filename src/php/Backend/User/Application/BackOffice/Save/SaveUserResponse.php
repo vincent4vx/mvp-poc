@@ -11,6 +11,7 @@ final class SaveUserResponse
         public readonly User $user,
         public readonly bool $success,
         public readonly array $errors = [],
+        public readonly ?string $globalError = null,
     ) {
     }
 }

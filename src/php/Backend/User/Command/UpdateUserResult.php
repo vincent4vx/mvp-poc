@@ -9,6 +9,7 @@ final class UpdateUserResult
     public function __construct(
         public readonly ?User $user,
         public readonly array $errors = [],
+        public readonly ?string $globalError = null,
     ) {
     }
 }

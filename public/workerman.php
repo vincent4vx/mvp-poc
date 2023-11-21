@@ -9,20 +9,24 @@ use function DI\value;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$container = (new ContainerBuilder())
-    ->addDefinitions(
+$app = new \Quatrevieux\Mvp\Core\Module\Application(
+    [
         __DIR__ . '/../config/services.php',
-        __DIR__ . '/../config/adapters.php',
-    )
-    ->addDefinitions([
-        'baseUrl' => value('http://127.0.0.1:5000'),
-    ])
-    ->build()
-;
+        [
+            'baseUrl' => value('http://127.0.0.1:5000'),
+        ]
+    ],
+    new \Quatrevieux\Mvp\Backend\BaseModule(),
+    new \Quatrevieux\Mvp\Backend\Chat\ChatModule(),
+    new \Quatrevieux\Mvp\Backend\Blog\BlogModule(),
+    new \Quatrevieux\Mvp\Backend\User\UserModule(),
+    new \Quatrevieux\Mvp\Backend\BackOffice\BackOfficeModule(),
+    new \Quatrevieux\Mvp\Backend\User\UserBackOfficeModule(),
+);
 
 $backend = new WorkermanBackend(
-    $container->get(Psr17Factory::class),
-    $container->get(Runner::class),
+    $app->container->get(Psr17Factory::class),
+    $app->runner(),
 );
 
 $worker = new \Workerman\Worker('http://0.0.0.0:5000');

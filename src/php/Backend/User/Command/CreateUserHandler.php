@@ -4,12 +4,12 @@ namespace Quatrevieux\Mvp\Backend\User\Command;
 
 use Quatrevieux\Mvp\Backend\User\Domain\UserCreation;
 use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\InvalidDataException;
-use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserRepository;
+use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserWriteRepository;
 
 final class CreateUserHandler
 {
     public function __construct(
-        private readonly UserRepository $repository,
+        private readonly UserWriteRepository $repository,
     ) {
     }
 

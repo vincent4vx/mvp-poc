@@ -26,7 +26,7 @@ class Runner
             return $this->view->response($result);
         } catch (\Throwable $e) {
             // @todo better handling of errors
-            $action = new ErroredRequest($serverRequest, $action ?? null, $e);
+            $action = new ErroredRequest($serverRequest, $action?->query ?? null, $e);
             $result = $this->dispatcher->dispatch(new RoutedQuery($serverRequest, $action));
 
             return $this->view->response($result);

@@ -17,6 +17,7 @@ class EditUserResponse
         public readonly array $roles = [],
 
         public readonly array $errors = [],
+        public readonly ?string $globalError = null,
     ) {
     }
 }

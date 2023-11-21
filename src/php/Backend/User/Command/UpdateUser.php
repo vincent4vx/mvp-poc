@@ -15,9 +15,9 @@ final class UpdateUser implements ProcessableCommand
 {
     public function __construct(
         public readonly User $user,
-        public readonly Pseudo $pseudo,
-        public readonly Password $password,
-        public readonly UserRolesSet $roles,
+        public readonly ?Pseudo $pseudo = null,
+        public readonly ?Password $password = null,
+        public readonly ?UserRolesSet $roles = null,
     ) {
     }
 

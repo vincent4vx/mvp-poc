@@ -23,7 +23,8 @@ use Quatrevieux\Mvp\Backend\User\Command\UpdateUser;
 use Quatrevieux\Mvp\Backend\User\Command\UpdateUserHandler;
 use Quatrevieux\Mvp\Backend\User\Domain\UserReadRepositoryInterface;
 use Quatrevieux\Mvp\Backend\User\Domain\UserWriteRepositoryInterface;
-use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserRepository;
+use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserReadRepository;
+use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserWriteRepository;
 use Quatrevieux\Mvp\Core\Module\AbstractModule;
 use Quatrevieux\Mvp\Core\Module\ModuleBuilder;
 use Quatrevieux\Mvp\Core\Security\AuthenticationRequiredRequest;
@@ -83,9 +84,11 @@ class UserModule extends AbstractModule
             get('authenticated-user.pepper'),
         ));
 
-        $builder->definition(UserRepository::class, create()->constructor(get(PDO::class)));
-        $builder->definition(UserReadRepositoryInterface::class, get(UserRepository::class));
-        $builder->definition(UserWriteRepositoryInterface::class, get(UserRepository::class));
+        $builder->definition(UserWriteRepository::class, create()->constructor(get(PDO::class)));
+        $builder->definition(UserReadRepository::class, create()->constructor(get(PDO::class)));
+
+        $builder->definition(UserReadRepositoryInterface::class, get(UserReadRepository::class));
+        $builder->definition(UserWriteRepositoryInterface::class, get(UserWriteRepository::class));
 
         $builder->handler(CreateUser::class, CreateUserHandler::class);
         $builder->handler(DeleteUser::class, DeleteUserHandler::class);

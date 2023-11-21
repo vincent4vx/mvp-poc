@@ -75,6 +75,6 @@ class SaveUserController implements ControllerInterface
             new UpdateUser($user, $pseudo, $password, $roles)
         );
 
-        return new SaveUserResponse($request, $result->user ?? $user, $result->user !== null, $result->errors);
+        return new SaveUserResponse($request, $result->user ?? $user, $result->user !== null, $result->errors, $result->globalError);
     }
 }

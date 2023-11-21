@@ -3,7 +3,7 @@
 namespace Quatrevieux\Mvp\Backend\Chat\Show;
 
 use Quatrevieux\Mvp\Backend\Chat\ChatMessagesRepository;
-use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserRepository;
+use Quatrevieux\Mvp\Backend\User\Infrastructure\PDO\UserWriteRepository;
 use Quatrevieux\Mvp\Core\ControllerInterface;
 use Quatrevieux\Mvp\Core\Handles;
 
@@ -15,7 +15,7 @@ class ShowChatController implements ControllerInterface
 {
     public function __construct(
         private readonly ChatMessagesRepository $repository,
-        private readonly UserRepository $userRepository,
+        private readonly UserWriteRepository $userRepository,
     ) {
     }
 

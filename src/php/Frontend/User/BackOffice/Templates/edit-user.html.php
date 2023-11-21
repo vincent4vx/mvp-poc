@@ -12,6 +12,10 @@ use Quatrevieux\Mvp\Backend\User\Domain\UserRole;
 
 <h1>Edit user <?= $this->user->username->html() ?></h1>
 
+<?php if ($this->globalError): ?>
+    <span class="error"><?= htmlentities($this->globalError) ?></span>
+<?php endif; ?>
+
 <form action="<?= $renderer->url(new SaveUserRequest()) ?>" method="post" id="edit-user-form">
     <input type="hidden" name="id" value="<?= $this->user->id->value ?>" />
 
