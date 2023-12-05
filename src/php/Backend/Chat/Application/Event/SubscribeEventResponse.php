@@ -1,6 +1,6 @@
 <?php
 
-namespace Quatrevieux\Mvp\Backend\Chat\Event;
+namespace Quatrevieux\Mvp\Backend\Chat\Application\Event;
 
 use Closure;
 use Generator;

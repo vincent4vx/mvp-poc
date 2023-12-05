@@ -1,6 +1,6 @@
 <?php
 
-namespace Quatrevieux\Mvp\Backend\Chat\Show;
+namespace Quatrevieux\Mvp\Backend\Chat\Application\Show;
 
 use Quatrevieux\Mvp\Backend\Domain\Security\AuthenticatedUser;
 use Quatrevieux\Mvp\Core\Route;

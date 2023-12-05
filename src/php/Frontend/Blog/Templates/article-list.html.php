@@ -14,7 +14,7 @@
                 <?= $article->title->html() ?>
             </a>
         </h3>
-        <p><?= $renderer->content($article->content->summary()) ?></p>
+        <p><?= $renderer->content($article->summary) ?></p>
         <p class="date"><?= $renderer->date($article->createdAt) ?></p>
     </article>
 <?php endforeach; ?>

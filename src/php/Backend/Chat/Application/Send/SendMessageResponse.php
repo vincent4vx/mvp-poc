@@ -1,8 +1,8 @@
 <?php
 
-namespace Quatrevieux\Mvp\Backend\Chat\Send;
+namespace Quatrevieux\Mvp\Backend\Chat\Application\Send;
 
-use Quatrevieux\Mvp\Backend\Chat\ChatMessage;
+use Quatrevieux\Mvp\Backend\Chat\Domain\ChatMessage;
 
 class SendMessageResponse
 {

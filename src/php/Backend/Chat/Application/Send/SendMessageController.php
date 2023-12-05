@@ -1,9 +1,10 @@
 <?php
 
-namespace Quatrevieux\Mvp\Backend\Chat\Send;
+namespace Quatrevieux\Mvp\Backend\Chat\Application\Send;
 
-use Quatrevieux\Mvp\Backend\Chat\ChatMessage;
-use Quatrevieux\Mvp\Backend\Chat\ChatMessagesRepository;
+use Quatrevieux\Mvp\Backend\Chat\Command\SendChatMessage;
+use Quatrevieux\Mvp\Backend\Chat\Domain\ValueObject\MessageContent;
+use Quatrevieux\Mvp\Core\Bus\BusDispatcherInterface;
 use Quatrevieux\Mvp\Core\ControllerInterface;
 use Quatrevieux\Mvp\Core\Handles;
 
@@ -11,7 +12,7 @@ use Quatrevieux\Mvp\Core\Handles;
 class SendMessageController implements ControllerInterface
 {
     public function __construct(
-        private readonly ChatMessagesRepository $repository,
+        private readonly BusDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -25,12 +26,13 @@ class SendMessageController implements ControllerInterface
             return new SendMessageResponse();
         }
 
-        $message = $this->repository->add(new ChatMessage(
-            id: -1,
-            message: $request->message,
-            userId: $request->user->id->value,
+        $command = new SendChatMessage(
+            message: MessageContent::tryFrom($request->message),
+            userId: $request->user->id,
             createdAt: new \DateTimeImmutable(),
-        ));
+        );
+
+        $message = $this->dispatcher->dispatch($command);
 
         return new SendMessageResponse($message);
     }

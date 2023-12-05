@@ -5,7 +5,7 @@
  */
 
 use Quatrevieux\Mvp\Backend\BackOffice\Home\HomeRequest;
-use Quatrevieux\Mvp\Backend\Chat\Show\ShowChatRequest;
+use Quatrevieux\Mvp\Backend\Chat\Application\Show\ShowChatRequest;
 use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\AuthenticationForm\AuthenticationFormRequest;
 use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Logout\LogoutRequest;
 use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Profile\ProfileRequest;

@@ -8,13 +8,13 @@ use Quatrevieux\Mvp\Backend\Blog\Domain\Article;
 use Traversable;
 
 /**
- * @implements IteratorAggregate<Article>
+ * @implements IteratorAggregate<ArticleSummary>
  */
 final class ArticleList implements IteratorAggregate
 {
     public function __construct(
         /**
-         * @var Article[]
+         * @var ArticleSummary[]
          */
         private readonly array $articles,
     ) {
@@ -23,5 +23,16 @@ final class ArticleList implements IteratorAggregate
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->articles);
+    }
+
+    public static function fromArticles(Article ...$articles): self
+    {
+        $summaries = [];
+
+        foreach ($articles as $article) {
+            $summaries[] = ArticleSummary::fromArticle($article);
+        }
+
+        return new self($summaries);
     }
 }

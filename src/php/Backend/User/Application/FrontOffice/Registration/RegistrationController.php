@@ -34,12 +34,16 @@ class RegistrationController implements ControllerInterface
             return new RegistrationResponse($request, false, null, $errors);
         }
 
-        $user = $this->dispatcher->dispatch(new CreateUser(
+        $result = $this->dispatcher->dispatch(new CreateUser(
             username: new Username($request->username),
             pseudo: new Pseudo($request->pseudo),
             password: new Password($request->password),
         ));
 
-        return new RegistrationResponse($request, true, $user, []);
+        if  ($result->errors || !$result->user) {
+            return new RegistrationResponse($request, false, null, $result->errors);
+        }
+
+        return new RegistrationResponse($request, true, $result->user, []);
     }
 }

@@ -13,7 +13,7 @@ $context->ajax = true;
 <ul>
     <?php foreach ($this->articles as $article): ?>
         <li>
-            <?= htmlentities($article->title) ?>
+            <?= $article->title->html() ?>
 <!--            <h3>-->
 <!--                <a href="--><?php //= $renderer->url(ArticleRequest::create($article->id)); ?><!--">-->
 <!--                </a>-->

@@ -24,12 +24,12 @@ class SearchController implements ControllerInterface
         $articles = $request->empty() ? [] : $this->repository->search($request->query, $request->tag);
 
         if ($request->autocomplete) {
-            return new AutocompleteSearchResponse($articles);
+            return new AutocompleteSearchResponse(ArticleList::fromArticles(...$articles));
         }
 
         return new SearchResponse(
             count($articles),
-            new ArticleList($articles),
+            ArticleList::fromArticles(...$articles),
             $this->repository->allTags(),
             $request->query,
             $request->tag,

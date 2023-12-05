@@ -5,15 +5,15 @@
  * @var \Quatrevieux\Mvp\Frontend\ApplicationViewContext $context
  */
 
-$context->title = 'My Blog - ' . $this->article->title->value;
+$context->title = 'My Blog - ' . $this->title->value;
 
 ?>
 
-<h1><?= $this->article->title->html() ?></h1>
+<h1><?= $this->title->html() ?></h1>
 
-<div class="date"><?= $renderer->date($this->article->createdAt) ?></div>
+<div class="date"><?= $renderer->date($this->createdAt) ?></div>
 <ul class="tags">
-    <?php foreach ($this->article->tags as $tag): ?>
+    <?php foreach ($this->tags as $tag): ?>
         <li>
             <a href="<?= htmlentities($renderer->url($tag->search())) ?>">
                 <?= $tag->html() ?>
@@ -22,4 +22,4 @@ $context->title = 'My Blog - ' . $this->article->title->value;
     <?php endforeach; ?>
 </ul>
 
-<?= $renderer->content($this->article->content) ?>
+<?= $renderer->content($this->content) ?>

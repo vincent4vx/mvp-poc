@@ -22,7 +22,7 @@ class HomeController implements ControllerInterface
     public function handle(object $request): HomeResponse
     {
         return new HomeResponse(
-            new ArticleList($this->repository->findLastArticles(10)),
+            ArticleList::fromArticles(...$this->repository->findLastArticles(10)),
         );
     }
 }

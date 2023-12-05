@@ -20,8 +20,13 @@ final class ArticleController implements ControllerInterface
      */
     public function handle(object $request): ArticleResponse
     {
+        $article = $this->repository->findById($request->id);
+
         return new ArticleResponse(
-            $this->repository->findById($request->id),
+            $article->title,
+            $article->content,
+            $article->createdAt,
+            $article->tags,
         );
     }
 }

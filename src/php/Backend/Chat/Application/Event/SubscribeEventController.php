@@ -1,8 +1,8 @@
 <?php
 
-namespace Quatrevieux\Mvp\Backend\Chat\Event;
+namespace Quatrevieux\Mvp\Backend\Chat\Application\Event;
 
-use Quatrevieux\Mvp\Backend\Chat\ChatMessagesRepository;
+use Quatrevieux\Mvp\Backend\Chat\Infrastructure\PDO\PdoChatMessagesRepository;
 use Quatrevieux\Mvp\Core\ControllerInterface;
 use Quatrevieux\Mvp\Core\Handles;
 
@@ -10,7 +10,7 @@ use Quatrevieux\Mvp\Core\Handles;
 final class SubscribeEventController implements ControllerInterface
 {
     public function __construct(
-        private ChatMessagesRepository $repository,
+        private PdoChatMessagesRepository $repository,
     ) {
     }
 

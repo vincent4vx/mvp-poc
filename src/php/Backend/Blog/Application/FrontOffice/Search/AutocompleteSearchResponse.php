@@ -2,13 +2,12 @@
 
 namespace Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\Search;
 
+use Quatrevieux\Mvp\Backend\Blog\Application\FrontOffice\ArticleList;
+
 class AutocompleteSearchResponse
 {
     public function __construct(
-        /**
-         * @var array<\Quatrevieux\Mvp\Backend\Blog\Domain\Article>
-         */
-        public readonly array $articles,
+        public readonly ArticleList $articles,
     ) {
     }
 }

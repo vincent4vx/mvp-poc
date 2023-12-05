@@ -1,11 +1,11 @@
 <?php
 
-use Quatrevieux\Mvp\Backend\Chat\Event\SubscribeEventRequest;
-use Quatrevieux\Mvp\Backend\Chat\Send\SendMessageRequest;
-use Quatrevieux\Mvp\Backend\Chat\Show\ShowChatRequest;
+use Quatrevieux\Mvp\Backend\Chat\Application\Event\SubscribeEventRequest;
+use Quatrevieux\Mvp\Backend\Chat\Application\Send\SendMessageRequest;
+use Quatrevieux\Mvp\Backend\Chat\Application\Show\ShowChatRequest;
 
 /**
- * @var \Quatrevieux\Mvp\Backend\Chat\Show\ShowChatResponse $this
+ * @var \Quatrevieux\Mvp\Backend\Chat\Application\Show\ShowChatResponse $this
  * @var \Quatrevieux\Mvp\Frontend\ApplicationRenderer $renderer
  * @var \Quatrevieux\Mvp\Frontend\ApplicationViewContext $context
  */
@@ -30,10 +30,10 @@ if ($this->ajax) {
         data-pulling-delay="60000"
     >
         <?php foreach($this->messages as $message): ?>
-            <div class="message <?= $message->user?->id == $this->user?->id ? 'from-me' : 'from-other' ?>">
-                <span class="author"><?= htmlentities($message->user?->pseudo ?? 'Deleted') ?></span>
+            <div class="message <?= $message->isMine ? 'from-me' : 'from-other' ?>">
+                <span class="author"><?= $message->pseudo?->html() ?? 'Deleted' ?></span>
                 <span class="date"><?= $message->createdAt->format('d/m/Y H:i:s') ?></span>
-                <span class="content"><?= htmlentities($message->message) ?></span>
+                <span class="content"><?= $message->message->html() ?></span>
             </div>
         <?php endforeach; ?>
     </section>
@@ -49,10 +49,10 @@ if ($this->ajax) {
 </div>
 <?php else: ?>
     <?php foreach($this->messages as $message): ?>
-        <div class="message <?= $message->user?->id == $this->user?->id ? 'from-me' : 'from-other' ?>">
-            <span class="author"><?= htmlentities($message->user?->pseudo ?? 'Deleted') ?></span>
+        <div class="message <?= $message->isMine ? 'from-me' : 'from-other' ?>">
+            <span class="author"><?= $message->pseudo?->html() ?? 'Deleted' ?></span>
             <span class="date"><?= $message->createdAt->format('d/m/Y H:i:s') ?></span>
-            <span class="content"><?= htmlentities($message->message) ?></span>
+            <span class="content"><?= $message->message->html() ?></span>
         </div>
     <?php endforeach; ?>
 <?php endif ?>
