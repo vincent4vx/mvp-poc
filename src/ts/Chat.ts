@@ -80,6 +80,7 @@ export default class Chat {
         }
 
         this.#inChat = true;
+        this.#focusInput();
         this.#startPulling();
 
         this.#eventSource = new EventSource(messages?.dataset.events ?? '');
@@ -106,5 +107,13 @@ export default class Chat {
                 this.#startPulling();
             });
         }, this.#pullingDelay);
+    }
+
+    #focusInput(): void {
+        const input = this.app.dom.querySelector('#chat [autofocus]') as HTMLInputElement|null;
+
+        if (input !== null) {
+            input.focus();
+        }
     }
 }

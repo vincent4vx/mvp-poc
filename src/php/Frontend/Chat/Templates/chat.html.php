@@ -41,7 +41,7 @@ if ($this->ajax) {
     <?php if ($renderer->hasAccess($sendMessage = new SendMessageRequest())): ?>
         <section class="input">
             <form action="<?= $renderer->url($sendMessage) ?>" method="post">
-                <input type="text" name="message" placeholder="Message" />
+                <input type="text" name="message" placeholder="Message" autofocus />
                 <input type="submit" value="Envoyer" />
             </form>
         </section>
