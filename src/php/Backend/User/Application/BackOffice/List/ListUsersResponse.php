@@ -16,7 +16,7 @@ class ListUsersResponse
         public readonly int $page,
         public readonly int $total,
         public readonly int $pageCount,
-        User ...$users,
+        ListUser ...$users,
     ) {
         $this->users = $users;
     }

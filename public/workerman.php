@@ -13,7 +13,7 @@ $app = new \Quatrevieux\Mvp\Core\Module\Application(
     [
         __DIR__ . '/../config/services.php',
         [
-            'baseUrl' => value('http://127.0.0.1:5000'),
+            'baseUrl' => value('http://127.0.0.1:8401/workerman'),
         ]
     ],
     new \Quatrevieux\Mvp\Backend\BaseModule(),
@@ -31,5 +31,7 @@ $backend = new WorkermanBackend(
 
 $worker = new \Workerman\Worker('http://0.0.0.0:5000');
 $worker->count = 16;
+
+\Workerman\Worker::$logFile = '/var/log/workerman.log';
 
 $backend->start($worker);

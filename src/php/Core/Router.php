@@ -17,7 +17,7 @@ class Router
         /**
          * @var array<string, class-string>
          */
-        private readonly array $paths = [],
+        private readonly array $paths,
         private readonly string $baseUrl,
     ) {
     }
@@ -27,11 +27,14 @@ class Router
         $basePath = parse_url($this->baseUrl, PHP_URL_PATH);
         $path = $request->getUri()->getPath();
 
-        if (!str_starts_with($path, $basePath)) {
-            throw new \InvalidArgumentException('Route not found');
+        if ($basePath) {
+            if (!str_starts_with($path, $basePath)) {
+                throw new \InvalidArgumentException('Route not found');
+            }
+
+            $path = substr($path, strlen($basePath));
         }
 
-        $path = substr($path, strlen($basePath));
         $path = rtrim($path, '/') ?: '/';
 
         if (!isset($this->paths[$path])) {

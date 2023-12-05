@@ -1,4 +1,4 @@
-FROM php:8.2-cli-alpine
+FROM php:8.2-fpm-alpine as poc-php
 
 COPY php.ini "/usr/local/etc/php/conf.d/application.ini"
 

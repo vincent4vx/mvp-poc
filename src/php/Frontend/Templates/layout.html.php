@@ -21,7 +21,7 @@ use Quatrevieux\Mvp\Frontend\Component\SearchBar;
         <title><?= htmlentities($this->title ?? 'My Blog') ?></title>
         <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet" />
         <?= $renderer->css('css/style.css') ?>
-        <link rel="icon" type="image/png" href="http://127.0.0.1/micro-mvp/assets/images/favicon.ico" />
+<!--        <link rel="icon" type="image/png" href="http://127.0.0.1/micro-mvp/assets/images/favicon.ico" />-->
     </head>
     <body>
         <header>
@@ -30,6 +30,6 @@ use Quatrevieux\Mvp\Frontend\Component\SearchBar;
             <?= $view->renderComponent(new MenuBar($this->user)) ?>
         </header>
         <?= $view->renderComponent(new PageContent($this->content)) ?>
-        <script src="http://127.0.0.1/micro-mvp/assets/js/main.js" async></script>
+        <script src="<?= $renderer->asset('js/main.js') ?>" async></script>
     </body>
 </html>

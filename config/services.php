@@ -42,8 +42,8 @@ use function DI\value;
 
 return [
     'db' => require __DIR__ . '/db.php',
-    'baseUrl' => value('http://127.0.0.1/micro-mvp'),
-    'assetsUrl' => value('http://127.0.0.1/micro-mvp/assets'),
+    'baseUrl' => value('http://127.0.0.1:8401'),
+    'assetsUrl' => value('http://127.0.0.1:8401/assets'),
     'authenticated-user.pepper' => value('pepper-secret'),
 
     PDO::class => function (ContainerInterface $container) {

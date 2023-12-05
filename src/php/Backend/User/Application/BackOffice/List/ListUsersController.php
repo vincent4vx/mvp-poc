@@ -3,11 +3,12 @@
 namespace Quatrevieux\Mvp\Backend\User\Application\BackOffice\List;
 
 use Quatrevieux\Mvp\Backend\User\Domain\SearchUserCriteria;
+use Quatrevieux\Mvp\Backend\User\Domain\User;
 use Quatrevieux\Mvp\Backend\User\Domain\UserReadRepositoryInterface;
 use Quatrevieux\Mvp\Core\ControllerInterface;
 use Quatrevieux\Mvp\Core\Handles;
 
-use function array_flip;
+use function array_map;
 use function ceil;
 use function max;
 
@@ -54,7 +55,15 @@ class ListUsersController implements ControllerInterface
             max($request->page, 1),
             $result->total,
             (int) ceil($result->total / $criteria->limit),
-            ...$result->users,
+            ...array_map(
+                fn (User $user) => new ListUser(
+                    $user->id,
+                    $user->username,
+                    $user->pseudo,
+                    $user->roles,
+                ),
+                $result->users
+            ),
         );
     }
 }

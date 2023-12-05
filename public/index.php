@@ -1,10 +1,10 @@
 <?php
 
-use DI\ContainerBuilder;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Quatrevieux\Mvp\Core\Backend\DefaultBackend;
-use Quatrevieux\Mvp\Core\Runner;
+
+use function DI\value;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -14,6 +14,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $app = new \Quatrevieux\Mvp\Core\Module\Application(
     [
         __DIR__ . '/../config/services.php',
+        [
+            'baseUrl' => value('http://127.0.0.1:8401/fpm'),
+        ]
     ],
     new \Quatrevieux\Mvp\Backend\BaseModule(),
     new \Quatrevieux\Mvp\Backend\Chat\ChatModule(),

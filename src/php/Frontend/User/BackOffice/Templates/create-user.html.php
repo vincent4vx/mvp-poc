@@ -17,13 +17,13 @@ use Quatrevieux\Mvp\Backend\User\Domain\UserRole;
     <?php if (isset($this->errors['username'])): ?>
         <span class="error"><?= $this->errors['username'] ?></span>
     <?php endif; ?>
-    <input type="text" name="username" id="username" value="<?= htmlentities($this->username) ?>" />
+    <input type="text" name="username" id="username" value="<?= htmlentities($this->username ?? '') ?>" />
 
     <label for="pseudo">Pseudo</label>
     <?php if (isset($this->errors['pseudo'])): ?>
         <span class="error"><?= $this->errors['pseudo'] ?></span>
     <?php endif; ?>
-    <input type="text" name="pseudo" id="pseudo" value="<?= htmlentities($this->pseudo) ?>" />
+    <input type="text" name="pseudo" id="pseudo" value="<?= htmlentities($this->pseudo ?? '') ?>" />
 
     <label for="password">Password</label>
     <?php if (isset($this->errors['password'])): ?>

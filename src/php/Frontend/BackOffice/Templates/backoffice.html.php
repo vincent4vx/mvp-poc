@@ -31,6 +31,6 @@ use Quatrevieux\Mvp\Frontend\BackOffice\Component\BackOfficeSideBar;
             <?= $view->renderComponent(new BackOfficeSideBar()) ?>
             <?= $view->renderComponent(new PageContent($this->content)) ?>
         </div>
-        <script src="http://127.0.0.1/micro-mvp/assets/js/main.js" async></script>
+        <script src="<?= $renderer->asset('js/main.js') ?>" async></script>
     </body>
 </html>

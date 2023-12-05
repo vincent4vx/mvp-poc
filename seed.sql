@@ -61,11 +61,12 @@ CREATE TABLE user (
       id INT AUTO_INCREMENT PRIMARY KEY,
       username VARCHAR(255) UNIQUE,
       password VARCHAR(255),
-      pseudo VARCHAR(255)
+      pseudo VARCHAR(255),
+      roles INTEGER DEFAULT 0
 );
 
 INSERT INTO user (username, password, pseudo)
-VALUES ('john_doe', '$john', 'JohnD');
+VALUES ('johndoe', '$john', 'JohnD');
 
 CREATE TABLE chat_message (
     id INT AUTO_INCREMENT PRIMARY KEY,

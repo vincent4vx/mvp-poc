@@ -35,10 +35,10 @@ final class WorkermanBackend
 
     public function start(Worker $worker): void
     {
-        echo 'Starting server...', PHP_EOL;
+        Worker::safeEcho('Starting server...' . PHP_EOL);
 
         if (!self::jitIsEnabled()) {
-            echo 'Warning: OPcache JIT is not enabled', PHP_EOL;
+            Worker::safeEcho('Warning: OPcache JIT is not enabled' . PHP_EOL);
         }
 
         $worker->onMessage = $this->handle(...);
@@ -60,13 +60,19 @@ final class WorkermanBackend
      */
     public function handle(ConnectionInterface $connection, Request $request): void
     {
-        $psrRequest = $this->createPsrRequest($request);
-        $response = $this->runner->run($psrRequest);
+        Worker::log('[INFO] ' . $request->method() . ' ' . $request->uri());
 
-        if ($response instanceof StreamingResponseInterface) {
-            $this->stream($connection, $response);
-        } else {
-            $this->send($connection, $response);
+        try {
+            $psrRequest = $this->createPsrRequest($request);
+            $response = $this->runner->run($psrRequest);
+
+            if ($response instanceof StreamingResponseInterface) {
+                $this->stream($connection, $response);
+            } else {
+                $this->send($connection, $response);
+            }
+        } catch (\Throwable $e) {
+            Worker::log('[ERROR] ' . $e);
         }
     }
 

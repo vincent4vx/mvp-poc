@@ -20,7 +20,7 @@ use Quatrevieux\Mvp\Backend\User\Application\BackOffice\List\ListUsersRequest;
     data-autosearch-source="<?= $renderer->url(ListUsersRequest::ajax()) ?>"
     data-autosearch-target="#users-list tbody"
 >
-    <input type="text" name="search" placeholder="Search..." value="<?= htmlentities($this->request->search) ?>" />
+    <input type="text" name="search" placeholder="Search..." value="<?= htmlentities($this->request->search ?? '') ?>" />
     <div class="dropdown" tabindex="1">
         <span class="legend icon-options"></span>
 
