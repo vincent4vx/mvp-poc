@@ -24,8 +24,7 @@ final class ModifiedUser extends AbstractUser
         Pseudo $pseudo,
         UserRolesSet $roles,
         ModifiableUserField ...$modifiedFields,
-    )
-    {
+    ) {
         parent::__construct($id, $username, $password, $pseudo, $roles);
 
         $this->modifiedFields = $modifiedFields;

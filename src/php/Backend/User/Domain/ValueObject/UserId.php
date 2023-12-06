@@ -16,7 +16,7 @@ final class UserId implements ValueObjectInterface, JsonSerializable
         public readonly int $value,
     )
     {
-        if($value < 1){
+        if ($value < 1) {
             throw new InvalidValueException(self::class, 'User id must be greater than 0');
         }
     }
@@ -33,12 +33,12 @@ final class UserId implements ValueObjectInterface, JsonSerializable
 
     public function __toString(): string
     {
-        return (string)$this->value;
+        return (string) $this->value;
     }
 
     public static function from(mixed $value): static
     {
-        if(!is_int($value)){
+        if (!is_int($value)) {
             throw new InvalidPrimitiveTypeError(self::class, 'int', $value);
         }
 
@@ -47,7 +47,7 @@ final class UserId implements ValueObjectInterface, JsonSerializable
 
     public static function tryFrom(mixed $value): ?static
     {
-        if(!is_int($value)){
+        if (!is_int($value)) {
             return null;
         }
 
