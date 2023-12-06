@@ -12,7 +12,8 @@
     "react/http": "^1.9",
     "react/socket": "^1.14",
     "workerman/workerman": "^4.1",
-    "fakerphp/faker": "^1.23"
+    "fakerphp/faker": "^1.23",
+    "openswoole/core": "^22.1"
   },
   "autoload": {
     "psr-4": {
@@ -20,6 +21,6 @@
     }
   },
   "require-dev": {
-    "openswoole/ide-helper": "^4.11"
+    "openswoole/ide-helper": "~22.0"
   }
 }

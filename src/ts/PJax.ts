@@ -171,7 +171,7 @@ export default class PJax {
                     return;
                 }
 
-                this.submit(url, new FormData(target) as any).then(() => {
+                this.submit(url, new URLSearchParams(new FormData(target) as any)).then(() => {
                     target.classList.remove('submitting');
                     target.inert = false;
                 });

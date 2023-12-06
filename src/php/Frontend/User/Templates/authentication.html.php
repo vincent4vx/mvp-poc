@@ -14,7 +14,7 @@ use Quatrevieux\Mvp\Backend\User\Application\FrontOffice\Authentication\Authenti
     <p class="error"><?= $this->error ?></p>
 <?php endif; ?>
 
-<form action="<?= $renderer->url(new AuthenticationRequest()); ?>" method="post" id="authentication-form">
+<form action="<?= $renderer->url(new AuthenticationRequest()); ?>" method="post" id="authentication-form" enctype="application/x-www-form-urlencoded">
     <?php if ($this->target): ?>
         <input type="hidden" name="target" value="<?= htmlentities($renderer->url($this->target)) ?>" />
         <!-- TODO: csrf security : target should be signed / use safe structure -->

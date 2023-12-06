@@ -24,6 +24,17 @@ services:
         volumes:
             - .:/srv/app
 
+    openswoole:
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: Dockerfile
+        entrypoint: [php, public/openswoole.php]
+        depends_on:
+            - mysql
+        volumes:
+            - .:/srv/app
+
     cmd:
         build:
             context: .
@@ -45,6 +56,7 @@ services:
             MYSQL_PASSWORD: f]tKaV6b-N7!UNQP
         volumes:
             - ./var/mysql:/var/lib/mysql
+            - ./blog.sql:/docker-entrypoint-initdb.d/blog.sql
         command: --default-authentication-plugin=mysql_native_password --wait_timeout=28800
 
     nginx:
